@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/*
+  Build Workshop — design system
+  Behaviour tokens + the "aku-healthcare" theme palette (the only theme in V1).
+  Light theme only (committed). Deep green primary, teal accent,
+  amber for watch states, red for warnings / investigate only.
+  A second client theme = a `[data-theme="<id>"]` block overriding the tokens.
+*/
+
+@theme {
+  --color-bg: #fbfaf7;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f6f4ee;
+  --color-border: #e6e1d6;
+  --color-border-strong: #d6cfc0;
+
+  --color-ink: #1b1a17;
+  --color-ink-muted: #55514a;
+  --color-ink-subtle: #7a746a;
+
+  --color-primary: #0b5d3b;
+  --color-primary-strong: #084a2f;
+  --color-primary-soft: #e7f1ec;
+  --color-on-primary: #ffffff;
+
+  --color-accent: #0d7d7d;
+  --color-accent-soft: #e3f1f1;
+
+  --color-stable: #1b7f3b;
+  --color-stable-soft: #e6f2ea;
+  --color-watch: #a5620a;
+  --color-watch-soft: #fbefdd;
+  --color-investigate: #b42318;
+  --color-investigate-soft: #fbe9e7;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+
+  --radius-card: 0.9rem;
+  --shadow-card: 0 1px 2px rgba(27, 26, 23, 0.04),
+    0 8px 24px -12px rgba(27, 26, 23, 0.12);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    font-weight: 650;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--color-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-primary-soft);
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 64rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .prose-block :where(p, ul, ol) {
+    margin-block: 0.75rem;
+  }
+  .prose-block :where(ul, ol) {
+    padding-left: 1.25rem;
+  }
+  .prose-block :where(ul) {
+    list-style: disc;
+  }
+  .prose-block :where(ol) {
+    list-style: decimal;
+  }
+  .prose-block :where(li) {
+    margin-block: 0.35rem;
+  }
+  .prose-block :where(strong) {
+    font-weight: 620;
+  }
+  /* inline code only */
+  .prose-block :where(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-surface-muted);
+    padding: 0.1em 0.35em;
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+  }
+  /* code inside a <pre> (command / prompt / expected-result blocks) inherits the
+     block's own colours — never the light inline-code chip, which made
+     near-white terminal text illegible on the dark block */
+  .prose-block :where(pre code) {
+    background: none;
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+    color: inherit;
+  }
+}
+
+@layer components {
+  /* ---- Presentation Mode ---------------------------------------------- */
+  .deck-root {
+    --slide-pad: clamp(1.5rem, 4vw, 4rem);
+    background: #06130d;
+    color: #f2f6f3;
+  }
+  /* 16:9 stage, letterboxed on non-16:9 screens */
+  .slide-stage {
+    width: min(100vw, calc(100dvh * 16 / 9));
+    height: min(100dvh, calc(100vw * 9 / 16));
+  }
+  .slide-surface {
+    background:
+      radial-gradient(
+        120% 90% at 15% 0%,
+        rgba(13, 125, 125, 0.14),
+        transparent 60%
+      ),
+      #0a1c15;
+  }
+  .slide-kicker {
+    font-size: clamp(0.8rem, 1.6vw, 1.15rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6fd0c4;
+    font-weight: 600;
+  }
+  .slide-title {
+    font-size: clamp(1.6rem, 4.6vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 680;
+    text-wrap: balance;
+    color: #f4f8f6;
+  }
+  .deck-root :where(h1, h2, h3) {
+    color: #f4f8f6;
+  }
+  .slide-lead {
+    font-size: clamp(1.1rem, 2.7vw, 2rem);
+    line-height: 1.35;
+    color: #d3e0da;
+    text-wrap: pretty;
+  }
+  .slide-body {
+    font-size: clamp(1rem, 2.1vw, 1.6rem);
+    line-height: 1.5;
+    color: #cddcd4;
+  }
+  .slide-note {
+    font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+    color: #8fa89e;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+  }
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+  .print\:hidden,
+  header.print\:hidden,
+  nav[aria-label="Breadcrumb"],
+  nav[aria-label="Workshop step navigation"] {
+    display: none !important;
+  }
+  /* expand every collapsible so nothing is hidden on paper */
+  details {
+    display: block !important;
+  }
+  details > summary {
+    list-style: none;
+    font-weight: 600;
+  }
+  details[open],
+  details:not([open]) > *:not(summary) {
+    display: revert !important;
+  }
+  details > *:not(summary) {
+    display: revert !important;
+  }
+  a[href]::after {
+    content: "";
+  }
+  pre,
+  figure,
+  section,
+  li,
+  tr {
+    break-inside: avoid;
+  }
+  .container-page {
+    max-width: none;
+  }
+}
