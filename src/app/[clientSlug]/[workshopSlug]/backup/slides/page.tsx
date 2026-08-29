@@ -74,9 +74,38 @@ export default async function BackupSlidesPage({
                       ))}
                     </div>
                   ) : null}
+                  {slide.images?.length ? (
+                    <ul className="mt-1 list-disc pl-5 text-ink-muted">
+                      {slide.images.map((img) => (
+                        <li key={img.src}>
+                          {img.tag ? (
+                            <span className="font-medium text-ink">
+                              {img.tag}:{" "}
+                            </span>
+                          ) : null}
+                          {img.caption ?? img.alt}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {slide.callout ? (
+                    <p className="mt-0.5 text-ink-muted">
+                      {slide.callout.stat ? (
+                        <span className="font-semibold text-ink">
+                          {slide.callout.stat}{" "}
+                        </span>
+                      ) : null}
+                      {slide.callout.text}
+                    </p>
+                  ) : null}
                   {slide.note ? (
                     <p className="mt-0.5 text-xs text-ink-subtle">
                       Note: {slide.note}
+                    </p>
+                  ) : null}
+                  {slide.source ? (
+                    <p className="mt-0.5 text-xs text-ink-subtle">
+                      Source: {slide.source}
                     </p>
                   ) : null}
                 </article>

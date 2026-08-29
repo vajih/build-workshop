@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowRightCircle, MessageCircleQuestion } from "lucide-react";
 import type { Slide } from "@/content/types";
 import { SlideFrame } from "./SlideFrame";
@@ -148,6 +149,109 @@ export function SlideRenderer({
           </div>
         </SlideFrame>
       );
+
+    case "image-compare": {
+      const imgs = slide.images ?? [];
+      const two = imgs.length > 1;
+      const callout = slide.callout;
+      /* One image → a hero that fills the space left after the heading. Two
+         images → a real comparison: each photo sits in its own box with a clear
+         gap between them, and an optional `callout` panel stands beside them. */
+      return (
+        <SlideFrame>
+          {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+          {slide.title ? (
+            <h2 className="shrink-0 text-[clamp(1.1rem,2.3vw,1.85rem)] leading-tight font-semibold text-balance text-[#f4f8f6]">
+              {slide.title}
+            </h2>
+          ) : null}
+          {slide.lead ? (
+            <p className="max-w-[64ch] shrink-0 text-[clamp(0.85rem,1.4vw,1.15rem)] leading-snug text-[#c9d8d1]">
+              {slide.lead}
+            </p>
+          ) : null}
+
+          <div
+            className={`flex w-full min-h-0 flex-col items-stretch gap-6 lg:flex-row ${
+              two ? "shrink-0 justify-center" : "flex-1"
+            }`}
+          >
+            <div
+              className={`flex min-h-0 flex-col items-center justify-center gap-6 sm:gap-10 ${
+                two ? "sm:flex-row" : "w-full flex-1"
+              }`}
+            >
+              {imgs.map((img) => (
+                <figure
+                  key={img.src}
+                  className={
+                    two
+                      ? "flex min-h-0 shrink flex-col items-center gap-2"
+                      : "flex min-h-0 w-full flex-1 flex-col items-center gap-2"
+                  }
+                >
+                  <div
+                    className={
+                      two
+                        ? "relative h-[clamp(150px,44vh,520px)] max-w-[42vw]"
+                        : "relative min-h-0 w-full flex-1"
+                    }
+                    style={
+                      two ? { aspectRatio: img.aspectRatio ?? "1 / 1" } : undefined
+                    }
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes={two ? "42vw" : "92vw"}
+                      className="rounded-xl object-contain"
+                      priority
+                    />
+                    {img.tag ? (
+                      <span className="absolute top-3 left-3 rounded-full bg-black/70 px-3 py-1 text-[0.7em] font-semibold tracking-wide text-white">
+                        {img.tag}
+                      </span>
+                    ) : null}
+                  </div>
+                  {img.caption ? (
+                    <figcaption className="max-w-[40ch] shrink-0 text-center text-[0.72em] text-[#8fa89e]">
+                      {img.caption}
+                    </figcaption>
+                  ) : null}
+                </figure>
+              ))}
+            </div>
+
+            {callout ? (
+              <aside className="flex shrink-0 flex-col justify-center gap-3 rounded-2xl border border-[#e0a43b]/35 bg-[#e0a43b]/[0.12] p-[clamp(1.25rem,2.4vw,2.25rem)] lg:w-[clamp(16rem,25vw,23rem)] lg:self-center">
+                {callout.stat ? (
+                  <p className="text-[clamp(2.5rem,5vw,4rem)] leading-none font-bold tracking-tight text-[#f0b953]">
+                    {callout.stat}
+                  </p>
+                ) : null}
+                <p className="text-[clamp(0.95rem,1.5vw,1.4rem)] leading-snug text-[#eef3f0]">
+                  {callout.text}
+                </p>
+              </aside>
+            ) : null}
+          </div>
+
+          {!callout && slide.note ? (
+            <p className="slide-note mx-auto max-w-[80ch] shrink-0 text-center">
+              {slide.note}
+            </p>
+          ) : null}
+          {slide.source ? (
+            <p className="shrink-0 pb-10 text-center text-[0.62em] text-[#6f877d]">
+              {slide.source}
+            </p>
+          ) : (
+            <div className="shrink-0 pb-10" aria-hidden />
+          )}
+        </SlideFrame>
+      );
+    }
 
     case "exercise-launch":
       return (

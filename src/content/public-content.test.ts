@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -102,10 +102,14 @@ describe("presentation deck (public) is clean", () => {
     s.lead,
     s.kicker,
     s.note,
+    s.source,
+    s.callout?.stat,
+    s.callout?.text,
     s.question,
     ...(s.body ?? []),
     ...(s.items?.flatMap((i) => [i.label, i.detail]) ?? []),
     ...(s.columns?.flatMap((c) => [c.heading, ...c.points]) ?? []),
+    ...(s.images?.flatMap((i) => [i.alt, i.caption, i.tag]) ?? []),
   ])
     .filter(Boolean)
     .join("\n");
@@ -134,6 +138,21 @@ describe("presentation deck (public) is clean", () => {
   it("every section still has slides", () => {
     for (const section of PRESENTATION.sections) {
       expect(section.slides.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every image-compare image has a real file under /public, and non-empty alt", () => {
+    for (const s of SLIDES) {
+      if (s.type !== "image-compare") continue;
+      expect(s.images?.length ?? 0).toBeGreaterThan(0);
+      for (const img of s.images ?? []) {
+        expect(img.src).toMatch(/^\/images\/.+\.(jpe?g|png|webp|avif|svg)$/);
+        expect(img.alt.trim().length).toBeGreaterThan(0);
+        expect(
+          existsSync(join(ROOT, "public", img.src)),
+          `missing asset: public${img.src}`,
+        ).toBe(true);
+      }
     }
   });
 

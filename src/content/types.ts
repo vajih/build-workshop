@@ -247,6 +247,7 @@ export type SlideType =
   | "concept"
   | "timeline"
   | "comparison"
+  | "image-compare"
   | "process"
   | "demo-intro"
   | "exercise-launch"
@@ -264,6 +265,20 @@ export interface SlideItem {
   detail?: string;
 }
 
+/** one photo in an image-compare slide (e.g. "before" / "after") */
+export interface SlideImage {
+  /** path under /public, e.g. "/images/presentation/example.jpg" */
+  src: string;
+  alt: string;
+  /** short overlay label, e.g. a year */
+  tag?: string;
+  caption?: string;
+  /** CSS aspect-ratio of the source file, e.g. "1 / 1" or "3 / 2" — keeps the
+   * rendered box matched to the photo so nothing is cropped or letterboxed.
+   * Defaults to "1 / 1" if omitted. */
+  aspectRatio?: string;
+}
+
 export interface Slide {
   /** globally unique, URL-safe — used as the direct slide link */
   id: string;
@@ -279,12 +294,19 @@ export interface Slide {
   items?: SlideItem[];
   /** comparison columns */
   columns?: SlideColumn[];
+  /** image-compare: photos shown side by side */
+  images?: SlideImage[];
   /** discussion prompt */
   question?: string;
   /** exercise-launch: relative participant href to open the activity */
   participantHref?: string;
   /** small on-slide caption (NOT facilitator notes) */
   note?: string;
+  /** image-compare: emphasized takeaway panel shown beside a two-image
+   * comparison (used instead of `note` when present) */
+  callout?: { stat?: string; text: string };
+  /** small source / citation line rendered at the foot of the slide */
+  source?: string;
   /** eyebrow / kicker text */
   kicker?: string;
   /** content still needs facilitator review before the workshop */

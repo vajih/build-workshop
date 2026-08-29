@@ -54,13 +54,80 @@ export const PRESENTATION: Presentation = {
         },
         {
           id: "welcome-2",
+          type: "image-compare",
+          section: "welcome",
+          kicker: "Same street, thirteen years apart",
+          title: "Technology transformation happens faster than institutions expect",
+          lead: "Fifth Avenue, New York City — Easter Sunday, 1900 and 1913. Count the motorcars in each photograph.",
+          images: [
+            {
+              src: "/images/presentation/fifth-avenue-1900.jpg",
+              alt: "Fifth Avenue, New York City on Easter Sunday 1900, filled with horse-drawn carriages",
+              tag: "1900",
+              caption: "Horse-drawn carriages fill the street — motorcars are a rare novelty",
+            },
+            {
+              src: "/images/presentation/fifth-avenue-1913.jpg",
+              alt: "The same stretch of Fifth Avenue on Easter Sunday 1913, filled with automobiles",
+              tag: "1913",
+              caption: "Motorcars fill the street — one horse-drawn carriage remains",
+            },
+          ],
+          note: "Thirteen years replaced a century of horse-drawn transport. The tools in this room can move just as fast — if you pick them up today.",
+        },
+        {
+          id: "welcome-3",
+          type: "image-compare",
+          section: "welcome",
+          kicker: "Why we're here",
+          title: "You are here to learn the calculator, not the circuit board",
+          lead: "Same object, two views. You will learn the keypad — where to press, what to check, when to trust the answer.",
+          images: [
+            {
+              src: "/images/presentation/calculator-vs-circuit-board.jpg",
+              alt: "A basic calculator next to its internal circuit board, showing the keypad on the left and the wired motherboard on the right",
+              caption: "Left: what you will use. Right: what you will not need to build.",
+              aspectRatio: "3 / 2",
+            },
+          ],
+          note: "This workshop teaches you to use AI tools well — not how a model is trained or wired. Same posture as a calculator: you do not need the circuit board to get a trustworthy answer.",
+        },
+        {
+          id: "welcome-3-adoption",
+          type: "image-compare",
+          section: "welcome",
+          kicker: "The opportunity",
+          title:
+            "Healthcare has trailed in digitization — and it is continuing into AI",
+          images: [
+            {
+              src: "/images/presentation/healthcare-digitization-index.jpg",
+              alt: "The McKinsey Industry Digitization Index (2015) ranks U.S. sectors in three tiers. High digitization: ICT, media, finance and insurance. Medium: advanced manufacturing, wholesale, retail. Low: healthcare, construction, hospitality. The index spans 27 indicators of digital assets, usage and workers — a relative ranking, not a current AI-adoption rate.",
+              aspectRatio: "968 / 888",
+            },
+            {
+              src: "/images/presentation/healthcare-ai-adoption-2025.jpg",
+              alt: "Measured AI use by U.S. industry in 2025: information services 23.2%, professional, scientific and technical services 19.2%, education 15.1%, finance and insurance 11.6%, healthcare 8.3%. Healthcare adoption is about 64% below information services.",
+              aspectRatio: "1172 / 896",
+            },
+          ],
+          callout: {
+            stat: "8.3%",
+            text: "of U.S. healthcare firms reported using AI in 2025 — about a third the rate of information services. Not merely a lag; an opening for the researchers, clinicians, and builders in this room.",
+          },
+          source:
+            "McKinsey, Digital America (2015) · Nguyen et al., JAMA Health Forum (2025), U.S. Census BTOS",
+          draft: true,
+        },
+        {
+          id: "welcome-4",
           type: "statement",
           section: "welcome",
           title: "Your first build starts now",
           lead: "No slides to sit through first. You will have a working application before we discuss how it works.",
         },
         {
-          id: "welcome-3",
+          id: "welcome-5",
           type: "statement",
           section: "welcome",
           kicker: "Open this on your laptop",
@@ -69,7 +136,7 @@ export const PRESENTATION: Presentation = {
           note: "The QR code and short link are shown on this slide in Presentation Mode.",
         },
         {
-          id: "welcome-4",
+          id: "welcome-6",
           type: "exercise-launch",
           section: "welcome",
           kicker: "Build 1",
@@ -84,7 +151,7 @@ export const PRESENTATION: Presentation = {
           participantHref: "/participate/build-1",
         },
         {
-          id: "welcome-5",
+          id: "welcome-7",
           type: "process",
           section: "welcome",
           kicker: "What you are building",
@@ -99,7 +166,7 @@ export const PRESENTATION: Presentation = {
           note: SYNTHETIC_DATA_LABEL,
         },
         {
-          id: "welcome-6",
+          id: "welcome-8",
           type: "demo-intro",
           section: "welcome",
           kicker: "The map moment",
@@ -112,7 +179,7 @@ export const PRESENTATION: Presentation = {
           note: "A red marker is powerful. It is a prompt to verify, not proof of an outbreak.",
         },
         {
-          id: "welcome-7",
+          id: "welcome-9",
           type: "process",
           section: "welcome",
           kicker: "While you build",
@@ -128,7 +195,7 @@ export const PRESENTATION: Presentation = {
           draft: true,
         },
         {
-          id: "welcome-8",
+          id: "welcome-10",
           type: "statement",
           section: "welcome",
           kicker: "Minutes later",
@@ -137,7 +204,7 @@ export const PRESENTATION: Presentation = {
           note: SYNTHETIC_DATA_LABEL,
         },
         {
-          id: "welcome-9",
+          id: "welcome-11",
           type: "statement",
           section: "welcome",
           kicker: "Build 1 debrief",
@@ -145,7 +212,7 @@ export const PRESENTATION: Presentation = {
           lead: BUILD1_DEBRIEF,
         },
         {
-          id: "welcome-10",
+          id: "welcome-12",
           type: "process",
           section: "welcome",
           kicker: "Product evolution",
