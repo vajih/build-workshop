@@ -74,9 +74,22 @@ describe("presentation deck", () => {
     const navHrefs = new Set(PARTICIPANT_NAV.map((n) => n.href));
     for (const slide of SLIDES) {
       if (slide.participantHref) {
-        expect(navHrefs.has(slide.participantHref)).toBe(true);
+        // a slide may deep-link to a section anchor (`…#share`); the page it
+        // points at must still be a real participant nav target.
+        const page = slide.participantHref.split("#")[0];
+        expect(navHrefs.has(page)).toBe(true);
       }
     }
+  });
+
+  it("the close section invites participants to share their build", () => {
+    const share = SLIDES.find((s) => s.id === "presentations-close-share");
+    expect(share?.section).toBe("presentations-close");
+    expect(share?.participantHref).toBe("/participate/team-challenge#share");
+    // it must land before the closing "Thank you" slide
+    expect(slideIndexById("presentations-close-share")).toBeLessThan(
+      slideIndexById("presentations-close-7"),
+    );
   });
 
   it("draft slides are tracked for review", () => {

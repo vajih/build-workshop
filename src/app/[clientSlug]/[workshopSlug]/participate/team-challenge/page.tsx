@@ -4,8 +4,11 @@ import { SafetyNotice } from "@/components/SafetyNotice";
 import { TimeAllocation } from "@/components/TimeAllocation";
 import { Breadcrumbs } from "@/components/chrome/Breadcrumbs";
 import { ParticipantStepNav } from "@/components/ParticipantStepNav";
+import { PromptBlock } from "@/components/PromptBlock";
+import { CompletionCheckbox } from "@/components/CompletionCheckbox";
+import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { getBundle, type WorkshopRouteParams } from "@/lib/workshop-route";
-import { workshopBase } from "@/lib/workshop";
+import { workshopBase, creatorLinkedIn } from "@/lib/workshop";
 import {
   CHALLENGE_OBJECTIVE,
   TEAM_FORMATION,
@@ -16,6 +19,8 @@ import {
   PRESENTATION_TIPS,
   RUBRIC,
   RUBRIC_NOTE,
+  SHARE_YOUR_BUILD,
+  SHARE_POST_TEMPLATE,
 } from "@/content/clients/aku/digital-health-2026/team-challenge";
 
 export const metadata: Metadata = {
@@ -41,6 +46,7 @@ export default async function TeamChallengePage({
 }) {
   const { config } = await getBundle(params);
   const base = workshopBase(config);
+  const linkedIn = creatorLinkedIn(config);
 
   return (
     <div className="container-page py-10">
@@ -161,6 +167,56 @@ export default async function TeamChallengePage({
             </table>
           </div>
           <p className="mt-2 text-sm text-ink-subtle">{RUBRIC_NOTE}</p>
+        </section>
+
+        <section
+          id="share"
+          aria-labelledby="share-heading"
+          className="scroll-mt-24 rounded-[var(--radius-card)] border border-border-strong bg-surface-muted/40 p-5"
+        >
+          <h2 id="share-heading" className="text-xl font-semibold text-ink">
+            Share what you built
+          </h2>
+          <p className="mt-1 text-ink-muted">
+            The demo is done — now make it something you can point to next week.
+            Post your team&rsquo;s build on LinkedIn before you leave.
+          </p>
+          <List items={SHARE_YOUR_BUILD} />
+
+          <div className="mt-4">
+            <p className="text-sm font-semibold text-ink">
+              A starting point for the post
+            </p>
+            <p className="mt-1 text-sm text-ink-muted">
+              Replace every bracket. It should sound like you wrote it, not a
+              template.
+            </p>
+            <PromptBlock
+              title="LinkedIn post draft"
+              label="LinkedIn post draft"
+              text={SHARE_POST_TEMPLATE}
+            />
+          </div>
+
+          {linkedIn ? (
+            <a
+              href={linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-2 rounded-full border border-primary bg-primary-soft px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-white"
+            >
+              <LinkedInIcon className="size-4" />
+              Connect with {config.creator.name} on LinkedIn
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          ) : null}
+
+          <div className="mt-4">
+            <CompletionCheckbox
+              id="team-challenge-shared"
+              label="Posted our build on LinkedIn and tagged the facilitator"
+            />
+          </div>
         </section>
       </div>
 

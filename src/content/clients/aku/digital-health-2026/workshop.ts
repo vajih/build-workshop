@@ -34,6 +34,7 @@ export const akuDigitalHealth2026: WorkshopConfig = {
   creator: {
     name: "Vajih Khan",
     role: "Creator and facilitator",
+    linkedinUrl: "https://www.linkedin.com/in/vajihkhan/",
   },
   methodology: {
     name: METHODOLOGY_NAME,

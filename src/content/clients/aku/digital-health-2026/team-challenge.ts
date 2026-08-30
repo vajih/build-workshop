@@ -77,3 +77,30 @@ export const RUBRIC: RubricRow[] = [
 
 export const RUBRIC_NOTE =
   "Score each dimension from 1 to 5. The rubric rewards a small thing that works and is honestly framed over a large thing that does not.";
+
+/**
+ * After the demo: turn the build into something the team can point to later.
+ * A public post is the fastest way to keep the momentum and build a network
+ * around the work.
+ */
+export const SHARE_YOUR_BUILD: string[] = [
+  "Post about what your team built on LinkedIn before you leave the room — while it is fresh and the demo still works.",
+  "Say what it does in one line, name the user it was for, and add a screenshot or a short screen recording of the working demo.",
+  "Name one thing AI did well and one thing you had to correct — that is the part people actually learn from.",
+  "Keep the honest framing: an educational prototype built with synthetic data in about 40 minutes — not a diagnosis, a surveillance system, or a real deployment.",
+  "Tag the facilitator so your build stays on their radar, and connect so you can ask questions after today.",
+];
+
+/**
+ * A starting point, not a script. Participants replace every bracket. Kept
+ * short so it reads as a person wrote it.
+ */
+export const SHARE_POST_TEMPLATE = `Today at the AKU Build Workshop my team built [what it does, one line] for [the named user].
+
+Starting from an empty folder, with AI as a pair programmer, we went from a problem to a working prototype in about 40 minutes.
+
+It is an educational prototype built with synthetic data — not a clinical, diagnostic, or surveillance tool.
+
+What surprised me: [one thing you learned about building with AI].
+
+Facilitated by Vajih Khan. #BuildWorkshop`;

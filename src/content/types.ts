@@ -130,6 +130,12 @@ export interface WorkshopCreator {
   name: string;
   /** e.g. "Creator and facilitator" */
   role: string;
+  /**
+   * Optional public LinkedIn profile URL. When set, participants are invited to
+   * connect (footer, close of the workshop) and asked to tag the facilitator
+   * when they post their Team Challenge build.
+   */
+  linkedinUrl?: string;
 }
 
 /** Stable — the signature methodology and its build cycle. */

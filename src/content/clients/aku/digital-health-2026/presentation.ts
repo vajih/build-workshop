@@ -639,12 +639,28 @@ export const PRESENTATION: Presentation = {
           lead: BUILD1_DEBRIEF,
         },
         {
+          id: "presentations-close-share",
+          type: "exercise-launch",
+          section: "presentations-close",
+          kicker: "Before you leave",
+          title: "Post what you built",
+          lead: "Share your team's prototype on LinkedIn while it is fresh.",
+          body: [
+            "One line on what it does, the named user, and a screenshot of the demo.",
+            "One thing AI did well, one thing you corrected.",
+            "Honest framing: an educational prototype on synthetic data — not a real deployment.",
+            "Connect with Vajih Khan and tag the workshop.",
+          ],
+          participantHref: "/participate/team-challenge#share",
+        },
+        {
           id: "presentations-close-5",
           type: "process",
           section: "presentations-close",
           title: "Next steps",
           items: [
             { label: "Keep the repo", detail: "Your Build 1 project is yours." },
+            { label: "Post your build", detail: "Share it on LinkedIn and connect with Vajih Khan." },
             { label: "Use the resources page", detail: "Official docs for every tool." },
             { label: "Repeat the cycle", detail: "Define, prompt, supervise, test, commit, publish." },
           ],

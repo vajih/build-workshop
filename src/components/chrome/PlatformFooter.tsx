@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import type { WorkshopConfig } from "@/content/types";
 import {
   workshopBase,
   workshopMark,
   relationshipLine,
   creatorAttribution,
+  creatorLinkedIn,
 } from "@/lib/workshop";
 
 interface PlatformFooterProps {
@@ -13,6 +15,7 @@ interface PlatformFooterProps {
 
 export function PlatformFooter({ config }: PlatformFooterProps) {
   const base = config ? workshopBase(config) : null;
+  const linkedIn = config ? creatorLinkedIn(config) : null;
   return (
     <footer className="mt-16 border-t border-border bg-surface">
       <div className="container-page py-10">
@@ -29,6 +32,17 @@ export function PlatformFooter({ config }: PlatformFooterProps) {
               <p className="mt-3 text-sm text-ink-subtle">
                 {relationshipLine(config)}. {creatorAttribution(config)}.
               </p>
+            ) : null}
+            {config && linkedIn ? (
+              <a
+                href={linkedIn}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface px-3 py-1.5 text-sm font-medium text-ink-muted hover:border-primary hover:text-primary"
+              >
+                <LinkedInIcon className="size-4" />
+                Connect with {config.creator.name} on LinkedIn
+              </a>
             ) : null}
           </div>
           {base ? (

@@ -38,6 +38,11 @@ export function creatorAttribution(config: WorkshopConfig): string {
   return `Designed and facilitated by ${config.creator.name}`;
 }
 
+/** The creator's public LinkedIn URL, or `null` when none is configured. */
+export function creatorLinkedIn(config: WorkshopConfig): string | null {
+  return config.creator.linkedinUrl ?? null;
+}
+
 /* ---- Public vs facilitator content --------------------------------------
    PUBLIC surfaces (landing, hub, participant, presentation, Open Graph, and
    public print / PDF) must never show internal uncertainty or configuration

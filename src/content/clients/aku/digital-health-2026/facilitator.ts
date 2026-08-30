@@ -144,7 +144,8 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
     checkpoint: "All five teams present within the time box.",
     commonFailure: "The first team runs eight minutes and the last team is rushed.",
     recovery: "Use a visible timer. Cut at five minutes. Be consistent from team one.",
-    transition: "Close with the reflection and next steps.",
+    transition:
+      "As each team finishes, ask them to post their build on LinkedIn and tag you while it is fresh. Then close with the reflection and next steps.",
   },
   {
     id: "f-reflection",
@@ -152,8 +153,10 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
     minutes: 5,
     objective: "Students leave knowing how to keep building and where the resources are.",
     says: BUILD1_DEBRIEF,
-    studentsDo: "Note the resources page and the build cycle to take home.",
-    checkpoint: "Students know where the Resources page is and what to try next.",
+    studentsDo:
+      "Post their team build on LinkedIn, connect with the facilitator, and note the resources page and the build cycle to take home.",
+    checkpoint:
+      "Students know where the Resources page is, what to try next, and have been prompted to share their build.",
     commonFailure: "The session overran and this is skipped.",
     recovery: "Protect the last five minutes. This is the part they remember.",
     transition: "Thank the room. End on time.",
