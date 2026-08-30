@@ -139,8 +139,51 @@
   /* ---- Presentation Mode ---------------------------------------------- */
   .deck-root {
     --slide-pad: clamp(1.5rem, 4vw, 4rem);
+    --deck-stage-bg: #0a1c15;
+    --deck-ink: #f4f8f6;
+    --deck-lead: #d3e0da;
+    --deck-body: #cddcd4;
+    --deck-muted: #b9cbc3;
+    --deck-note: #8fa89e;
+    --deck-source: #6f877d;
+    --deck-accent: #0d7d7d;
+    --deck-accent-bright: #6fd0c4;
+    --deck-accent-soft: rgba(13, 125, 125, 0.15);
+    --deck-panel: rgba(255, 255, 255, 0.04);
+    --deck-border: rgba(255, 255, 255, 0.1);
+    --deck-highlight: #f0b953;
+    --deck-highlight-soft: rgba(224, 164, 59, 0.12);
+    --deck-display-font: var(--font-geist-sans), ui-sans-serif, system-ui,
+      sans-serif;
+    --deck-serif-font: var(--font-geist-sans), ui-sans-serif, system-ui,
+      sans-serif;
     background: #06130d;
-    color: #f2f6f3;
+    color: var(--deck-ink);
+  }
+  .deck-root[data-deck-theme="frictionless-blueprint"] {
+    --slide-pad: clamp(1.45rem, 3.25vw, 3.35rem);
+    --deck-stage-bg: #f5f0dd;
+    --deck-ink: #2c3033;
+    --deck-lead: #343638;
+    --deck-body: #3e4142;
+    --deck-muted: #686b6b;
+    --deck-note: #6c706e;
+    --deck-source: #757a78;
+    --deck-accent: #c0623c;
+    --deck-accent-bright: #956047;
+    --deck-accent-soft: rgba(192, 98, 60, 0.11);
+    --deck-panel: rgba(251, 248, 236, 0.76);
+    --deck-border: rgba(44, 48, 51, 0.18);
+    --deck-highlight: #c0623c;
+    --deck-highlight-soft: rgba(192, 98, 60, 0.1);
+    --deck-blue: #6f8998;
+    --deck-blue-faint: rgba(111, 137, 152, 0.34);
+    --deck-grid: rgba(143, 163, 173, 0.22);
+    --deck-paper: #fbf8ec;
+    --deck-display-font: var(--font-frictionless-display), "Arial Narrow",
+      sans-serif;
+    --deck-serif-font: var(--font-frictionless-serif), Georgia, serif;
+    background: #17191b;
   }
   /* 16:9 stage, letterboxed on non-16:9 screens */
   .slide-stage {
@@ -154,13 +197,28 @@
         rgba(13, 125, 125, 0.14),
         transparent 60%
       ),
-      #0a1c15;
+      var(--deck-stage-bg);
+  }
+  .deck-root[data-deck-theme="frictionless-blueprint"] .slide-surface {
+    background-color: var(--deck-stage-bg);
+    background-image:
+      linear-gradient(var(--deck-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--deck-grid) 1px, transparent 1px),
+      radial-gradient(
+        circle at 18% 12%,
+        rgba(255, 255, 255, 0.72),
+        transparent 43%
+      );
+    background-size: 3rem 3rem, 3rem 3rem, 100% 100%;
+    box-shadow:
+      inset 0 0 0 1px rgba(44, 48, 51, 0.2),
+      0 1.5rem 5rem rgba(0, 0, 0, 0.42);
   }
   .slide-kicker {
     font-size: clamp(0.8rem, 1.6vw, 1.15rem);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6fd0c4;
+    color: var(--deck-accent-bright);
     font-weight: 600;
   }
   .slide-title {
@@ -168,25 +226,322 @@
     line-height: 1.1;
     font-weight: 680;
     text-wrap: balance;
-    color: #f4f8f6;
+    color: var(--deck-ink);
   }
   .deck-root :where(h1, h2, h3) {
-    color: #f4f8f6;
+    color: var(--deck-ink);
   }
   .slide-lead {
     font-size: clamp(1.1rem, 2.7vw, 2rem);
     line-height: 1.35;
-    color: #d3e0da;
+    color: var(--deck-lead);
     text-wrap: pretty;
   }
   .slide-body {
     font-size: clamp(1rem, 2.1vw, 1.6rem);
     line-height: 1.5;
-    color: #cddcd4;
+    color: var(--deck-body);
   }
   .slide-note {
     font-size: clamp(0.8rem, 1.5vw, 1.05rem);
-    color: #8fa89e;
+    color: var(--deck-note);
+  }
+  .deck-progress {
+    background: var(--deck-border);
+  }
+  .deck-progress-value {
+    background: var(--deck-accent);
+  }
+  .frictionless-embed-frame {
+    background: #f5f0dd;
+  }
+  .deck-root[data-embedded-slide="true"] .deck-controls,
+  .deck-root[data-embedded-slide="true"] .deck-exit {
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+  .deck-root[data-embedded-slide="true"] .deck-controls:hover,
+  .deck-root[data-embedded-slide="true"] .deck-controls:focus-within,
+  .deck-root[data-embedded-slide="true"] .deck-exit:hover,
+  .deck-root[data-embedded-slide="true"] .deck-exit:focus-visible {
+    opacity: 1;
+  }
+  .deck-root[data-deck-theme="frictionless-blueprint"] .slide-kicker,
+  .deck-root[data-deck-theme="frictionless-blueprint"] .slide-note {
+    font-family: var(--deck-display-font);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .deck-root[data-deck-theme="frictionless-blueprint"] .slide-title {
+    font-family: var(--deck-display-font);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .deck-root[data-deck-theme="frictionless-blueprint"] .slide-lead {
+    font-family: var(--deck-serif-font);
+  }
+
+  /* Frictionless Blueprint pilot compositions. These selectors only become
+     reachable in the opted-in presentation deck. */
+  .blueprint-slide {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    height: 100%;
+    padding: var(--slide-pad);
+    padding-bottom: clamp(4.85rem, 7vw, 6rem);
+    color: var(--deck-ink);
+  }
+  .blueprint-slide::before,
+  .blueprint-slide::after {
+    position: absolute;
+    z-index: -1;
+    width: clamp(1.25rem, 2.4vw, 2.5rem);
+    height: clamp(1.25rem, 2.4vw, 2.5rem);
+    content: "";
+    border-color: var(--deck-blue);
+    opacity: 0.75;
+  }
+  .blueprint-slide::before {
+    top: 1rem;
+    left: 1rem;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  .blueprint-slide::after {
+    right: 1rem;
+    bottom: 1rem;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+  }
+  .blueprint-display-title {
+    max-width: 9ch;
+    font-family: var(--deck-display-font);
+    font-size: clamp(3rem, 8.4vw, 7.25rem);
+    font-weight: 600;
+    line-height: 0.88;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    text-transform: uppercase;
+  }
+  .blueprint-serif-lead {
+    max-width: 35ch;
+    font-family: var(--deck-serif-font);
+    font-size: clamp(1.1rem, 2.35vw, 2rem);
+    line-height: 1.18;
+    color: var(--deck-lead);
+    text-wrap: balance;
+  }
+  .blueprint-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: center;
+    gap: clamp(1rem, 3vw, 3rem);
+  }
+  .blueprint-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.65rem, 1.4vw, 1.25rem);
+  }
+  .blueprint-copy .blueprint-display-title {
+    position: relative;
+    margin-top: 0.15rem;
+  }
+  .blueprint-copy .blueprint-display-title::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.14em;
+    width: 46%;
+    height: 0.07em;
+    content: "";
+    transform: rotate(-2deg);
+    background: var(--deck-accent);
+  }
+  .blueprint-spec-line {
+    border-top: 1px solid var(--deck-blue);
+    padding-top: 0.55rem;
+    font-family: var(--deck-display-font);
+    font-size: clamp(0.68rem, 1.15vw, 0.95rem);
+    letter-spacing: 0.08em;
+    color: var(--deck-muted);
+    text-transform: uppercase;
+  }
+  .blueprint-question {
+    max-width: 38ch;
+    border-left: 0.22rem solid var(--deck-accent);
+    padding-left: 0.8rem;
+    font-family: var(--deck-serif-font);
+    font-size: clamp(0.92rem, 1.55vw, 1.28rem);
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .blueprint-hero-diagram {
+    min-width: 0;
+    transform: rotate(0.5deg);
+  }
+  .blueprint-hero-diagram svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .blueprint-diagram-faint,
+  .blueprint-diagram-line,
+  .blueprint-diagram-orbit,
+  .blueprint-dimension {
+    fill: none;
+    stroke: var(--deck-blue);
+  }
+  .blueprint-diagram-faint {
+    stroke-dasharray: 5 7;
+    opacity: 0.58;
+  }
+  .blueprint-diagram-line {
+    stroke-width: 1.5;
+    opacity: 0.75;
+  }
+  .blueprint-diagram-orbit {
+    stroke-width: 2;
+    stroke-dasharray: 9 7;
+  }
+  .blueprint-diagram-core {
+    fill: var(--deck-ink);
+    stroke: var(--deck-ink);
+  }
+  .blueprint-diagram-core-text,
+  .blueprint-diagram-node-text,
+  .blueprint-dimension-text {
+    font-family: var(--deck-display-font);
+    letter-spacing: 0.08em;
+  }
+  .blueprint-diagram-core-text {
+    font-size: 31px;
+    fill: var(--deck-paper);
+  }
+  .blueprint-diagram-node {
+    fill: var(--deck-paper);
+    stroke: var(--deck-blue);
+    stroke-width: 2;
+  }
+  .blueprint-diagram-node-accent {
+    fill: var(--deck-accent);
+    stroke: var(--deck-accent);
+  }
+  .blueprint-diagram-node-text {
+    font-size: 11px;
+    fill: var(--deck-ink);
+  }
+  .blueprint-diagram-node-text-light {
+    fill: var(--deck-paper);
+  }
+  .blueprint-dimension {
+    opacity: 0.66;
+  }
+  .blueprint-dimension-text {
+    font-size: 10px;
+    fill: var(--deck-blue);
+  }
+
+  .blueprint-product {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(19rem, 0.92fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: clamp(1.5rem, 4vw, 4rem);
+    row-gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  }
+  .blueprint-product-copy {
+    display: grid;
+    align-content: center;
+    gap: clamp(0.75rem, 1.5vw, 1.3rem);
+  }
+  .blueprint-display-title-product {
+    max-width: 14ch;
+    font-size: clamp(2.25rem, 5.2vw, 4.8rem);
+    line-height: 0.92;
+  }
+  .blueprint-display-title-product::first-line {
+    color: var(--deck-accent);
+  }
+  .blueprint-product-copy .blueprint-serif-lead {
+    max-width: 37ch;
+    font-size: clamp(0.95rem, 1.65vw, 1.35rem);
+  }
+  .blueprint-product-flow {
+    position: relative;
+    display: grid;
+    gap: clamp(0.5rem, 1.05vw, 0.9rem);
+  }
+  .blueprint-product-flow li {
+    position: relative;
+    display: grid;
+    grid-template-columns: clamp(2rem, 3.4vw, 3.2rem) 1fr;
+    align-items: center;
+    gap: clamp(0.65rem, 1.15vw, 1rem);
+    min-height: clamp(3.25rem, 6.5vw, 5.25rem);
+    border: 1px solid var(--deck-blue-faint);
+    background: rgba(251, 248, 236, 0.78);
+    padding: clamp(0.55rem, 1vw, 0.85rem);
+  }
+  .blueprint-product-flow li:last-child {
+    border-color: rgba(192, 98, 60, 0.56);
+    background: rgba(192, 98, 60, 0.08);
+  }
+  .blueprint-product-flow li:not(:last-child)::after {
+    position: absolute;
+    z-index: 2;
+    bottom: calc(clamp(0.5rem, 1.05vw, 0.9rem) * -1 - 1px);
+    left: calc(clamp(0.55rem, 1vw, 0.85rem) + clamp(1rem, 1.7vw, 1.6rem));
+    width: 1px;
+    height: calc(clamp(0.5rem, 1.05vw, 0.9rem) + 1px);
+    content: "";
+    background: var(--deck-blue);
+  }
+  .blueprint-flow-index {
+    display: grid;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1px solid var(--deck-blue);
+    border-radius: 999px;
+    font-family: var(--deck-display-font);
+    font-size: clamp(0.65rem, 1vw, 0.85rem);
+    color: var(--deck-blue);
+  }
+  .blueprint-product-flow li:last-child .blueprint-flow-index {
+    border-color: var(--deck-accent);
+    background: var(--deck-accent);
+    color: var(--deck-paper);
+  }
+  .blueprint-flow-copy {
+    display: grid;
+    gap: 0.12rem;
+  }
+  .blueprint-flow-copy strong {
+    font-family: var(--deck-display-font);
+    font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+  .blueprint-flow-copy > span {
+    font-family: var(--deck-serif-font);
+    font-size: clamp(0.66rem, 1vw, 0.86rem);
+    line-height: 1.2;
+    color: var(--deck-muted);
+  }
+  .blueprint-product-question {
+    grid-column: 1 / -1;
+    border-top: 2px solid var(--deck-accent);
+    padding-top: clamp(0.65rem, 1.2vw, 1rem);
+    font-family: var(--deck-serif-font);
+    font-size: clamp(0.92rem, 1.65vw, 1.35rem);
+    font-style: italic;
+    line-height: 1.25;
+    text-align: center;
   }
 }
 

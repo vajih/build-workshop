@@ -8,6 +8,7 @@ import {
   DRAFT_SLIDES,
 } from "./presentation";
 import { PARTICIPANT_NAV } from "./participant-nav";
+import { FRICTIONLESS_CHAPTER_CONFIG } from "./frictionless-chapter";
 import {
   clampIndex,
   nextIndex,
@@ -38,6 +39,29 @@ describe("presentation deck", () => {
     for (const slide of SLIDES) {
       expect(sectionIds.has(slide.section)).toBe(true);
     }
+  });
+
+  it("inserts the adoption slide after Frictionless source slide 1", () => {
+    expect(FRICTIONLESS_CHAPTER_CONFIG.map((entry) => entry.sourceSlide)).toEqual(
+      Array.from({ length: 13 }, (_, index) => index + 1),
+    );
+
+    const enabledIds = FRICTIONLESS_CHAPTER_CONFIG.filter(
+      (entry) => entry.include,
+    ).map((entry) => entry.id);
+    const anchor = slideIndexById("what-changed-1");
+
+    const expectedIds = [
+      ...enabledIds.slice(0, 1),
+      "welcome-3-adoption",
+      ...enabledIds.slice(1),
+    ];
+
+    expect(
+      SLIDES.slice(anchor + 1, anchor + 1 + expectedIds.length).map(
+        (slide) => slide.id,
+      ),
+    ).toEqual(expectedIds);
   });
 
   it("slideIndexById finds slides and returns -1 for unknown", () => {

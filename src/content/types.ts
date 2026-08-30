@@ -285,6 +285,13 @@ export interface Slide {
   type: SlideType;
   /** owning section id */
   section: string;
+  /** optional presentation-only composition layered on top of the slide type */
+  layout?:
+    | "blueprint-hero"
+    | "blueprint-product"
+    | "frictionless-embed";
+  /** 1-based source slide number for the embedded Frictionless chapter. */
+  embedSlide?: number;
   title?: string;
   /** one large supporting line under the title */
   lead?: string;
@@ -296,10 +303,18 @@ export interface Slide {
   columns?: SlideColumn[];
   /** image-compare: photos shown side by side */
   images?: SlideImage[];
+  /** image-compare: optional visual scale multiplier for chart-heavy slides */
+  imageScale?: number;
   /** discussion prompt */
   question?: string;
   /** exercise-launch: relative participant href to open the activity */
   participantHref?: string;
+  /** optional high-emphasis presentation CTA for a participant activity */
+  participantCta?: {
+    eyebrow: string;
+    label: string;
+    detail: string;
+  };
   /** small on-slide caption (NOT facilitator notes) */
   note?: string;
   /** image-compare: emphasized takeaway panel shown beside a two-image

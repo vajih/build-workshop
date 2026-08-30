@@ -20,6 +20,7 @@ import {
   HUMAN_RESPONSIBILITY,
 } from "@/content/shared/frictionless-building";
 import { akuDigitalHealth2026 as CONFIG } from "./workshop";
+import { FRICTIONLESS_CHAPTER_SLIDES } from "./frictionless-chapter";
 
 /**
  * The presentation deck for the AKU Build Workshop 2026 engagement. Authored
@@ -47,10 +48,15 @@ export const PRESENTATION: Presentation = {
           id: "welcome-1",
           type: "title",
           section: "welcome",
+          layout: "blueprint-hero",
           kicker: `${MARK} · ${CONFIG.industry.name}`,
-          title: CONFIG.program.tagline,
-          lead: RELATIONSHIP,
-          note: CONFIG.creator.name,
+          title: "Build something.",
+          lead: CONFIG.program.tagline,
+          body: [
+            "Creativity · Code · AI · Healthcare · Action",
+            "What would you build if starting were almost frictionless?",
+          ],
+          note: `${RELATIONSHIP} · ${CONFIG.creator.name}`,
         },
         {
           id: "welcome-2",
@@ -93,38 +99,18 @@ export const PRESENTATION: Presentation = {
           note: "This workshop teaches you to use AI tools well — not how a model is trained or wired. Same posture as a calculator: you do not need the circuit board to get a trustworthy answer.",
         },
         {
-          id: "welcome-3-adoption",
-          type: "image-compare",
-          section: "welcome",
-          kicker: "The opportunity",
-          title:
-            "Healthcare has trailed in digitization — and it is continuing into AI",
-          images: [
-            {
-              src: "/images/presentation/healthcare-digitization-index.jpg",
-              alt: "The McKinsey Industry Digitization Index (2015) ranks U.S. sectors in three tiers. High digitization: ICT, media, finance and insurance. Medium: advanced manufacturing, wholesale, retail. Low: healthcare, construction, hospitality. The index spans 27 indicators of digital assets, usage and workers — a relative ranking, not a current AI-adoption rate.",
-              aspectRatio: "968 / 888",
-            },
-            {
-              src: "/images/presentation/healthcare-ai-adoption-2025.jpg",
-              alt: "Measured AI use by U.S. industry in 2025: information services 23.2%, professional, scientific and technical services 19.2%, education 15.1%, finance and insurance 11.6%, healthcare 8.3%. Healthcare adoption is about 64% below information services.",
-              aspectRatio: "1172 / 896",
-            },
-          ],
-          callout: {
-            stat: "8.3%",
-            text: "of U.S. healthcare firms reported using AI in 2025 — about a third the rate of information services. Not merely a lag; an opening for the researchers, clinicians, and builders in this room.",
-          },
-          source:
-            "McKinsey, Digital America (2015) · Nguyen et al., JAMA Health Forum (2025), U.S. Census BTOS",
-          draft: true,
-        },
-        {
           id: "welcome-4",
           type: "statement",
           section: "welcome",
           title: "Your first build starts now",
           lead: "No slides to sit through first. You will have a working application before we discuss how it works.",
+          participantHref: "/participate/build-1",
+          participantCta: {
+            eyebrow: "Your first immersive experience",
+            label: "Build your first live application",
+            detail:
+              "Open the participant workspace. Start with an empty folder; leave with something that works.",
+          },
         },
         {
           id: "welcome-5",
@@ -244,13 +230,36 @@ export const PRESENTATION: Presentation = {
           kicker: "Section 2",
           title: "What just changed?",
         },
+        ...FRICTIONLESS_CHAPTER_SLIDES.slice(0, 1),
         {
-          id: "what-changed-2",
-          type: "statement",
+          id: "welcome-3-adoption",
+          type: "image-compare",
           section: "what-changed",
-          title: "From an idea to a working application",
-          lead: "In under an hour, with no prior deployment experience, on your own laptop.",
+          kicker: "The opportunity",
+          title:
+            "Healthcare has trailed in digitization — and it is continuing into AI",
+          images: [
+            {
+              src: "/images/presentation/healthcare-digitization-index.jpg",
+              alt: "The McKinsey Industry Digitization Index (2015) ranks U.S. sectors in three tiers. High digitization: ICT, media, finance and insurance. Medium: advanced manufacturing, wholesale, retail. Low: healthcare, construction, hospitality. The index spans 27 indicators of digital assets, usage and workers — a relative ranking, not a current AI-adoption rate.",
+              aspectRatio: "968 / 888",
+            },
+            {
+              src: "/images/presentation/healthcare-ai-adoption-2025.jpg",
+              alt: "Measured AI use by U.S. industry in 2025: information services 23.2%, professional, scientific and technical services 19.2%, education 15.1%, finance and insurance 11.6%, healthcare 8.3%. Healthcare adoption is about 64% below information services.",
+              aspectRatio: "1172 / 896",
+            },
+          ],
+          imageScale: 1.15,
+          callout: {
+            stat: "8.3%",
+            text: "of U.S. healthcare firms reported using AI in 2025 — about a third the rate of information services. Not merely a lag; an opening for the researchers, clinicians, and builders in this room.",
+          },
+          source:
+            "McKinsey, Digital America (2015) · Nguyen et al., JAMA Health Forum (2025), U.S. Census BTOS",
+          draft: true,
         },
+        ...FRICTIONLESS_CHAPTER_SLIDES.slice(1),
         {
           id: "what-changed-3",
           type: "concept",
@@ -340,8 +349,32 @@ export const PRESENTATION: Presentation = {
           id: "ai-and-building-6",
           type: "statement",
           section: "ai-and-building",
-          title: "Build useful systems, not technology demonstrations",
-          lead: "The question is not 'is this clever?' It is 'will one named person use it next week?'",
+          layout: "blueprint-product",
+          kicker: "Design for usefulness",
+          title:
+            "The AI was not the product. The useful experience was the product.",
+          lead:
+            "People do not wake up wanting an LLM. They want a problem to disappear.",
+          items: [
+            {
+              label: "Human need",
+              detail: "A frustrating, repetitive, or messy process",
+            },
+            {
+              label: "Interface",
+              detail: "A clear way to describe what is happening",
+            },
+            {
+              label: "Understanding",
+              detail: "AI extracts or interprets the useful signal",
+            },
+            {
+              label: "Workflow",
+              detail: "A person gains awareness or takes action",
+            },
+          ],
+          question:
+            "What frustrating, repetitive, or messy process around you deserves a better interface?",
         },
       ],
     },

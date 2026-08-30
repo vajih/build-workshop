@@ -42,6 +42,8 @@ interface DeckProps {
   participantOverviewUrl: string;
   /** pre-rendered QR SVG string for `participantOverviewUrl` */
   qrSvg: string;
+  /** visual system selected by the presentation route */
+  theme?: "frictionless-blueprint";
 }
 
 type Overlay = "help" | "sections" | "qr" | null;
@@ -65,6 +67,7 @@ export function Deck({
   participantUrls,
   participantOverviewUrl,
   qrSvg,
+  theme,
 }: DeckProps) {
   const { setPresenterSlide } = useWorkshop();
 
@@ -193,6 +196,38 @@ export function Deck({
     if (overlay) overlayRef.current?.focus();
   }, [overlay]);
 
+  // When focus is inside the self-contained Frictionless chapter iframe,
+  // relay its navigation requests to the surrounding workshop deck.
+  useEffect(() => {
+    function onEmbeddedNavigate(event: MessageEvent) {
+      if (event.origin !== window.location.origin) return;
+      if (event.data?.type !== "frictionless-chapter:navigate") return;
+
+      switch (event.data.action) {
+        case "next":
+          go(index + 1);
+          break;
+        case "prev":
+          go(index - 1);
+          break;
+        case "first":
+          go(0);
+          break;
+        case "last":
+          go(total - 1);
+          break;
+        case "fullscreen":
+          toggleFullscreen();
+          break;
+        default:
+          break;
+      }
+    }
+
+    window.addEventListener("message", onEmbeddedNavigate);
+    return () => window.removeEventListener("message", onEmbeddedNavigate);
+  }, [go, index, total, toggleFullscreen]);
+
   const progress = useMemo(
     () => Math.round(((index + 1) / total) * 100),
     [index, total],
@@ -201,45 +236,54 @@ export function Deck({
   const participantUrl = participantUrls[slide.id];
 
   return (
-    <div className="deck-root relative flex min-h-dvh w-full items-center justify-center overflow-hidden">
+    <div
+      className="deck-root relative flex min-h-dvh w-full items-center justify-center overflow-hidden"
+      data-deck-theme={theme}
+      data-embedded-slide={slide.layout === "frictionless-embed" ? "true" : undefined}
+    >
       {/* Stage */}
       <section
         className="slide-stage slide-surface relative overflow-hidden"
+        data-slide-layout={slide.layout}
         aria-roledescription="slide"
         aria-label={`Slide ${index + 1} of ${total}`}
       >
         <SlideRenderer slide={slide} participantUrl={participantUrl} />
 
-        {/* Chrome: section + counter */}
-        <div className="slide-note pointer-events-none absolute top-[var(--slide-pad)] right-[var(--slide-pad)] flex items-center gap-3">
-          {section ? (
-            <span>
-              {section.title} · Section {section.index + 1}/{sections.length}
-            </span>
-          ) : null}
-          <span className="tabular-nums">
-            {index + 1} / {total}
-          </span>
-        </div>
+        {slide.layout !== "frictionless-embed" ? (
+          <>
+            {/* Chrome: section + counter */}
+            <div className="slide-note pointer-events-none absolute top-[var(--slide-pad)] right-[var(--slide-pad)] flex items-center gap-3">
+              {section ? (
+                <span>
+                  {section.title} · Section {section.index + 1}/{sections.length}
+                </span>
+              ) : null}
+              <span className="tabular-nums">
+                {index + 1} / {total}
+              </span>
+            </div>
 
-        {/* Draft / review status is intentionally not shown here — Presentation
-            Mode is projected to the room. Draft slides are surfaced only in
-            Facilitator Mode. */}
+            {/* Draft / review status is intentionally not shown here — Presentation
+                Mode is projected to the room. Draft slides are surfaced only in
+                Facilitator Mode. */}
 
-        {/* Progress bar */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-1 bg-white/10"
-          role="progressbar"
-          aria-valuemin={1}
-          aria-valuemax={total}
-          aria-valuenow={index + 1}
-          aria-label={`Slide ${index + 1} of ${total}`}
-        >
-          <div
-            className="h-full bg-[#0d7d7d] transition-[width] duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+            {/* Progress bar */}
+            <div
+              className="deck-progress absolute inset-x-0 bottom-0 h-1"
+              role="progressbar"
+              aria-valuemin={1}
+              aria-valuemax={total}
+              aria-valuenow={index + 1}
+              aria-label={`Slide ${index + 1} of ${total}`}
+            >
+              <div
+                className="deck-progress-value h-full transition-[width] duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </>
+        ) : null}
       </section>
 
       {/* Live region for screen readers */}
@@ -248,7 +292,7 @@ export function Deck({
       </p>
 
       {/* Controls */}
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/15 bg-black/40 px-2 py-1.5 backdrop-blur">
+      <div className="deck-controls absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/15 bg-black/40 px-2 py-1.5 backdrop-blur">
         <DeckButton
           label="Previous slide"
           onClick={() => go(index - 1)}
@@ -311,7 +355,7 @@ export function Deck({
       {/* Exit to workbook */}
       <a
         href={`${base}/participate`}
-        className="absolute top-4 left-4 rounded-md border border-white/15 bg-black/40 px-2.5 py-1.5 text-xs text-white/70 backdrop-blur hover:text-white"
+        className="deck-exit absolute top-4 left-4 rounded-md border border-white/15 bg-black/40 px-2.5 py-1.5 text-xs text-white/70 backdrop-blur hover:text-white"
       >
         Leave presentation
       </a>

@@ -58,6 +58,10 @@ export default async function PresentPage({
   }
 
   const participantOverviewUrl = absoluteUrl(`${base}/participate`);
+  const deckTheme =
+    config.clientSlug === "aku" && config.slug === "digital-health-2026"
+      ? "frictionless-blueprint"
+      : undefined;
 
   return (
     <Deck
@@ -68,6 +72,7 @@ export default async function PresentPage({
       participantUrls={participantUrls}
       participantOverviewUrl={participantOverviewUrl}
       qrSvg={qrSvg(participantOverviewUrl)}
+      theme={deckTheme}
     />
   );
 }
