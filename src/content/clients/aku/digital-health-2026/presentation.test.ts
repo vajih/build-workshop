@@ -91,6 +91,16 @@ describe("presentation deck", () => {
     expect(slideIndexById("no-such-slide")).toBe(-1);
   });
 
+  it("carries the build-in-the-open thread from concept to close", () => {
+    const openSlide = slideIndexById("what-changed-open");
+    const lastSlide = SLIDES[SLIDE_COUNT - 1];
+    expect(openSlide).toBeGreaterThan(-1);
+    // the final slide invites a post about the workshop
+    expect(lastSlide.id).toBe("presentations-close-7");
+    expect(`${lastSlide.title} ${lastSlide.lead}`).toMatch(/#AKUBuildWorkshop/);
+    expect(`${lastSlide.title} ${lastSlide.lead}`.toLowerCase()).toMatch(/post/);
+  });
+
   it("keeps the pit-stop observation and discussion sequence presentation-ready", () => {
     const video = SLIDES.find((slide) => slide.id === "what-changed-pit-stops");
     const discussion = SLIDES.find(

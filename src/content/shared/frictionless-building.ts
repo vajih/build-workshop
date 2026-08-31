@@ -19,3 +19,16 @@ export const HUMAN_RESPONSIBILITY = {
     "You decide what ships.",
   ],
 };
+
+/**
+ * Working in public — the social half of the build cycle. Reusable.
+ */
+export const BUILD_IN_THE_OPEN = {
+  headline: "Build in the open.",
+  points: [
+    "Share the idea before it is polished — feedback finds you faster than you can go looking for it.",
+    "A rough prototype posted publicly starts a better conversation than a perfect one kept private.",
+    "The work compounds: every post is a marker someone can pick up, build on, or reach you from.",
+    "It builds a reputation for shipping — not for talking about shipping.",
+  ],
+};

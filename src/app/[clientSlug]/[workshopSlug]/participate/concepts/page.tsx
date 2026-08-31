@@ -11,6 +11,7 @@ import { RESPONSIBLE_AI_PRINCIPLES } from "@/content/shared/responsible-ai";
 import {
   FRICTIONLESS_BUILDING,
   HUMAN_RESPONSIBILITY,
+  BUILD_IN_THE_OPEN,
 } from "@/content/shared/frictionless-building";
 import { ECONOMIC_VALUE } from "@/content/shared/economic-value";
 
@@ -69,6 +70,14 @@ export default async function ConceptsPage({
           </p>
           <ul className="mt-2 list-disc space-y-1.5 pl-6 text-ink-muted">
             {HUMAN_RESPONSIBILITY.points.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+          </ul>
+          <p className="mt-4 font-medium text-ink">
+            {BUILD_IN_THE_OPEN.headline}
+          </p>
+          <ul className="mt-2 list-disc space-y-1.5 pl-6 text-ink-muted">
+            {BUILD_IN_THE_OPEN.points.map((p) => (
               <li key={p}>{p}</li>
             ))}
           </ul>

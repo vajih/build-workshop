@@ -18,6 +18,7 @@ import { ECONOMIC_VALUE } from "@/content/shared/economic-value";
 import {
   FRICTIONLESS_BUILDING,
   HUMAN_RESPONSIBILITY,
+  BUILD_IN_THE_OPEN,
 } from "@/content/shared/frictionless-building";
 import { akuDigitalHealth2026 as CONFIG } from "./workshop";
 import { FRICTIONLESS_CHAPTER_SLIDES } from "./frictionless-chapter";
@@ -381,6 +382,15 @@ export const PRESENTATION: Presentation = {
           body: FRICTIONLESS_BUILDING.points,
         },
         {
+          id: "what-changed-open",
+          type: "concept",
+          section: "what-changed",
+          kicker: "A working habit",
+          title: BUILD_IN_THE_OPEN.headline,
+          body: BUILD_IN_THE_OPEN.points,
+          note: "You will practise this today — the idea thread, then the build post.",
+        },
+        {
           id: "what-changed-4",
           type: "concept",
           section: "what-changed",
@@ -657,6 +667,7 @@ export const PRESENTATION: Presentation = {
             "Post it as a comment on the workshop's LinkedIn thread",
             "No prompting until it is posted",
           ],
+          note: "This is building in the open — share it before it is polished.",
           participantHref: "/participate/team-challenge#idea",
         },
         {
@@ -807,9 +818,9 @@ export const PRESENTATION: Presentation = {
           title: "Next steps",
           items: [
             { label: "Keep the repo", detail: "Your Build 1 project is yours." },
-            { label: "Post your build", detail: "Share it on LinkedIn and connect with Vajih Khan." },
+            { label: "Post about today", detail: "Your build, what surprised you, what's next — #AKUBuildWorkshop, tag Vajih Khan." },
             { label: "Use the resources page", detail: "Official docs for every tool." },
-            { label: "Repeat the cycle", detail: "Define, prompt, supervise, test, commit, publish." },
+            { label: "Repeat the cycle", detail: "Define, prompt, supervise, test, commit, publish — in the open." },
           ],
         },
         {
@@ -824,8 +835,9 @@ export const PRESENTATION: Presentation = {
           id: "presentations-close-7",
           type: "closing",
           section: "presentations-close",
-          title: "Thank you",
-          lead: "A platform for workshops where participants don't just learn — they build.",
+          kicker: "Build in the open",
+          title: "Thank you — now post about it",
+          lead: "Tell people what you built today and what you will try next. #AKUBuildWorkshop, tag Vajih Khan — see you in the comments.",
           note: `${RELATIONSHIP} · Designed and facilitated by ${CONFIG.creator.name}`,
         },
       ],
