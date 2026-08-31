@@ -50,18 +50,26 @@ export const AGENDA: AgendaBlock[] = [
   },
   {
     start: "1:30",
-    minutes: 5,
-    title: "Team Challenge briefing",
+    minutes: 10,
+    title: "Team Challenge — lock your idea",
     description:
-      "Form teams of four to six. Review the objective, the minimum viable prototype, and the scoring rubric.",
+      "Form teams of four to six. Each team writes a one-page Idea Card (user, problem, the one thing, payoff, boundary) and posts it to the shared board. No prompting yet.",
     href: "/participate/team-challenge",
   },
   {
-    start: "1:35",
-    minutes: 55,
+    start: "1:40",
+    minutes: 10,
+    title: "Idea gallery and sharpen",
+    description:
+      "The room reads every idea, each person leaves one note on another team's card, and every team gives a 20-second pitch. Teams then sharpen their idea against three questions and lock it. Doubles as the mid-session breather.",
+    href: "/participate/team-challenge",
+  },
+  {
+    start: "1:50",
+    minutes: 40,
     title: "Team build sprint",
     description:
-      "Teams design and build a minimum viable prototype for a real user and a real problem, using AI throughout — roughly 40 to 45 minutes of building plus team formation. Facilitator circulates.",
+      "About 40 minutes to build the locked idea with AI as the pair programmer. Facilitator circulates.",
     href: "/participate/team-challenge",
   },
   {

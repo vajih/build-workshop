@@ -1,14 +1,91 @@
 import type { RubricRow } from "@/content/types";
 
 export const CHALLENGE_OBJECTIVE =
-  "In your team, design and build a working minimum viable prototype of an application that solves a real problem for a real health worker, patient group, or researcher — using AI as your pair programmer throughout. You have roughly 30 to 45 minutes to build and five minutes to present.";
+  "In your team, turn a real problem into a working prototype — with AI as your pair programmer. First you lock a one-page idea and put it on the shared board. The room reads every idea together and gives each team one note. You sharpen yours, then you have about 40 minutes to build and five minutes to present.";
 
 export const TEAM_FORMATION: string[] = [
   "Form teams of four to six people. Mix roles — clinicians, epidemiologists, data people, and first-time builders together.",
   "Pick one person to drive the keyboard and share their screen. Everyone else supervises, tests, and writes the prompts.",
   "Choose a problem someone on the team has actually faced. Specific beats ambitious.",
-  "Agree on the one thing the prototype must do before you write a single prompt.",
 ];
+
+/* ----------------------------------------------------------------------------
+   Phase 1 — the Idea Card. Filled in the workbook (saved on the device that is
+   sharing the screen), then copied onto the team's slide on the shared board.
+---------------------------------------------------------------------------- */
+export const IDEA_CARD_FIELDS: {
+  id: string;
+  label: string;
+  hint: string;
+  placeholder: string;
+  /** render as a multi-line textarea */
+  long?: boolean;
+}[] = [
+  {
+    id: "user",
+    label: "The user",
+    hint: "One named role — not “clinicians”, not “everyone”.",
+    placeholder:
+      "A triage nurse on the night shift at a district hospital",
+  },
+  {
+    id: "problem",
+    label: "The problem",
+    hint: "What do they do today instead?",
+    placeholder:
+      "Counts febrile cases by hand at 6am and phones the number to the district office",
+    long: true,
+  },
+  {
+    id: "oneThing",
+    label: "The one thing it does",
+    hint: "End to end, in one sentence.",
+    placeholder:
+      "Enter today’s count and get a colour-coded signal with a suggested next step",
+  },
+  {
+    id: "payoff",
+    label: "The payoff",
+    hint: "Minutes, errors, travel, waiting, missed signals.",
+    placeholder:
+      "Saves ~15 minutes each morning and removes the transcription error",
+  },
+  {
+    id: "notThis",
+    label: "What it is NOT",
+    hint: "The boundary. Say it plainly.",
+    placeholder:
+      "Not a diagnosis, not a real surveillance feed — a decision aid on synthetic data",
+  },
+];
+
+export const IDEA_CARD_RULE =
+  "No prompting until your card is on the board. Deciding what to build is the hard part — do that first, together.";
+
+export const TEAM_BOARD_INTRO =
+  "Your facilitator opens a shared board with one slide per team at the start of this section. Fill your card below, copy it, and paste it onto your team’s slide. The card is also saved on this device — it becomes the skeleton of your five-minute presentation.";
+
+/* ----------------------------------------------------------------------------
+   Phase 2 — the idea gallery (doubles as the mid-session break).
+---------------------------------------------------------------------------- */
+export const GALLERY_STEPS: string[] = [
+  "Read every card on the board — take about four minutes.",
+  "Leave one note on one other team’s card: a question you would want answered, or one thing that is strong. A question, not “here is what I would build”.",
+  "Rapid round: each team gets twenty seconds to say their user and the one thing.",
+  "Listen for overlaps. If two teams are solving adjacent problems, say so — you might combine, or split cleanly.",
+];
+
+/* ----------------------------------------------------------------------------
+   Phase 3 — sharpen, then lock.
+---------------------------------------------------------------------------- */
+export const SHARPEN_QUESTIONS: string[] = [
+  "Is your user still the right person — and is it one person, not three?",
+  "Cut your scope in half. What is the single most important function, the one you would keep if you only had ten minutes?",
+  "Did another team’s idea reveal a gap, an overlap, or a simpler version of yours?",
+];
+
+export const SHARPEN_RULE =
+  "Update your card, then lock it. This version is what you build and what you present against.";
 
 export const MVP_REQUIREMENTS: string[] = [
   "It runs. You can demonstrate it live in the browser.",
@@ -19,13 +96,6 @@ export const MVP_REQUIREMENTS: string[] = [
   "It carries a visible line stating it is an educational prototype, not a clinical tool.",
 ];
 
-export const VALUE_PROMPTS: string[] = [
-  "Who is the user, in one sentence? Name the role, not “everyone”.",
-  "What problem does this solve, and what do they do today instead?",
-  "What does it save — minutes, errors, travel, waiting, missed signals?",
-  "If this existed on Monday, who would use it and how often?",
-];
-
 export const HEALTH_DATA_GUIDANCE: string[] = [
   "Use invented or aggregate data for the demonstration. No real patient information.",
   "Do not collect names, contact details, or identifiers unless the prototype genuinely needs them — and today it does not.",
@@ -33,6 +103,10 @@ export const HEALTH_DATA_GUIDANCE: string[] = [
   "Keep a human in the loop for every action that affects a person.",
 ];
 
+/**
+ * The five-minute presentation. The first two parts and the last one come
+ * straight off your locked Idea Card.
+ */
 export const PRESENTATION_STRUCTURE: { part: string; detail: string }[] = [
   { part: "The problem (45s)", detail: "Who has it, how often, what it costs them." },
   { part: "The user (30s)", detail: "One named role and their situation." },

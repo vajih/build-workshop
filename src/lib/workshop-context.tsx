@@ -15,6 +15,10 @@ import { workshopBase } from "./workshop";
 
 export type OS = "macos" | "windows";
 
+/** Team Challenge Idea Card — free text keyed by IDEA_CARD_FIELDS id. */
+export type IdeaCardValue = Record<string, string>;
+export const EMPTY_IDEA_CARD: IdeaCardValue = {};
+
 interface WorkshopState {
   config: WorkshopConfig;
   /** absolute app path prefix, e.g. "/aku/digital-health-2026" */
@@ -33,6 +37,10 @@ interface WorkshopState {
 
   liveUrl: string;
   setLiveUrl: (url: string) => void;
+
+  /** Team Challenge Idea Card — merged text fields, saved on this device */
+  ideaCard: IdeaCardValue;
+  setIdeaCard: (patch: IdeaCardValue) => void;
 
   /** last visited participant step (workshop-relative href) */
   lastStep: string;
@@ -66,6 +74,7 @@ export function WorkshopProvider({
   const [os, setOSState] = useState<OS>("macos");
   const [completed, setCompleted] = useState<Record<string, boolean>>({});
   const [liveUrl, setLiveUrlState] = useState("");
+  const [ideaCard, setIdeaCardState] = useState<IdeaCardValue>(EMPTY_IDEA_CARD);
   const [lastStep, setLastStepState] = useState("");
   const [presenterSlide, setPresenterSlideState] = useState("");
   const [dismissed, setDismissed] = useState<string[]>([]);
@@ -82,6 +91,9 @@ export function WorkshopProvider({
     setOSState(store.read<OS>(STORAGE_NAMES.os, "macos"));
     setCompleted(store.read<Record<string, boolean>>(STORAGE_NAMES.progress, {}));
     setLiveUrlState(store.read<string>(STORAGE_NAMES.liveUrl, ""));
+    setIdeaCardState(
+      store.read<IdeaCardValue>(STORAGE_NAMES.ideaCard, EMPTY_IDEA_CARD),
+    );
     setLastStepState(store.read<string>(STORAGE_NAMES.lastStep, ""));
     setPresenterSlideState(store.read<string>(STORAGE_NAMES.presenterSlide, ""));
     setDismissed(store.read<string[]>(STORAGE_NAMES.dismissed, []));
@@ -118,6 +130,17 @@ export function WorkshopProvider({
     [store],
   );
 
+  const setIdeaCard = useCallback(
+    (patch: IdeaCardValue) => {
+      setIdeaCardState((prev) => {
+        const next = { ...prev, ...patch };
+        store.write(STORAGE_NAMES.ideaCard, next);
+        return next;
+      });
+    },
+    [store],
+  );
+
   const setLastStep = useCallback(
     (href: string) => {
       setLastStepState(href);
@@ -149,6 +172,7 @@ export function WorkshopProvider({
   const resetAll = useCallback(() => {
     setCompleted({});
     setLiveUrlState("");
+    setIdeaCardState(EMPTY_IDEA_CARD);
     setLastStepState("");
     setPresenterSlideState("");
     setDismissed([]);
@@ -169,6 +193,8 @@ export function WorkshopProvider({
         ids.reduce((n, id) => n + (completed[id] ? 1 : 0), 0),
       liveUrl,
       setLiveUrl,
+      ideaCard,
+      setIdeaCard,
       lastStep,
       setLastStep,
       presenterSlide,
@@ -186,6 +212,8 @@ export function WorkshopProvider({
       toggleStep,
       liveUrl,
       setLiveUrl,
+      ideaCard,
+      setIdeaCard,
       lastStep,
       setLastStep,
       presenterSlide,

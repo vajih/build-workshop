@@ -9,6 +9,12 @@ import {
   DIAGNOSTICS,
 } from "@/content/clients/aku/digital-health-2026/before-workshop";
 import {
+  IDEA_CARD_FIELDS,
+  GALLERY_STEPS,
+  SHARPEN_QUESTIONS,
+  RUBRIC,
+} from "@/content/clients/aku/digital-health-2026/team-challenge";
+import {
   BUILD_1_STEPS,
   BUILD_2_STEPS,
   BUILD_ONE_TESTS,
@@ -238,6 +244,45 @@ export default async function BackupParticipantPage({
           Attribution required and must stay readable: {OSM_ATTRIBUTION}. If
           tiles are blocked, the calculator must still work.
         </p>
+      </section>
+
+      <section className="mt-6">
+        <h2 className="text-lg font-semibold text-ink">
+          Team Challenge — idea first
+        </h2>
+        <p className="mt-1 text-sm font-medium text-ink">
+          Idea Card (fill it, put it on the shared board — no prompting until it
+          is there)
+        </p>
+        <ul className="mt-1 list-disc space-y-0.5 pl-5 text-sm text-ink-muted">
+          {IDEA_CARD_FIELDS.map((f) => (
+            <li key={f.id}>
+              <span className="font-medium text-ink">{f.label}</span> — {f.hint}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-sm font-medium text-ink">
+          Idea gallery (~8 min)
+        </p>
+        <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-sm text-ink-muted">
+          {GALLERY_STEPS.map((s) => (
+            <li key={s}>{s}</li>
+          ))}
+        </ol>
+        <p className="mt-2 text-sm font-medium text-ink">
+          Sharpen, then lock (~3 min)
+        </p>
+        <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-sm text-ink-muted">
+          {SHARPEN_QUESTIONS.map((q) => (
+            <li key={q}>{q}</li>
+          ))}
+        </ol>
+        <p className="mt-2 text-sm font-medium text-ink">Scored 1–5 on</p>
+        <ul className="mt-1 list-disc space-y-0.5 pl-5 text-sm text-ink-muted">
+          {RUBRIC.map((r) => (
+            <li key={r.dimension}>{r.dimension}</li>
+          ))}
+        </ul>
       </section>
     </div>
   );

@@ -6,14 +6,19 @@ import { Breadcrumbs } from "@/components/chrome/Breadcrumbs";
 import { ParticipantStepNav } from "@/components/ParticipantStepNav";
 import { PromptBlock } from "@/components/PromptBlock";
 import { CompletionCheckbox } from "@/components/CompletionCheckbox";
+import { IdeaCard } from "@/components/IdeaCard";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { getBundle, type WorkshopRouteParams } from "@/lib/workshop-route";
 import { workshopBase, creatorLinkedIn } from "@/lib/workshop";
 import {
   CHALLENGE_OBJECTIVE,
   TEAM_FORMATION,
+  IDEA_CARD_RULE,
+  TEAM_BOARD_INTRO,
+  GALLERY_STEPS,
+  SHARPEN_QUESTIONS,
+  SHARPEN_RULE,
   MVP_REQUIREMENTS,
-  VALUE_PROMPTS,
   HEALTH_DATA_GUIDANCE,
   PRESENTATION_STRUCTURE,
   PRESENTATION_TIPS,
@@ -26,7 +31,7 @@ import {
 export const metadata: Metadata = {
   title: "Team Challenge",
   description:
-    "Build and present a minimum viable prototype for a real health worker or researcher in about 40 minutes, then present it in five minutes against a simple rubric.",
+    "Lock a one-page idea, review every team's idea together, sharpen yours, then build a working prototype in about 40 minutes and present it in five.",
 };
 
 function List({ items }: { items: string[] }) {
@@ -38,6 +43,13 @@ function List({ items }: { items: string[] }) {
     </ul>
   );
 }
+
+const PHASES = [
+  { href: "#idea", label: "1 · Lock your idea" },
+  { href: "#gallery", label: "2 · Idea gallery" },
+  { href: "#sharpen", label: "3 · Sharpen" },
+  { href: "#build", label: "4 · Build" },
+];
 
 export default async function TeamChallengePage({
   params,
@@ -59,10 +71,10 @@ export default async function TeamChallengePage({
       <PageIntro
         eyebrow="Applied challenge"
         title="Team Challenge"
-        subtitle="A 40-minute team build sprint: turn a real problem into a working prototype, with AI, then demo it live."
+        subtitle="Idea first, then build. Lock a one-page idea, review every team's idea together, sharpen yours, then build it live."
         aside={
           <div className="flex flex-col items-end gap-2">
-            <TimeAllocation minutes={45} label="Build" />
+            <TimeAllocation minutes={40} label="Build" />
             <TimeAllocation minutes={25} label="Presentations" />
           </div>
         }
@@ -70,44 +82,103 @@ export default async function TeamChallengePage({
         <p>{CHALLENGE_OBJECTIVE}</p>
       </PageIntro>
 
-      <div className="mt-8 space-y-8">
-        <section aria-labelledby="teams-heading">
-          <h2 id="teams-heading" className="text-xl font-semibold text-ink">
-            Form your team
+      <nav aria-label="Team Challenge phases" className="mt-6">
+        <ul className="flex flex-wrap gap-2">
+          {PHASES.map((p) => (
+            <li key={p.href}>
+              <a
+                href={p.href}
+                className="rounded-full border border-border-strong bg-surface px-3 py-1 text-sm text-ink-muted hover:border-primary hover:text-primary"
+              >
+                {p.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="mt-8 space-y-10">
+        {/* PHASE 1 — lock your idea */}
+        <section id="idea" aria-labelledby="idea-heading" className="scroll-mt-24">
+          <h2 id="idea-heading" className="text-xl font-semibold text-ink">
+            1 · Lock your idea
           </h2>
           <List items={TEAM_FORMATION} />
+          <p className="mt-4 text-ink-muted">{TEAM_BOARD_INTRO}</p>
+          <p className="mt-2 rounded-lg border border-investigate/40 bg-investigate-soft/40 px-3 py-2 text-sm font-medium text-ink">
+            {IDEA_CARD_RULE}
+          </p>
+          <IdeaCard />
         </section>
 
-        <section aria-labelledby="mvp-heading">
-          <h2 id="mvp-heading" className="text-xl font-semibold text-ink">
-            What the prototype must have
-          </h2>
-          <List items={MVP_REQUIREMENTS} />
-        </section>
-
-        <section aria-labelledby="value-heading">
-          <h2 id="value-heading" className="text-xl font-semibold text-ink">
-            Define the user and the value
+        {/* PHASE 2 — idea gallery */}
+        <section
+          id="gallery"
+          aria-labelledby="gallery-heading"
+          className="scroll-mt-24"
+        >
+          <h2 id="gallery-heading" className="text-xl font-semibold text-ink">
+            2 · Idea gallery — about 8 minutes
           </h2>
           <p className="mt-1 text-ink-muted">
-            Answer these before you write a prompt. Write the answers where the
-            team can see them.
+            Every idea goes up together. This is also your breather — stand up,
+            walk the board.
           </p>
-          <List items={VALUE_PROMPTS} />
+          <ol className="mt-3 list-decimal space-y-2 pl-6 text-ink-muted">
+            {GALLERY_STEPS.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ol>
         </section>
 
-        <SafetyNotice tone="strong" title="Responsible use of health data">
-          <ul>
-            {HEALTH_DATA_GUIDANCE.map((g) => (
-              <li key={g}>{g}</li>
-            ))}
-          </ul>
-        </SafetyNotice>
-
-        <section aria-labelledby="present-heading">
-          <h2 id="present-heading" className="text-xl font-semibold text-ink">
-            Presentation structure — five minutes
+        {/* PHASE 3 — sharpen */}
+        <section
+          id="sharpen"
+          aria-labelledby="sharpen-heading"
+          className="scroll-mt-24"
+        >
+          <h2 id="sharpen-heading" className="text-xl font-semibold text-ink">
+            3 · Sharpen — about 3 minutes
           </h2>
+          <p className="mt-1 text-ink-muted">
+            Based on what you heard, answer these, then update your Idea Card.
+          </p>
+          <ol className="mt-3 list-decimal space-y-2 pl-6 text-ink-muted">
+            {SHARPEN_QUESTIONS.map((q) => (
+              <li key={q}>{q}</li>
+            ))}
+          </ol>
+          <p className="mt-3 rounded-lg border border-primary/40 bg-primary-soft/50 px-3 py-2 text-sm font-medium text-ink">
+            {SHARPEN_RULE}
+          </p>
+        </section>
+
+        {/* PHASE 4 — build */}
+        <section id="build" aria-labelledby="build-heading" className="scroll-mt-24">
+          <h2 id="build-heading" className="text-xl font-semibold text-ink">
+            4 · Build — about 40 minutes
+          </h2>
+
+          <h3 className="mt-4 text-lg font-semibold text-ink">
+            What the prototype must have
+          </h3>
+          <List items={MVP_REQUIREMENTS} />
+
+          <SafetyNotice tone="strong" title="Responsible use of health data">
+            <ul>
+              {HEALTH_DATA_GUIDANCE.map((g) => (
+                <li key={g}>{g}</li>
+              ))}
+            </ul>
+          </SafetyNotice>
+
+          <h3 className="mt-6 text-lg font-semibold text-ink">
+            Presentation structure — five minutes
+          </h3>
+          <p className="mt-1 text-sm text-ink-muted">
+            The problem, the user, and the boundary come straight off your locked
+            Idea Card.
+          </p>
           <ol className="mt-3 space-y-2">
             {PRESENTATION_STRUCTURE.map((p) => (
               <li
@@ -122,12 +193,8 @@ export default async function TeamChallengePage({
             ))}
           </ol>
           <List items={PRESENTATION_TIPS} />
-        </section>
 
-        <section aria-labelledby="rubric-heading">
-          <h2 id="rubric-heading" className="text-xl font-semibold text-ink">
-            Scoring rubric
-          </h2>
+          <h3 className="mt-6 text-lg font-semibold text-ink">Scoring rubric</h3>
           <div className="mt-3 overflow-x-auto rounded-[var(--radius-card)] border border-border-strong">
             <table className="w-full border-collapse text-sm">
               <caption className="sr-only">
@@ -169,6 +236,7 @@ export default async function TeamChallengePage({
           <p className="mt-2 text-sm text-ink-subtle">{RUBRIC_NOTE}</p>
         </section>
 
+        {/* Share */}
         <section
           id="share"
           aria-labelledby="share-heading"

@@ -536,3 +536,53 @@ rounds._
 - **Tests** updated: `public-content` (Prompt 2/3 now on the Build 2 page),
   `build-one.test` (checklist split + a 5/3-step, ≤20-min assertion),
   `modules.test` (Build 2 is optional and follows Build 1).
+
+---
+
+# Team Challenge → idea-first: lock, gallery, sharpen, build
+
+_Added 2026-08-31. Section 6 was form-teams → build → present. Teams burned the
+first ~10 min of build time deciding what to make, and no idea was heard outside
+its team until the final demo. Now a four-phase flow makes *Define* social._
+
+## The flow (same 1:30–2:30 window)
+
+1. **Lock your idea** (~8 min) — teams fill a 5-field **Idea Card** (user /
+   problem / one thing / payoff / what it is NOT) and paste it onto their slide
+   on a **shared Google Slides board** the facilitator opens. No prompting until
+   it is on the board. (Hybrid approach: the workbook form is real and
+   localStorage-backed; the *shared* board is Google for now, an in-portal live
+   board is a documented fast-follow.)
+2. **Idea gallery** (~8 min, the active break) — read every card, leave **one
+   note** (a question or a strength) on one other team's card, 20-second pitch
+   per team, facilitator names overlaps. No dots / no ranking.
+3. **Sharpen** (~3 min) — three questions, update the card, lock it.
+4. **Build** (~40 min, was 55) → presentations unchanged.
+   Optional facilitator gut-check (2 min) between 1 and 2.
+
+## What changed
+
+- **`workshop-storage.ts` / `workshop-context.tsx`**: new `ideaCard`
+  (`Record<string,string>`) + `setIdeaCard(patch)` merge-and-persist, mirroring
+  `liveUrl`; in `RESETTABLE` so "Reset my workshop progress" clears it.
+- **New `IdeaCard.tsx`** (client) — autosaving field form, "Copy your card"
+  (paste-ready block), QR + link to `config.engagement.teamBoardUrl` when set,
+  a `tc-idea-on-board` checkpoint when all fields are filled.
+- **`types.ts` / `workshop.ts`**: `WorkshopEngagement.teamBoardUrl?` (unset;
+  facilitator pastes the Google board link before the session).
+- **`team-challenge.ts`**: `IDEA_CARD_FIELDS`, `IDEA_CARD_RULE`,
+  `TEAM_BOARD_INTRO`, `GALLERY_STEPS`, `SHARPEN_QUESTIONS`, `SHARPEN_RULE`;
+  `CHALLENGE_OBJECTIVE` rewritten; `VALUE_PROMPTS` removed (folded into field
+  hints).
+- **`presentation.ts`** team-challenge section: `team-challenge-2` → "Put your
+  idea on the board"; `team-challenge-3` → "Idea gallery"; new
+  `team-challenge-sharpen` and `team-challenge-clock`.
+- **`facilitator.ts`** `f-team-build`: 55 → 60 min, four-phase `timing`,
+  rewritten script, deep-dives (board setup, gut-check, running the gallery,
+  fast finishers).
+- **`agenda.ts`**: the two Section-6 blocks → three (10 + 10 + 40), total
+  still 180.
+- **`team-challenge/page.tsx`**: four anchored phases (`#idea` / `#gallery` /
+  `#sharpen` / `#build`) + phase chips; `backup/participant` gets a compact
+  Team Challenge section.
+- **New `team-challenge.test.ts`**; 248 tests pass.

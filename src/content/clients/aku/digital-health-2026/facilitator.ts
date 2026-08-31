@@ -126,21 +126,65 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
   },
   {
     id: "f-team-build",
-    title: "Team Challenge build",
-    minutes: 55,
+    title: "Team Challenge: idea, gallery, sharpen, build",
+    minutes: 60,
     objective:
-      "Each team has a running prototype of one useful thing for one named user.",
+      "Every team has a locked, board-visible idea the room understands, then a running prototype of that one thing.",
     says:
-      "Pick a problem someone on your team has actually had. Agree on the one thing it must do before you prompt. Keep a human in the loop and use invented data only.",
+      "Deciding what to build is the hard part, so we do that first and out loud. Lock a one-page idea, put it on the board, and we read every idea together before anyone prompts. Then you have about forty minutes to build.",
     studentsDo:
-      "Form teams, define the problem and user, build with AI, and prepare a five-minute presentation.",
+      "Fill the Idea Card and post it to the shared board, take part in the gallery (read every card, leave one note on another team's card, give a twenty-second pitch), sharpen against three questions and lock the card, then build for ~40 minutes and prepare a five-minute demo.",
     checkpoint:
-      "At the 30-minute mark every team can demo something, even if small.",
-    commonFailure: "A team scopes too big and has nothing running at minute 35.",
+      "All cards on the board by minute 10 · every team through the gallery round · a running demo by minute 35 of the build.",
+    commonFailure:
+      "A team cannot agree on an idea, or scopes too big and has nothing running near the end of the build.",
     recovery:
-      "Tell them to cut to the single most important function and get that working. A small thing that runs beats a big thing that does not.",
+      "Idea deadlock — you pick from their two front-runners, or hand them a spare from your prepared list. Scope — cut to the single most important function and get that working.",
     transition:
-      "Give a two-minute warning, then move to presentations. Hold the five-minute limit firmly.",
+      "Two-minute warning, then presentations. Hold the five-minute limit firmly.",
+    timing: [
+      { label: "Fill the Idea Card", range: "8 min" },
+      { label: "Facilitator gut-check", range: "2 min" },
+      { label: "Idea gallery", range: "8 min" },
+      { label: "Sharpen and lock", range: "2 min" },
+      { label: "Build", range: "40 min" },
+    ],
+    deepDive: [
+      {
+        heading: "Set up the shared board (before the session)",
+        body: [
+          "Create a Google Slides deck: a title slide, then one numbered slide per team with the five Idea Card headings as a layout (The user / The problem / The one thing / The payoff / What it is NOT).",
+          "Set sharing to “anyone with the link can edit”. Paste the link into workshop.ts (engagement.teamBoardUrl) so the participant page shows a QR, or open it live and read the short link aloud.",
+          "Fallback: if the venue blocks Google, print a grid — one A4 sheet per team with the five headings — and run the gallery on a wall.",
+        ],
+      },
+      {
+        heading: "The facilitator gut-check (2 minutes)",
+        body: [
+          "Scan the board the moment cards land. Flag out loud, per card:",
+          "Needs real patient data → reframe to synthetic or aggregate for today.",
+          "Far too big → name the single function they should keep.",
+          "Not actually a problem → ask “what does the user do today instead?”",
+          "Two near-identical cards → point it out before the gallery so they can combine or differentiate.",
+        ],
+      },
+      {
+        heading: "Running the Idea Gallery",
+        body: [
+          "About four minutes of silent reading, then a strict twenty-seconds-per-team round with a visible timer.",
+          "One note per person on one other team's card — a question they'd want answered or one genuine strength. Not “here's what I'd build”.",
+          "Name the overlaps yourself: “teams 2 and 5, you're adjacent — combine, or split cleanly.”",
+          "Keep it safe: “these notes are to help you aim, not a verdict. Every team builds.”",
+        ],
+      },
+      {
+        heading: "If a team finishes early",
+        body: [
+          "They extend their own prototype — a second function, better input validation, a mobile pass — or pair with a struggling team.",
+          "They do not start something new. The locked card is the deliverable.",
+        ],
+      },
+    ],
   },
   {
     id: "f-presentations",

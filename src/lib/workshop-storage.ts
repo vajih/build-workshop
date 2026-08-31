@@ -18,6 +18,7 @@ export const STORAGE_NAMES = {
   os: "os",
   progress: "participant-progress",
   liveUrl: "live-url",
+  ideaCard: "idea-card",
   lastStep: "last-step",
   dismissed: "dismissed",
   presenterSlide: "presenter-last-slide",
@@ -29,6 +30,7 @@ export type StorageName = (typeof STORAGE_NAMES)[keyof typeof STORAGE_NAMES];
 const RESETTABLE: StorageName[] = [
   STORAGE_NAMES.progress,
   STORAGE_NAMES.liveUrl,
+  STORAGE_NAMES.ideaCard,
   STORAGE_NAMES.lastStep,
   STORAGE_NAMES.dismissed,
   STORAGE_NAMES.presenterSlide,
