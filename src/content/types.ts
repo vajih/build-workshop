@@ -322,7 +322,8 @@ export interface Slide {
     | "discussion-build"
     | "break-timer"
     | "mobile-showcase"
-    | "khayal-architecture";
+    | "khayal-architecture"
+    | "share-post";
   /** 1-based source slide number for the embedded Frictionless chapter. */
   embedSlide?: number;
   title?: string;

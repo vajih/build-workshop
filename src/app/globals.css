@@ -2035,6 +2035,85 @@
     line-height: 1.25;
     text-align: center;
   }
+
+  /* ---- share-post: the closing slide with a "post it" illustration ---- */
+  .share-post-slide {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: clamp(1rem, 3.5vw, 3.5rem);
+  }
+  .share-post-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.6rem, 1.5vw, 1.25rem);
+  }
+  .share-post-copy .slide-lead {
+    max-width: 30ch;
+  }
+  .share-post-graphic {
+    min-width: 0;
+  }
+  .share-post-graphic svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .blueprint-post-card {
+    fill: var(--deck-paper);
+    stroke: var(--deck-blue);
+    stroke-width: 2;
+  }
+  .blueprint-post-avatar {
+    fill: var(--deck-accent);
+  }
+  .blueprint-post-glyph {
+    fill: var(--deck-paper);
+  }
+  .blueprint-post-bar {
+    fill: var(--deck-ink);
+    opacity: 0.82;
+  }
+  .blueprint-post-bar-faint {
+    fill: var(--deck-blue);
+    opacity: 0.38;
+  }
+  .blueprint-post-thumb {
+    fill: none;
+    stroke: var(--deck-blue);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 5;
+    opacity: 0.7;
+  }
+  .blueprint-post-play {
+    fill: var(--deck-blue);
+    opacity: 0.75;
+  }
+  .blueprint-post-icon {
+    fill: none;
+    stroke: var(--deck-blue);
+    stroke-width: 2;
+  }
+  .blueprint-post-icon-accent {
+    fill: var(--deck-accent);
+    stroke: var(--deck-accent);
+    stroke-width: 2;
+  }
+  .blueprint-post-hashtag {
+    font-family: var(--deck-display-font);
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    fill: var(--deck-accent);
+  }
+  .blueprint-post-reach {
+    fill: none;
+    stroke: var(--deck-blue);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 6;
+    opacity: 0.65;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

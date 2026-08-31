@@ -80,6 +80,10 @@ export function SlideRenderer({
     return <KhayalArchitectureSlide slide={slide} />;
   }
 
+  if (slide.layout === "share-post") {
+    return <SharePostSlide slide={slide} />;
+  }
+
   switch (slide.type) {
     case "title":
       return (
@@ -1263,6 +1267,143 @@ function BlueprintProduct({ slide }: { slide: Slide }) {
       {slide.question ? (
         <p className="blueprint-product-question">{slide.question}</p>
       ) : null}
+    </div>
+  );
+}
+
+function SharePostSlide({ slide }: { slide: Slide }) {
+  return (
+    <div className="blueprint-slide share-post-slide">
+      <div className="share-post-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        {slide.title ? <h2 className="slide-title">{slide.title}</h2> : null}
+        {slide.lead ? <p className="slide-lead">{slide.lead}</p> : null}
+        {slide.note ? <p className="slide-note mt-2">{slide.note}</p> : null}
+      </div>
+
+      <div className="share-post-graphic" aria-hidden="true">
+        <svg viewBox="0 0 640 560" role="presentation">
+          <defs>
+            <clipPath id="share-post-avatar-clip">
+              <circle cx="58" cy="98" r="23" />
+            </clipPath>
+          </defs>
+
+          {/* the work compounds — reach fans out behind the card */}
+          <path
+            className="blueprint-post-reach"
+            d="M360 300 C 410 250 430 190 448 138 M362 330 C 420 320 450 260 468 214 M366 372 C 430 400 480 420 500 434"
+          />
+          <g transform="translate(448 128)">
+            <circle className="blueprint-diagram-node" r="16" />
+            <text className="blueprint-diagram-node-text" y="4" textAnchor="middle">+1</text>
+          </g>
+          <g transform="translate(486 214)">
+            <circle className="blueprint-diagram-node" r="18" />
+            <text className="blueprint-diagram-node-text" y="5" textAnchor="middle">+1</text>
+          </g>
+          <g transform="translate(516 436)">
+            <circle className="blueprint-diagram-node blueprint-diagram-node-accent" r="21" />
+            <text
+              className="blueprint-diagram-node-text blueprint-diagram-node-text-light"
+              y="5"
+              textAnchor="middle"
+            >
+              NEXT
+            </text>
+          </g>
+
+          {/* the post card */}
+          <g transform="rotate(-1.4 190 220)">
+            <rect
+              className="blueprint-post-card"
+              x="16"
+              y="48"
+              width="352"
+              height="332"
+              rx="16"
+            />
+
+            {/* author */}
+            <circle className="blueprint-post-avatar" cx="58" cy="98" r="23" />
+            <g clipPath="url(#share-post-avatar-clip)">
+              <circle className="blueprint-post-glyph" cx="58" cy="90" r="8.5" />
+              <ellipse className="blueprint-post-glyph" cx="58" cy="120" rx="16" ry="13" />
+            </g>
+            <rect className="blueprint-post-bar" x="94" y="84" width="146" height="12" rx="6" />
+            <rect className="blueprint-post-bar-faint" x="94" y="105" width="100" height="9" rx="4.5" />
+
+            {/* post text */}
+            <rect className="blueprint-post-bar-faint" x="40" y="146" width="288" height="8" rx="4" />
+            <rect className="blueprint-post-bar-faint" x="40" y="166" width="308" height="8" rx="4" />
+            <rect className="blueprint-post-bar-faint" x="40" y="186" width="196" height="8" rx="4" />
+            <text className="blueprint-post-hashtag" x="40" y="220">
+              #AKUBuildWorkshop
+            </text>
+
+            {/* the demo screenshot */}
+            <rect
+              className="blueprint-post-thumb"
+              x="40"
+              y="238"
+              width="308"
+              height="96"
+              rx="8"
+            />
+            <path className="blueprint-post-play" d="M180 268 l22 15 -22 15 z" />
+
+            {/* engagement bar */}
+            <line
+              x1="40"
+              y1="352"
+              x2="348"
+              y2="352"
+              stroke="var(--deck-blue)"
+              strokeOpacity="0.3"
+            />
+            <path
+              className="blueprint-post-icon"
+              d="M58 378 c-7 -5 -13 -9 -13 -16 a6 6 0 0 1 13 -3 a6 6 0 0 1 13 3 c0 7 -6 11 -13 16 z"
+            />
+            <rect className="blueprint-post-bar-faint" x="78" y="366" width="24" height="7" rx="3.5" />
+
+            <path
+              className="blueprint-post-icon-accent"
+              d="M138 358 h32 a8 8 0 0 1 8 8 v10 a8 8 0 0 1 -8 8 h-20 l-10 9 v-9 h-2 a8 8 0 0 1 -8 -8 v-10 a8 8 0 0 1 8 -8 z"
+              fill="none"
+            />
+            <rect
+              className="blueprint-post-icon-accent"
+              x="190"
+              y="366"
+              width="28"
+              height="7"
+              rx="3.5"
+              stroke="none"
+            />
+
+            <path
+              className="blueprint-post-icon"
+              d="M250 364 h20 v-6 l10 10 -10 10 v-6 h-20 z M280 380 h-20 v6 l-10 -10 10 -10 v6 h20 z"
+              fill="none"
+            />
+            <rect className="blueprint-post-bar-faint" x="296" y="366" width="20" height="7" rx="3.5" />
+          </g>
+
+          <path
+            className="blueprint-dimension"
+            d="M24 512 h584 M24 503 v18 M608 503 v18"
+          />
+          <text
+            className="blueprint-dimension-text"
+            x="316"
+            y="503"
+            textAnchor="middle"
+          >
+            THE WORK COMPOUNDS — SEE YOU IN THE COMMENTS
+          </text>
+        </svg>
+      </div>
     </div>
   );
 }

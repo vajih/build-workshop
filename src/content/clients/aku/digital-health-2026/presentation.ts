@@ -835,6 +835,7 @@ export const PRESENTATION: Presentation = {
           id: "presentations-close-7",
           type: "closing",
           section: "presentations-close",
+          layout: "share-post",
           kicker: "Build in the open",
           title: "Thank you — now post about it",
           lead: "Tell people what you built today and what you will try next. #AKUBuildWorkshop, tag Vajih Khan — see you in the comments.",
