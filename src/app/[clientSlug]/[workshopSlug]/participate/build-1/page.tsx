@@ -11,6 +11,7 @@ import { CompletionCheckbox } from "@/components/CompletionCheckbox";
 import { ProgressIndicator } from "@/components/ProgressIndicator";
 import { OSSelector } from "@/components/OSSelector";
 import { OpenTerminalText } from "@/components/OpenTerminalText";
+import { OutbreakSignalSketch } from "@/components/OutbreakSignalSketch";
 import { Troubleshooting } from "@/components/Troubleshooting";
 import { SafetyNotice } from "@/components/SafetyNotice";
 import { Notice } from "@/components/Notice";
@@ -295,6 +296,10 @@ export default async function BuildOnePage({
               neutral marker on Karachi East, and a green / amber / red legend.
               Copilot stops before any deployment.
             </p>
+            <OutbreakSignalSketch
+              syntheticLabel={SYNTHETIC_DATA_LABEL}
+              disclaimer={DISCLAIMER}
+            />
           </ExpectedResult>
           <StepDone id={step(3).id} n={3} />
         </StepCard>
