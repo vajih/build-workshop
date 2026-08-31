@@ -9,7 +9,8 @@ import {
   DIAGNOSTICS,
 } from "@/content/clients/aku/digital-health-2026/before-workshop";
 import {
-  BUILD_STEPS,
+  BUILD_1_STEPS,
+  BUILD_2_STEPS,
   BUILD_ONE_TESTS,
   MAP_TESTS,
   DEMO_LOCATIONS,
@@ -91,9 +92,25 @@ export default async function BackupParticipantPage({
       </section>
 
       <section className="mt-6">
-        <h2 className="text-lg font-semibold text-ink">Build 1 — 13 steps</h2>
+        <h2 className="text-lg font-semibold text-ink">
+          Build 1 — {BUILD_1_STEPS.length} steps (about 20 minutes)
+        </h2>
         <ol className="mt-1 list-decimal space-y-1 pl-5 text-sm text-ink-muted">
-          {BUILD_STEPS.map((s) => (
+          {BUILD_1_STEPS.map((s) => (
+            <li key={s.id}>
+              <span className="font-medium text-ink">{s.title}.</span>{" "}
+              {s.summary}
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="mt-6">
+        <h2 className="text-lg font-semibold text-ink">
+          Build 2 (optional) — {BUILD_2_STEPS.length} steps
+        </h2>
+        <ol className="mt-1 list-decimal space-y-1 pl-5 text-sm text-ink-muted">
+          {BUILD_2_STEPS.map((s) => (
             <li key={s.id}>
               <span className="font-medium text-ink">{s.title}.</span>{" "}
               {s.summary}

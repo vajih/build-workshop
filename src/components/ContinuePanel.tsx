@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, PlayCircle, RotateCcw } from "lucide-react";
 import { useWorkshop } from "@/lib/workshop-context";
-import { BUILD_STEPS } from "@/content/clients/aku/digital-health-2026/build-one";
+import { BUILD_1_STEPS } from "@/content/clients/aku/digital-health-2026/build-one";
 
 /**
  * "Continue where I left off" / "Go to the current section" for Participant Mode.
@@ -12,10 +12,10 @@ import { BUILD_STEPS } from "@/content/clients/aku/digital-health-2026/build-one
 export function ContinuePanel() {
   const { ready, base, lastStep, isComplete, completedCount } = useWorkshop();
 
-  const stepCompleteIds = BUILD_STEPS.map((s) => `${s.id}-complete`);
+  const stepCompleteIds = BUILD_1_STEPS.map((s) => `${s.id}-complete`);
   const done = ready ? completedCount(stepCompleteIds) : 0;
   const firstIncomplete = ready
-    ? BUILD_STEPS.find((s) => !isComplete(`${s.id}-complete`))
+    ? BUILD_1_STEPS.find((s) => !isComplete(`${s.id}-complete`))
     : undefined;
 
   const resumeHref =

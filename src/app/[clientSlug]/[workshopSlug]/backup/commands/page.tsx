@@ -61,7 +61,7 @@ export default async function BackupCommandsPage({
       {ALL_COMMAND_BLOCKS.map((entry) => (
         <section key={entry.label} className="mt-6">
           <h2 className="text-lg font-semibold text-ink">
-            Step {entry.step} — {entry.label}
+            {entry.group} — {entry.label}
           </h2>
           <Block macos={entry.block.macos} windows={entry.block.windows} />
         </section>

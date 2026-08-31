@@ -1,5 +1,5 @@
 import type { WorkshopModule } from "@/content/types";
-import { BUILD_STEP_IDS } from "./build-one";
+import { BUILD_1_STEP_IDS, BUILD_2_STEP_IDS } from "./build-one";
 
 /**
  * Cross-link table: each module ties together its Presentation section, its
@@ -25,14 +25,27 @@ export const MODULES: WorkshopModule[] = [
     id: "build-1",
     title: "Build 1: AKU Outbreak Signal",
     summary:
-      "From an empty folder to a tested, committed, deployed prototype with an interactive Karachi map. Synthetic classroom data.",
+      "Quick immersion: an empty folder to a tested, committed, live prototype with an interactive Karachi map in about 20 minutes. Synthetic classroom data.",
     kind: "build",
-    minutes: 55,
+    minutes: 20,
     participantHref: "/participate/build-1",
     conceptHref: "/participate/build-1#what-you-built",
     presentationSectionId: "welcome",
     facilitatorId: "f-build1",
-    checkpointIds: BUILD_STEP_IDS.map((id) => `${id}-complete`),
+    checkpointIds: BUILD_1_STEP_IDS.map((id) => `${id}-complete`),
+  },
+  {
+    id: "build-2",
+    title: "Build 2: Extend your app",
+    summary:
+      "Optional. Two self-contained features layered onto the live Build 1 app — a geospatial history and explainable signals. For fast finishers and as homework.",
+    kind: "build",
+    optional: true,
+    minutes: 20,
+    participantHref: "/participate/build-2",
+    presentationSectionId: "welcome",
+    facilitatorId: "f-build1",
+    checkpointIds: BUILD_2_STEP_IDS.map((id) => `${id}-complete`),
   },
   {
     id: "what-changed",

@@ -234,6 +234,8 @@ export interface WorkshopModule {
   summary: string;
   kind: "welcome" | "build" | "concept" | "demo" | "challenge" | "resource";
   minutes?: number;
+  /** optional module — a stretch / fast-finisher track, not part of the core path */
+  optional?: boolean;
   /** relative href (within the workshop base) into Participant Mode */
   participantHref?: string;
   /** condensed concept summary href, if any */

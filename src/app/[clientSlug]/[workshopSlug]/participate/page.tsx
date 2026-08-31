@@ -67,13 +67,21 @@ export default async function ParticipantOverviewPage({
                 className="flex items-start justify-between gap-3 p-4 hover:bg-surface-muted/60"
               >
                 <span className="min-w-0">
-                  <span className="font-medium text-primary">{m.title}</span>
+                  <span className="font-medium text-primary">
+                    {m.title}
+                    {m.optional ? (
+                      <span className="ml-2 rounded-full bg-surface-muted px-2 py-0.5 align-middle text-xs font-medium text-ink-muted">
+                        Optional
+                      </span>
+                    ) : null}
+                  </span>
                   <span className="mt-0.5 block text-sm text-ink-muted">
                     {m.summary}
                   </span>
                 </span>
                 {m.minutes ? (
                   <span className="shrink-0 text-xs text-ink-subtle">
+                    {m.optional ? "+" : ""}
                     {m.minutes} min
                   </span>
                 ) : null}

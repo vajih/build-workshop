@@ -1,7 +1,7 @@
 import type { FacilitatorSegment } from "@/content/types";
 
 export const BUILD1_DEBRIEF =
-  "Minutes ago, you had an empty folder. You now have a working application with an interactive map, a local development environment, version history, a live global URL, multiple geospatial signals saved in the browser, and explainable results — built on synthetic classroom data.";
+  "Minutes ago, you had an empty folder. You now have a working application with an interactive map, a local development environment, version history, and a live global URL — built on synthetic classroom data, and not one line typed by hand.";
 
 export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
   {
@@ -23,29 +23,38 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
   {
     id: "f-build1",
     title: "Build 1: AKU Outbreak Signal",
-    minutes: 60,
+    minutes: 30,
     objective:
-      "Every student has a working, committed, deployed app — a calculator and an interactive Karachi map — and has run the grouped test cases themselves.",
+      "Every student has a working, committed, deployed app — a calculator and an interactive Karachi map — and a live URL, in about 20 minutes. The feature rounds are Build 2 (optional).",
     says:
-      "We have moved from a number to a place. That changes how people understand a signal — but geography adds context, not certainty. Work step by step. Read the expected result before you run the command. If what you see does not match, stop and use the troubleshooting section — do not push forward on a broken step.",
+      "This is quick immersion. In about twenty minutes you go from an empty folder to a live, public app. Work step by step. Read the expected result before you run the command. If what you see does not match, stop and use the troubleshooting section — do not push forward on a broken step.",
     studentsDo:
-      "Follow Steps 1 to 13: create the project, run Prompt 1 (calculator + map), work the Calculation / Map / Safety / Mobile test groups, commit, log in to Vercel, deploy, add the geospatial history and the explainable markers, redeploy, and finish the completion checklist.",
+      "Follow the 5 steps: set up the project, open Copilot Agent mode, run Prompt 1 (calculator + map), work the Calculation / Map / Safety / Mobile checks, then commit, log in to Vercel, and deploy to a live URL.",
     checkpoint:
-      "Steps 7 (Calculation and Map groups pass), 10 (live URL with a visible map and attribution), and 13 (grouped completion checklist) are the checkpoints to watch.",
+      "Step 4 (Calculation and Map checks pass) and Step 5 (a live URL with a visible map and attribution). Anyone finished before the room should be pointed at Build 2, not left waiting.",
     commonFailure:
       "The WATCH boundary is implemented as ratio > 1.5 instead of ratio >= 1.5 (30 / 20 shows STABLE), or the map container has zero height and renders blank.",
     recovery:
-      "Calculation: paste the Step 7 calculation repair prompt with the exact inputs and actual result. Map: paste the Step 7 map repair prompt with the matching symptom — the calculator must keep working while the map is fixed.",
+      "Calculation: paste the Step 4 calculation repair prompt with the exact inputs and actual result. Map: paste the Step 4 map repair prompt with the matching symptom — the calculator must keep working while the map is fixed.",
     transition:
-      "Once most of the room has a live URL with a working map, pause the hands-on work and gather attention for the concepts discussion.",
+      "Once most of the room has a live URL, pause the hands-on work and gather attention for the concepts discussion. Fast finishers keep going on Build 2 while you talk; everyone else has Build 2 as homework.",
     timing: [
-      { label: "Project setup", range: "2–3 min" },
+      { label: "Project setup + Copilot", range: "3–5 min" },
       { label: "Copilot generation (calculator + map)", range: "4–6 min" },
-      { label: "Local testing (grouped)", range: "3–4 min" },
-      { label: "First Vercel deployment", range: "2–4 min" },
+      { label: "Local testing", range: "3–4 min" },
+      { label: "Commit + first Vercel deployment", range: "4–6 min" },
       { label: "Brief debrief", range: "2 min" },
     ],
     deepDive: [
+      {
+        heading: "Managing fast finishers — Build 2",
+        body: [
+          "Build 1 is deliberately short. Some students will have a live URL in 12–15 minutes while others are still deploying.",
+          "Send anyone who finishes to Build 2 (/participate/build-2): two optional, independent extensions — a geospatial history, then explainable signals — each ending in a commit and redeploy.",
+          "Say clearly that Build 2 is a bonus, not a requirement. Build 1 was the deliverable. Everyone gets Build 2 as homework regardless.",
+          "This keeps the room busy without holding the slow finishers to a longer clock, and it means you can move to the concepts discussion as soon as most people are live.",
+        ],
+      },
       {
         heading: "Why the map creates an immediate visual payoff",
         body: [
@@ -86,7 +95,7 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
   {
     id: "f-concepts",
     title: "Concepts: AI as a pair programmer",
-    minutes: 15,
+    minutes: 20,
     objective:
       "Students can name the build cycle and say where human judgement stays in charge.",
     says:
@@ -118,7 +127,7 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
   {
     id: "f-team-build",
     title: "Team Challenge build",
-    minutes: 45,
+    minutes: 55,
     objective:
       "Each team has a running prototype of one useful thing for one named user.",
     says:

@@ -83,6 +83,7 @@ export const akuDigitalHealth2026: WorkshopConfig = {
   moduleOrder: [
     "welcome",
     "build-1",
+    "build-2",
     "what-changed",
     "ai-and-building",
     "responsible-ai",

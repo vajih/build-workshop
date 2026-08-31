@@ -189,16 +189,24 @@ describe("participant & backup pages carry the authoritative prompts", () => {
     ),
     "utf8",
   );
+  const buildTwoPage = readFileSync(
+    join(
+      ROOT,
+      "src/app/[clientSlug]/[workshopSlug]/participate/build-2/page.tsx",
+    ),
+    "utf8",
+  );
   const backupPrompts = readFileSync(
     join(ROOT, "src/app/[clientSlug]/[workshopSlug]/backup/prompts/page.tsx"),
     "utf8",
   );
 
-  it("the participant Build 1 page renders PROMPT_1 / PROMPT_2 / PROMPT_3", () => {
-    for (const p of ["PROMPT_1", "PROMPT_2", "PROMPT_3"]) {
-      expect(buildOnePage).toContain(p);
-    }
+  it("Build 1 renders PROMPT_1; Build 2 renders PROMPT_2 and PROMPT_3", () => {
+    expect(buildOnePage).toContain("PROMPT_1");
     expect(buildOnePage).toMatch(/<PromptBlock[\s\S]*?text=\{PROMPT_1\}/);
+    for (const p of ["PROMPT_2", "PROMPT_3"]) {
+      expect(buildTwoPage).toContain(p);
+    }
   });
 
   it("the backup prompts page renders every authoritative prompt", () => {

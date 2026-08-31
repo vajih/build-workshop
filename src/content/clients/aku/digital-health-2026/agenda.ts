@@ -19,21 +19,21 @@ export const AGENDA: AgendaBlock[] = [
   },
   {
     start: "0:10",
-    minutes: 60,
+    minutes: 30,
     title: "Build 1: AKU Outbreak Signal",
     description:
-      "Immediate hands-on build. Go from an empty folder to a tested, committed, live prototype — a calculator and an interactive Karachi map — using AI as your pair programmer. Synthetic classroom data.",
+      "Quick immersion — about 20 minutes hands-on: an empty folder to a tested, committed, live prototype (a calculator and an interactive Karachi map) using AI as your pair programmer. Synthetic classroom data. Finished early? Start Build 2.",
     href: "/participate/build-1",
   },
   {
-    start: "1:10",
-    minutes: 15,
+    start: "0:40",
+    minutes: 20,
     title: "Concepts: AI as a pair programmer",
     description:
-      "Short discussion. Define, prompt, supervise, test, commit, publish, improve. Where AI helps, where human judgement stays in charge.",
+      "Short discussion. Define, prompt, supervise, test, commit, publish, improve. Where AI helps, where human judgement stays in charge. Fast finishers continue with Build 2.",
   },
   {
-    start: "1:25",
+    start: "1:00",
     minutes: 15,
     title: "Outbreak-AI demonstration",
     description:
@@ -41,14 +41,15 @@ export const AGENDA: AgendaBlock[] = [
     href: "/participate/outbreak-ai",
   },
   {
-    start: "1:40",
-    minutes: 5,
-    title: "Additional applied examples",
+    start: "1:15",
+    minutes: 15,
+    title: "Applied examples and open build time",
     description:
-      "One short walkthrough of another health-workflow prototype to widen the sense of what a three-hour build can produce.",
+      "A short walkthrough of another health-workflow prototype, plus time to finish Build 1 or work through the optional Build 2 extensions.",
+    href: "/participate/build-2",
   },
   {
-    start: "1:45",
+    start: "1:30",
     minutes: 5,
     title: "Team Challenge briefing",
     description:
@@ -56,11 +57,11 @@ export const AGENDA: AgendaBlock[] = [
     href: "/participate/team-challenge",
   },
   {
-    start: "1:50",
-    minutes: 40,
+    start: "1:35",
+    minutes: 55,
     title: "Team build sprint",
     description:
-      "A 40-minute team build sprint. Teams design and build a minimum viable prototype for a real user and a real problem, using AI throughout. Facilitator circulates.",
+      "Teams design and build a minimum viable prototype for a real user and a real problem, using AI throughout — roughly 40 to 45 minutes of building plus team formation. Facilitator circulates.",
     href: "/participate/team-challenge",
   },
   {

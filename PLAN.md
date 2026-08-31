@@ -491,3 +491,48 @@ Presenter checklist + backup instructions gained a map / synthetic-data line.
   bulk-download tiles.
 - Slide `welcome-7` (first-build clock) stays `draft: true` — venue network
   moves these numbers.
+
+---
+
+# Build 1 shortened to a ~20-minute core + optional Build 2
+
+_Added 2026-08-31. Build 1's job is "look how fast" — it was ~60 min over 13
+steps. It is now a **5-step, ~20-minute core** that everyone completes (empty
+folder → Prompt 1 with the calculator **and** the Karachi map → test → commit →
+deploy → live URL) and a new **optional `Build 2`** route for the feature
+rounds._
+
+## What changed
+
+- **`build-one.ts`**: `BUILD_STEPS` → `BUILD_1_STEPS` (5) + `BUILD_2_STEPS` (3).
+  `COMPLETION_CHECKLIST` → `BUILD_1_CHECKLIST` (compact "you're live") +
+  `BUILD_2_CHECKLIST` (full journey). New `BUILD_TWO_TITLE/SUBTITLE/INTRO`.
+  `ALL_COMMAND_BLOCKS` keyed by `group` ("Build 1" / "Build 2 (optional)")
+  instead of stale step numbers. Every prompt/command/test export is kept.
+- **New route** `participate/build-2/page.tsx` — two independent extensions
+  (Prompt 2 geospatial history, Prompt 3 explainable signals), each ending in a
+  commit + redeploy. Renders `PROMPT_2` / `PROMPT_3` (they left the Build 1
+  page). Framed "optional · fast-finisher track · good homework".
+- **`build-1/page.tsx`** rebuilt to the 5 steps; setup steps 1–4 merged into
+  one, deploy steps 8–10 merged into "Commit and go live". Ends with a compact
+  "Your app is live" panel (`#what-you-built` anchor kept) linking to Build 2.
+- **`participant-nav.ts`**: "Build 2" after "Build 1".
+- **`modules.ts`** + **`types.ts`**: `build-1` now `minutes: 20`; new
+  `build-2` module with `optional: true` (new `WorkshopModule` field, rendered
+  as an "Optional" chip on the participant overview); `moduleOrder` in
+  `workshop.ts` gains `build-2`.
+- **`agenda.ts`** (still 180, ends 3:00): Build 1 block 60 → 30; Concepts
+  15 → 20; "Additional applied examples" 5 → 15 ("Applied examples and open
+  build time", links Build 2); Team build sprint 40 → 55.
+- **`facilitator.ts`**: `f-build1` 60 → 30 min, rewritten for the 5-step core +
+  a new "Managing fast finishers — Build 2" deep-dive; `BUILD1_DEBRIEF` drops
+  the explainability claim; `f-team-build` 45 → 55; `f-concepts` 15 → 20.
+  Build 2 has no separate segment — it reuses `f-build1` and overlaps concepts.
+- **`presentation.ts`** (welcome section): `welcome-6` body retimed; `welcome-9`
+  clock retimed (stays `draft: true`); new `welcome-11b-build-2` slide
+  ("Finished early? Keep building"); `welcome-12` retitled.
+- **Backup**: `backup/participant` lists Build 1 (5) + Build 2 (3);
+  `backup/commands` groups by build.
+- **Tests** updated: `public-content` (Prompt 2/3 now on the Build 2 page),
+  `build-one.test` (checklist split + a 5/3-step, ≤20-min assertion),
+  `modules.test` (Build 2 is optional and follows Build 1).

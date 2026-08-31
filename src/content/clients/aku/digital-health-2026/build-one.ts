@@ -7,7 +7,13 @@ import type {
 
 export const BUILD_ONE_TITLE = "Build 1: AKU Outbreak Signal";
 export const BUILD_ONE_SUBTITLE =
-  "Go from an empty folder to a live prototype with an interactive Karachi map.";
+  "Five steps, about 20 minutes: from an empty folder to a live prototype with an interactive Karachi map.";
+
+export const BUILD_TWO_TITLE = "Build 2: Extend your app (optional)";
+export const BUILD_TWO_SUBTITLE =
+  "Only if you have time. Two self-contained features that build directly on your live Build 1 app.";
+export const BUILD_TWO_INTRO =
+  "You already have a working, deployed app. Build 2 is optional — do it now if you finished Build 1 early, or after the workshop. The two extensions are independent: do either, both, or neither, in any order. Each one ends by committing and redeploying, so your live URL stays current.";
 
 /* ----------------------------------------------------------------------------
    Safety wording (authoritative — shown across the portal and required in the
@@ -61,107 +67,86 @@ ${DEMO_LOCATIONS.map(
 ).join("\n")}
 };`;
 
-export const BUILD_STEPS: BuildStep[] = [
+/**
+ * Build 1 — the ~20-minute core that everyone completes: an empty folder to a
+ * live, deployed app with an interactive Karachi map. The feature-addition
+ * rounds live in Build 2 (optional).
+ */
+export const BUILD_1_STEPS: BuildStep[] = [
   {
-    id: "b1-01-os",
+    id: "b1-01-setup",
     number: 1,
-    title: "Choose your operating system",
+    title: "Set up your project",
     summary:
-      "Pick macOS or Windows PowerShell. Every command on this page will match your choice.",
-    minutes: 1,
-  },
-  {
-    id: "b1-02-terminal",
-    number: 2,
-    title: "Open the terminal",
-    summary: "Open a command line so you can run the setup commands.",
-    minutes: 1,
-  },
-  {
-    id: "b1-03-readiness",
-    number: 3,
-    title: "Check your readiness",
-    summary: "Confirm Git, Node.js, npm, and VS Code are installed.",
+      "Pick your operating system, open a terminal, create the project folder in your home directory, and open it in VS Code.",
     minutes: 3,
   },
   {
-    id: "b1-04-project",
-    number: 4,
-    title: "Create the student project",
-    summary:
-      "Make the workshop folder in your home directory and open it in VS Code.",
-    minutes: 4,
-  },
-  {
-    id: "b1-05-copilot",
-    number: 5,
+    id: "b1-02-copilot",
+    number: 2,
     title: "Open Copilot Agent mode",
     summary: "Get GitHub Copilot Chat ready in Agent mode inside your project.",
-    minutes: 3,
+    minutes: 2,
   },
   {
-    id: "b1-06-prompt-1",
-    number: 6,
+    id: "b1-03-build",
+    number: 3,
     title: "Prompt 1 — build the app and the map",
     summary:
-      "Give Copilot the full specification for the AKU Outbreak Signal app, including the interactive Karachi map.",
-    minutes: 14,
+      "Give Copilot the full specification for the AKU Outbreak Signal app, including the interactive Karachi map. One paste.",
+    minutes: 6,
   },
   {
-    id: "b1-07-test",
-    number: 7,
-    title: "Test Build 1",
+    id: "b1-04-test",
+    number: 4,
+    title: "Test it in your browser",
     summary:
-      "Run the calculation, map, safety, and mobile test groups and confirm each result.",
-    minutes: 7,
-  },
-  {
-    id: "b1-08-commit-1",
-    number: 8,
-    title: "First Git checkpoint",
-    summary: "Save your working app as your first commit.",
+      "Run the calculation, map, safety, and mobile checks and confirm each result.",
     minutes: 3,
   },
   {
-    id: "b1-09-vercel-login",
-    number: 9,
-    title: "Vercel authentication",
-    summary: "Sign in to Vercel from the terminal.",
-    minutes: 3,
+    id: "b1-05-deploy",
+    number: 5,
+    title: "Commit and go live",
+    summary:
+      "Save your first commit, sign in to Vercel, and deploy — you leave with a live global URL.",
+    minutes: 6,
   },
+];
+
+/**
+ * Build 2 — optional. Two independent features layered onto the live Build 1
+ * app. For fast finishers during the workshop, and as homework for everyone.
+ */
+export const BUILD_2_STEPS: BuildStep[] = [
   {
-    id: "b1-10-deploy",
-    number: 10,
-    title: "First production deployment",
-    summary: "Deploy your app and get a live global URL.",
-    minutes: 5,
-  },
-  {
-    id: "b1-11-feature-1",
-    number: 11,
-    title: "Feature addition 1 — geospatial history",
+    id: "b2-01-history",
+    number: 1,
+    title: "Extension A — geospatial history",
     summary:
       "Prompt 2 turns Recent checks into multiple coloured map markers. One signal → many geospatial signals. Commit and redeploy.",
-    minutes: 6,
+    minutes: 8,
   },
   {
-    id: "b1-12-feature-2",
-    number: 12,
-    title: "Feature addition 2 — explainable markers",
+    id: "b2-02-explain",
+    number: 2,
+    title: "Extension B — explainable signals",
     summary:
       "Prompt 3 adds a plain-language explanation to the result and every marker popup, plus boundary tests. Commit and redeploy.",
-    minutes: 6,
+    minutes: 10,
   },
   {
-    id: "b1-13-complete",
-    number: 13,
-    title: "Completion",
-    summary: "Run the grouped final checklist and confirm everything works.",
+    id: "b2-03-complete",
+    number: 3,
+    title: "The full journey",
+    summary:
+      "Run the full completion checklist against your live site and confirm everything works.",
     minutes: 2,
   },
 ];
 
-export const BUILD_STEP_IDS = BUILD_STEPS.map((s) => s.id);
+export const BUILD_1_STEP_IDS = BUILD_1_STEPS.map((s) => s.id);
+export const BUILD_2_STEP_IDS = BUILD_2_STEPS.map((s) => s.id);
 
 /* ----------------------------------------------------------------------------
    Step 2 — open the terminal
@@ -655,17 +640,29 @@ npx vercel@latest --prod`,
    Backup / print — ordered collections of every command and prompt
 ---------------------------------------------------------------------------- */
 export const ALL_COMMAND_BLOCKS: {
-  step: number;
+  group: "Build 1" | "Build 2 (optional)";
   label: string;
   block: CommandBlockContent;
 }[] = [
-  { step: 3, label: "Readiness check", block: READINESS_BLOCK },
-  { step: 4, label: "Create the student project", block: CREATE_PROJECT_BLOCK },
-  { step: 8, label: "First Git checkpoint", block: COMMIT_1_BLOCK },
-  { step: 9, label: "Vercel authentication", block: VERCEL_LOGIN_BLOCK },
-  { step: 10, label: "First production deployment", block: DEPLOY_BLOCK },
-  { step: 11, label: "Feature 1 — commit and redeploy", block: COMMIT_2_BLOCK },
-  { step: 12, label: "Feature 2 — commit and redeploy", block: COMMIT_3_BLOCK },
+  { group: "Build 1", label: "Readiness check", block: READINESS_BLOCK },
+  {
+    group: "Build 1",
+    label: "Create the project",
+    block: CREATE_PROJECT_BLOCK,
+  },
+  { group: "Build 1", label: "First Git commit", block: COMMIT_1_BLOCK },
+  { group: "Build 1", label: "Vercel authentication", block: VERCEL_LOGIN_BLOCK },
+  { group: "Build 1", label: "Production deployment", block: DEPLOY_BLOCK },
+  {
+    group: "Build 2 (optional)",
+    label: "Extension A — commit and redeploy",
+    block: COMMIT_2_BLOCK,
+  },
+  {
+    group: "Build 2 (optional)",
+    label: "Extension B — commit and redeploy",
+    block: COMMIT_3_BLOCK,
+  },
 ];
 
 export const ALL_PROMPTS: { label: string; text: string }[] = [
@@ -676,7 +673,11 @@ export const ALL_PROMPTS: { label: string; text: string }[] = [
   { label: "Repair prompt — map", text: MAP_REPAIR_PROMPT },
 ];
 
-/** The visible product evolution across Build 1 — used on a presentation slide. */
+/**
+ * The visible product evolution across Build 1 and the optional Build 2 —
+ * used on a presentation slide. Items 1–2 are Build 1 (calculator + map),
+ * items 3–4 are the Build 2 extensions.
+ */
 export const PRODUCT_EVOLUTION: string[] = [
   "Calculator",
   "Geospatial signal",
@@ -687,19 +688,60 @@ export const PRODUCT_EVOLUTION: string[] = [
 /* ----------------------------------------------------------------------------
    Step 13 — completion checklist
 ---------------------------------------------------------------------------- */
-export const COMPLETION_CHECKLIST: { id: string; label: string }[] = [
-  { id: "b1-done-folder", label: "Correct project folder created in the home directory" },
-  { id: "b1-done-vscode", label: "VS Code opened to the 01-outbreak-signal project" },
-  { id: "b1-done-git", label: "Git repository initialized on main" },
-  { id: "b1-done-app", label: "Application built with all five files, including the Leaflet map" },
-  { id: "b1-done-map", label: "Map loads centred on Karachi with visible OpenStreetMap attribution" },
-  { id: "b1-done-tests", label: "Calculation, Map, Safety, and Mobile test groups passed" },
-  { id: "b1-done-fallback", label: "Calculator still works when the map tiles are blocked" },
-  { id: "b1-done-commits", label: "Three Git commits created" },
-  { id: "b1-done-recent", label: "Geospatial history shows multiple coloured markers and survives a refresh" },
-  { id: "b1-done-explain", label: "Explainability works for the result and every marker popup" },
-  { id: "b1-done-deploy", label: "Production deployment succeeded with a live URL" },
-  { id: "b1-done-final-tests", label: "Final tests passed on the live site" },
+/** Build 1 — the compact "you're live" checklist (the ~20-minute core). */
+export const BUILD_1_CHECKLIST: { id: string; label: string }[] = [
+  {
+    id: "b1-done-project",
+    label:
+      "Project folder created in the home directory and opened in VS Code on main",
+  },
+  {
+    id: "b1-done-app",
+    label: "Application built with all five files, including the Leaflet map",
+  },
+  {
+    id: "b1-done-map",
+    label:
+      "Map loads centred on Karachi with visible OpenStreetMap attribution",
+  },
+  {
+    id: "b1-done-tests",
+    label: "Calculation, Map, Safety, and Mobile checks passed",
+  },
+  {
+    id: "b1-done-fallback",
+    label: "Calculator still works when the map tiles are blocked",
+  },
+  { id: "b1-done-commit", label: "First Git commit created" },
+  {
+    id: "b1-done-deploy",
+    label: "Production deployment succeeded with a live URL",
+  },
+  {
+    id: "b1-done-live-tests",
+    label: "Test cases re-run and passing on the live site",
+  },
+];
+
+/** Build 2 — the full-journey checklist for anyone who did the optional extensions. */
+export const BUILD_2_CHECKLIST: { id: string; label: string }[] = [
+  {
+    id: "b2-done-recent",
+    label:
+      "Geospatial history shows multiple coloured markers and survives a refresh",
+  },
+  {
+    id: "b2-done-explain",
+    label: "Explainability works for the result and every marker popup",
+  },
+  {
+    id: "b2-done-commits",
+    label: "A commit and redeploy after each extension you completed",
+  },
+  {
+    id: "b2-done-boundaries",
+    label: "Boundary tests (1.4× / 1.5× / 2.0×) confirmed on the live site",
+  },
 ];
 
 /* ----------------------------------------------------------------------------

@@ -17,7 +17,10 @@ import {
   BOUNDARY_TESTS,
   MAP_TESTS,
   TEST_GROUPS,
-  COMPLETION_CHECKLIST,
+  BUILD_1_CHECKLIST,
+  BUILD_2_CHECKLIST,
+  BUILD_1_STEPS,
+  BUILD_2_STEPS,
   BUILD_ONE_TROUBLESHOOTING,
 } from "./build-one";
 import { classifySignal, isSignalError } from "@/lib/outbreak-signal";
@@ -270,11 +273,25 @@ describe("Build 1 test tables", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("completion checklist ids are unique and cover the map + fallback", () => {
-    const ids = COMPLETION_CHECKLIST.map((c) => c.id);
+  it("Build 1 checklist ids are unique and cover the map + fallback", () => {
+    const ids = BUILD_1_CHECKLIST.map((c) => c.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(ids).toContain("b1-done-map");
     expect(ids).toContain("b1-done-fallback");
+  });
+
+  it("Build 2 checklist covers the optional extensions with unique ids", () => {
+    const ids = BUILD_2_CHECKLIST.map((c) => c.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toContain("b2-done-recent");
+    expect(ids).toContain("b2-done-explain");
+  });
+
+  it("Build 1 is a short core and Build 2 holds the feature rounds", () => {
+    expect(BUILD_1_STEPS).toHaveLength(5);
+    expect(BUILD_2_STEPS).toHaveLength(3);
+    const b1 = BUILD_1_STEPS.reduce((n, s) => n + (s.minutes ?? 0), 0);
+    expect(b1).toBeLessThanOrEqual(20);
   });
 });
 

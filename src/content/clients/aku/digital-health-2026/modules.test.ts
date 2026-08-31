@@ -36,4 +36,13 @@ describe("module cross-links", () => {
     expect(moduleByFacilitatorId("f-build1")?.id).toBe("build-1");
     expect(moduleById("nope")).toBeUndefined();
   });
+
+  it("Build 2 is an optional module after Build 1", () => {
+    const b2 = moduleById("build-2");
+    expect(b2?.optional).toBe(true);
+    expect(b2?.participantHref).toBe("/participate/build-2");
+    expect(navHrefs.has("/participate/build-2")).toBe(true);
+    const ids = MODULES.map((m) => m.id);
+    expect(ids.indexOf("build-2")).toBe(ids.indexOf("build-1") + 1);
+  });
 });

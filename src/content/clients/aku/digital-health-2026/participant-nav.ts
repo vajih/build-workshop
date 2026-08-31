@@ -10,6 +10,7 @@ export const PARTICIPANT_NAV: NavItem[] = [
   { label: "Agenda", href: "/participate/agenda" },
   { label: "Concepts", href: "/participate/concepts" },
   { label: "Build 1", href: "/participate/build-1" },
+  { label: "Build 2", href: "/participate/build-2" },
   { label: "Outbreak-AI", href: "/participate/outbreak-ai" },
   { label: "Team Challenge", href: "/participate/team-challenge" },
   { label: "Resources", href: "/participate/resources" },
