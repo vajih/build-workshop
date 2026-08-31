@@ -7,8 +7,14 @@ interface CompletionCheckboxProps {
   /** Stable unique id stored in localStorage progress. */
   id: string;
   label: string;
-  /** Visual weight — "step" is larger, used at the end of a build step. */
-  variant?: "step" | "inline";
+  /**
+   * Visual weight:
+   *  - "step"   — large, used at the end of a build step
+   *  - "inline" — default pill with border and label text
+   *  - "marker" — just the box; the label is visually hidden (kept for a11y).
+   *    Use when the label text is already shown next to the checkbox.
+   */
+  variant?: "step" | "inline" | "marker";
 }
 
 export function CompletionCheckbox({
@@ -18,6 +24,38 @@ export function CompletionCheckbox({
 }: CompletionCheckboxProps) {
   const { ready, isComplete, toggleStep } = useWorkshop();
   const checked = ready && isComplete(id);
+
+  const box = (
+    <span
+      aria-hidden
+      className={`flex size-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
+        checked
+          ? "border-stable bg-stable text-white"
+          : "border-border-strong bg-surface group-hover:border-primary"
+      }`}
+    >
+      {checked ? <Check className="size-3.5" strokeWidth={3} /> : null}
+    </span>
+  );
+
+  const input = (
+    <input
+      type="checkbox"
+      className="sr-only"
+      checked={checked}
+      onChange={() => toggleStep(id)}
+    />
+  );
+
+  if (variant === "marker") {
+    return (
+      <label className="group inline-flex shrink-0 cursor-pointer items-center">
+        {input}
+        {box}
+        <span className="sr-only">{label}</span>
+      </label>
+    );
+  }
 
   return (
     <label
@@ -29,22 +67,8 @@ export function CompletionCheckbox({
           : "border-border-strong bg-surface hover:bg-surface-muted"
       }`}
     >
-      <input
-        type="checkbox"
-        className="sr-only"
-        checked={checked}
-        onChange={() => toggleStep(id)}
-      />
-      <span
-        aria-hidden
-        className={`flex size-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
-          checked
-            ? "border-stable bg-stable text-white"
-            : "border-border-strong bg-surface group-hover:border-primary"
-        }`}
-      >
-        {checked ? <Check className="size-3.5" strokeWidth={3} /> : null}
-      </span>
+      {input}
+      {box}
       <span
         className={`text-sm ${
           checked ? "text-ink-muted line-through" : "text-ink"
