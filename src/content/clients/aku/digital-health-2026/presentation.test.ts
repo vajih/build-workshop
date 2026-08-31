@@ -60,7 +60,10 @@ describe("presentation deck", () => {
       "what-changed-pit-stops-discussion",
       ...enabledIds.slice(modelEfficiencyIndex + 1, 7),
       "what-changed-optional-break",
-      ...enabledIds.slice(7),
+      ...enabledIds.slice(7, 10),
+      "what-changed-khayal",
+      "what-changed-khayal-architecture",
+      ...enabledIds.slice(10),
     ];
     const anchor = slideIndexById("what-changed-1");
     const actualIds = SLIDES.slice(
@@ -111,6 +114,21 @@ describe("presentation deck", () => {
     expect(breakSlide.layout).toBe("break-timer");
     expect(breakSlide.timerMinutes).toBe(10);
     expect(breakSlide.stoicMessage).toBeTruthy();
+  });
+
+  it("introduces Khayal and its architecture before the useful-experience slide", () => {
+    const usefulExperience = slideIndexById(
+      "frictionless-11-useful-experience",
+    );
+    const khayal = SLIDES[usefulExperience - 2];
+    const architecture = SLIDES[usefulExperience - 1];
+
+    expect(khayal.id).toBe("what-changed-khayal");
+    expect(khayal.layout).toBe("mobile-showcase");
+    expect(khayal.mobileScreens).toHaveLength(3);
+    expect(khayal.externalCta?.href).toBe("https://khayal-vert.vercel.app/");
+    expect(architecture.id).toBe("what-changed-khayal-architecture");
+    expect(architecture.layout).toBe("khayal-architecture");
   });
 
   it("exercise-launch slides link to a real participant nav target", () => {

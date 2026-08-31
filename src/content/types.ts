@@ -210,6 +210,12 @@ export interface WorkshopEngagement {
   location?: string;
   department?: string;
   course?: string;
+  /**
+   * Shared "Team idea board" URL (a Google Slides deck the facilitator opens
+   * for Section 6). When set, the Team Challenge page shows a link + QR;
+   * otherwise it tells participants the facilitator will share it.
+   */
+  teamBoardUrl?: string;
 }
 
 export interface WorkshopConfig {
@@ -313,7 +319,9 @@ export interface Slide {
     | "frictionless-embed"
     | "click-video"
     | "discussion-build"
-    | "break-timer";
+    | "break-timer"
+    | "mobile-showcase"
+    | "khayal-architecture";
   /** 1-based source slide number for the embedded Frictionless chapter. */
   embedSlide?: number;
   title?: string;
@@ -359,6 +367,18 @@ export interface Slide {
   timerMinutes?: number;
   /** break-timer: short original message informed by Stoic practice */
   stoicMessage?: string;
+  /** mobile-showcase: phone screenshots or labeled placeholders */
+  mobileScreens?: {
+    label: string;
+    detail: string;
+    src?: string;
+    alt?: string;
+  }[];
+  /** optional presentation CTA that opens an external product or source */
+  externalCta?: {
+    label: string;
+    href: string;
+  };
   /** eyebrow / kicker text */
   kicker?: string;
   /** content still needs facilitator review before the workshop */

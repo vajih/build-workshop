@@ -3,12 +3,25 @@
 import Image from "next/image";
 import {
   ArrowRightCircle,
+  ArrowRight,
+  BrainCircuit,
+  Cloud,
+  Code2,
   Coffee,
+  Database,
   ExternalLink,
+  Home,
+  LayoutDashboard,
   MessageCircleQuestion,
+  MessageSquareText,
   Play,
   RotateCcw,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  Users,
   Zap,
+  type LucideIcon,
 } from "lucide-react";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { Slide } from "@/content/types";
@@ -57,6 +70,14 @@ export function SlideRenderer({
 
   if (slide.layout === "break-timer") {
     return <BreakTimerSlide slide={slide} />;
+  }
+
+  if (slide.layout === "mobile-showcase") {
+    return <MobileShowcaseSlide slide={slide} />;
+  }
+
+  if (slide.layout === "khayal-architecture") {
+    return <KhayalArchitectureSlide slide={slide} />;
   }
 
   switch (slide.type) {
@@ -248,12 +269,12 @@ export function SlideRenderer({
           ) : null}
 
           <div
-            className={`flex w-full min-h-0 flex-col items-stretch gap-6 lg:flex-row ${
+            className={`image-compare-content flex w-full min-h-0 flex-col items-stretch gap-6 lg:flex-row ${
               two ? "shrink-0 justify-center" : "flex-1"
             }`}
           >
             <div
-              className={`flex min-h-0 flex-col items-center justify-center gap-6 sm:gap-10 ${
+              className={`image-compare-images flex min-h-0 flex-col items-center justify-center gap-6 sm:gap-10 ${
                 two ? "sm:flex-row" : "w-full flex-1"
               }`}
             >
@@ -276,7 +297,7 @@ export function SlideRenderer({
                       two
                         ? {
                             aspectRatio: img.aspectRatio ?? "1 / 1",
-                            height: `clamp(${scaled(150)}px,${scaled(44)}vh,${scaled(520)}px)`,
+                            height: `clamp(${scaled(150)}px,min(${scaled(44)}vh,${scaled(24.75)}vw),${scaled(520)}px)`,
                             maxWidth: `${scaled(42)}vw`,
                           }
                         : undefined
@@ -307,7 +328,7 @@ export function SlideRenderer({
 
             {callout ? (
               <aside
-                className={`flex shrink-0 flex-col justify-center gap-3 rounded-2xl border border-[var(--deck-highlight)] bg-[var(--deck-highlight-soft)] p-[clamp(1.25rem,2.4vw,2.25rem)] lg:self-center ${
+                className={`image-compare-callout flex shrink-0 flex-col justify-center gap-3 rounded-2xl border border-[var(--deck-highlight)] bg-[var(--deck-highlight-soft)] p-[clamp(1.25rem,2.4vw,2.25rem)] lg:self-center ${
                   imageScale > 1
                     ? "lg:w-[clamp(15rem,21vw,21rem)]"
                     : "lg:w-[clamp(16rem,25vw,23rem)]"
@@ -840,6 +861,321 @@ function BreakTimerSlide({ slide }: { slide: Slide }) {
           </>
         )}
       </section>
+    </div>
+  );
+}
+
+function MobileShowcaseSlide({ slide }: { slide: Slide }) {
+  const screens = slide.mobileScreens ?? [];
+  const [revealed, setRevealed] = useState(0);
+  const isComplete = revealed >= screens.length;
+
+  function revealNext() {
+    setRevealed((current) => Math.min(current + 1, screens.length));
+  }
+
+  return (
+    <div className="blueprint-slide mobile-showcase-layout">
+      <button
+        type="button"
+        className="mobile-showcase-click-target"
+        onClick={revealNext}
+        onKeyDown={(event) => event.stopPropagation()}
+        disabled={isComplete}
+        aria-label={
+          isComplete
+            ? "All three Khayal screens revealed"
+            : `Reveal Khayal screen ${revealed + 1} of ${screens.length}`
+        }
+      />
+
+      <div className="mobile-showcase-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2 className="blueprint-display-title mobile-showcase-title">
+          {slide.title}
+        </h2>
+        {slide.lead ? <p className="blueprint-serif-lead">{slide.lead}</p> : null}
+        {slide.note ? <p className="blueprint-spec-line">{slide.note}</p> : null}
+        <div className="mobile-showcase-actions">
+          <span aria-hidden>
+            {isComplete ? "Screens revealed" : `Click to reveal · ${revealed}/${screens.length}`}
+          </span>
+          {slide.externalCta ? (
+            <a
+              href={slide.externalCta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {slide.externalCta.label}
+              <ExternalLink aria-hidden />
+            </a>
+          ) : null}
+        </div>
+      </div>
+
+      <ol className="mobile-showcase-screens" aria-label="Khayal mobile screens">
+        {screens.map((screen, index) => (
+          <li key={screen.label}>
+            <figure>
+              <div
+                className={`mobile-phone mobile-phone-${index + 1} ${index < revealed ? "is-revealed" : ""}`}
+              >
+                <span className="mobile-phone-speaker" aria-hidden />
+                <div className="mobile-phone-screen">
+                  {screen.src && index < revealed ? (
+                    <Image
+                      src={screen.src}
+                      alt={screen.alt ?? `${screen.label} screen in the Khayal app`}
+                      fill
+                      sizes="20vw"
+                      className="mobile-real-screen object-cover object-top"
+                    />
+                  ) : (
+                    <div className="khayal-screen-stub" aria-label={`${screen.label} screenshot placeholder`}>
+                      <div className="khayal-status" aria-hidden>
+                        <span>9:41</span>
+                        <span>● ● ▰</span>
+                      </div>
+                      <div className="khayal-wordmark">KHAYAL</div>
+                      <div className="khayal-stub-art" aria-hidden>
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                      <div className="khayal-stub-copy">
+                        <span>SCREEN 0{index + 1}</span>
+                        <strong>{screen.label}</strong>
+                        <i />
+                        <i />
+                      </div>
+                      <span className="khayal-stub-action" aria-hidden>
+                        Continue
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <figcaption>
+                <span>0{index + 1}</span>
+                <strong>{screen.label}</strong>
+                <small>{screen.detail}</small>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ol>
+
+      <p className="sr-only" aria-live="polite">
+        {revealed > 0 && screens[revealed - 1]
+          ? `${screens[revealed - 1].label} screen revealed.`
+          : ""}
+      </p>
+    </div>
+  );
+}
+
+type KhayalArchitectureStageProps = {
+  number: string;
+  eyebrow: string;
+  title: string;
+  icon: LucideIcon;
+  items?: string[];
+  pipeline?: string[];
+  footer: string;
+  tone?: "intelligence" | "record";
+  tags?: { label: string; tone: "current" | "pilot" | "planned" }[];
+};
+
+function KhayalArchitectureStage({
+  number,
+  eyebrow,
+  title,
+  icon: Icon,
+  items,
+  pipeline,
+  footer,
+  tone,
+  tags,
+}: KhayalArchitectureStageProps) {
+  return (
+    <article className={`khayal-architecture-stage ${tone ? `is-${tone}` : ""}`}>
+      <header>
+        <span>{number}</span>
+        <Icon aria-hidden />
+      </header>
+      <p className="khayal-architecture-eyebrow">{eyebrow}</p>
+      <h3>{title}</h3>
+      {pipeline?.length ? (
+        <ol className="khayal-architecture-ai-pipeline">
+          {pipeline.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ol>
+      ) : (
+        <ul>
+          {items?.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+      {tags?.length ? (
+        <div className="khayal-architecture-tags" aria-label="Capability status">
+          {tags.map((tag) => (
+            <span key={tag.label} className={`is-${tag.tone}`}>
+              {tag.label}
+            </span>
+          ))}
+        </div>
+      ) : null}
+      <p className="khayal-architecture-stage-footer">{footer}</p>
+    </article>
+  );
+}
+
+function KhayalArchitectureConnector() {
+  return (
+    <div className="khayal-architecture-connector" aria-hidden>
+      <span />
+      <ArrowRight />
+    </div>
+  );
+}
+
+function KhayalArchitectureSlide({ slide }: { slide: Slide }) {
+  return (
+    <div className="blueprint-slide khayal-architecture-layout">
+      <header className="khayal-architecture-heading">
+        <div>
+          {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+          <h2>{slide.title}</h2>
+        </div>
+        {slide.lead ? <p>{slide.lead}</p> : null}
+      </header>
+
+      <div className="khayal-architecture-flow" aria-label="Khayal information flow">
+        <KhayalArchitectureStage
+          number="01"
+          eyebrow="Care environment"
+          title="What happens at home"
+          icon={Home}
+          items={["Parent + care circle", "Family, nurses, caregivers", "Many languages and comfort levels"]}
+          tags={[{ label: "Optional · home camera", tone: "pilot" }]}
+          footer="Karachi"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="02"
+          eyebrow="Natural input"
+          title="WhatsApp + app"
+          icon={MessageSquareText}
+          items={["Typed care updates", "Voice notes in a preferred language", "Medicines, symptoms and vitals"]}
+          tags={[
+            { label: "Pilot · device photos", tone: "pilot" },
+            { label: "Planned · wearables", tone: "planned" },
+          ]}
+          footer="No specialized training"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="03"
+          eyebrow="Khayal intelligence"
+          title="Voice to insight"
+          icon={BrainCircuit}
+          pipeline={[
+            "AI speech to text",
+            "Translation + language normalization",
+            "AI ingestion + validation",
+            "AI summary",
+          ]}
+          tags={[
+            {
+              label: "Patient context · medicines · baselines · history",
+              tone: "current",
+            },
+          ]}
+          footer="Supports coordination — never diagnosis"
+          tone="intelligence"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="04"
+          eyebrow="Secure patient record"
+          title="Supabase backend"
+          icon={Database}
+          items={["Postgres system of record", "RLS + organization scope", "Vitals, medicines and care tasks", "Evidence, summaries and history"]}
+          footer="One continuously updated care picture"
+          tone="record"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="05"
+          eyebrow="Family experience"
+          title="Clarity from anywhere"
+          icon={LayoutDashboard}
+          items={["Today dashboard", "What changed?", "Needs attention", "Shared care timeline"]}
+          footer="Houston"
+        />
+      </div>
+
+      <section className="khayal-architecture-foundation" aria-label="Cross-cutting trust foundation">
+        <div className="khayal-architecture-foundation-label">
+          <ShieldCheck aria-hidden />
+          <span>Trust foundation</span>
+        </div>
+        <ul>
+          <li>Privacy + consent</li>
+          <li>Scoped access</li>
+          <li>Audit + provenance</li>
+          <li>Human review</li>
+          <li>Safety boundaries</li>
+          <li>Multilingual access</li>
+        </ul>
+      </section>
+
+      <section className="khayal-architecture-build" aria-label="Khayal build and deployment stack">
+        <div className="khayal-architecture-build-label">
+          <Code2 aria-hidden />
+          <span>Build + delivery</span>
+        </div>
+        <div className="khayal-architecture-build-flow">
+          <span>
+            <Sparkles aria-hidden />
+            <strong>VS Code</strong>
+            <small>AI pair programming</small>
+          </span>
+          <ArrowRight aria-hidden />
+          <span>
+            <Smartphone aria-hidden />
+            <strong>Next.js + React</strong>
+            <small>Application</small>
+          </span>
+          <ArrowRight aria-hidden />
+          <span>
+            <Cloud aria-hidden />
+            <strong>Vercel</strong>
+            <small>Deployment</small>
+          </span>
+          <ArrowRight aria-hidden />
+          <span>
+            <Database aria-hidden />
+            <strong>Supabase</strong>
+            <small>Backend + storage</small>
+          </span>
+        </div>
+      </section>
+
+      <footer className="khayal-architecture-footer">
+        <div className="khayal-architecture-journey">
+          <Users aria-hidden />
+          <span>Caregiver + parent in Karachi</span>
+          <ArrowRight aria-hidden />
+          <strong>KHAYAL</strong>
+          <ArrowRight aria-hidden />
+          <span>Family in Houston</span>
+        </div>
+        <p>{slide.note}</p>
+        <span className="khayal-architecture-runtime">Runtime: Vercel + Supabase</span>
+      </footer>
     </div>
   );
 }
