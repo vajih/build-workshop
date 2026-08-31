@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageIntro } from "@/components/PageIntro";
 import { ChecklistGroup } from "@/components/ChecklistGroup";
+import { ChecklistGate } from "@/components/ChecklistGate";
 import { CommandBlock } from "@/components/CommandBlock";
 import { ExpectedResult } from "@/components/ExpectedResult";
 import { OSSelector } from "@/components/OSSelector";
@@ -74,7 +75,8 @@ export default async function BeforeWorkshopPage({
               All six are required for Build 1.
             </span>{" "}
             <span className="text-ink-muted">
-              Open “Setup” on any item for step-by-step help.
+              Open “Setup” on any item for step-by-step help, and check the box
+              once it is done — your progress is saved on this device.
             </span>
           </p>
           <div className="mt-3">
@@ -154,6 +156,12 @@ export default async function BeforeWorkshopPage({
           title="If a command is not found"
         />
       </div>
+
+      <ChecklistGate
+        items={INSTALL_CHECKLIST.map((i) => ({ id: i.id, label: i.label }))}
+        title="Ready for Build 1?"
+        cta={{ href: `${base}/participate/build-1`, label: "Start Build 1" }}
+      />
 
       <ParticipantStepNav base={base} current="/participate/before-workshop" />
     </div>
