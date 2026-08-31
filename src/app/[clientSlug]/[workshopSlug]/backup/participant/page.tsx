@@ -18,6 +18,8 @@ import {
   SYNTHETIC_DATA_LABEL,
   SIGNAL_NOT_OUTBREAK,
   OSM_ATTRIBUTION,
+  CLEAN_SLATE_BLOCK,
+  CLEAN_SLATE_NOTE,
 } from "@/content/clients/aku/digital-health-2026/build-one";
 
 export const metadata = { title: "Participant instructions (print)" };
@@ -117,6 +119,37 @@ export default async function BackupParticipantPage({
             </li>
           ))}
         </ol>
+      </section>
+
+      <section className="mt-6">
+        <h2 className="text-lg font-semibold text-ink">
+          Start over — clean slate
+        </h2>
+        <p className="text-sm text-ink-muted">
+          Deletes only the <code>01-outbreak-signal</code> project folder so you
+          can restart Build 1. Close the folder in VS Code and stop the preview
+          server first. {CLEAN_SLATE_NOTE}
+        </p>
+        <div className="mt-2 grid gap-3 sm:grid-cols-2">
+          <div>
+            <p className="text-xs font-semibold text-ink-subtle">macOS</p>
+            <pre className="mt-1 overflow-x-auto rounded-md border border-border-strong bg-surface-muted px-3 py-2 text-[13px]">
+              <code className="font-mono whitespace-pre">
+                {CLEAN_SLATE_BLOCK.macos}
+              </code>
+            </pre>
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-ink-subtle">
+              Windows PowerShell
+            </p>
+            <pre className="mt-1 overflow-x-auto rounded-md border border-border-strong bg-surface-muted px-3 py-2 text-[13px]">
+              <code className="font-mono whitespace-pre">
+                {CLEAN_SLATE_BLOCK.windows}
+              </code>
+            </pre>
+          </div>
+        </div>
       </section>
 
       <section className="mt-6">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight, RotateCcw } from "lucide-react";
 import { PageIntro } from "@/components/PageIntro";
 import { StepCard } from "@/components/StepCard";
 import { CommandBlock } from "@/components/CommandBlock";
@@ -52,6 +52,9 @@ import {
   DEPLOY_ANSWERS,
   DEPLOY_RESULT_NOTE,
   BUILD_1_CHECKLIST,
+  CLEAN_SLATE_BLOCK,
+  CLEAN_SLATE_STEPS,
+  CLEAN_SLATE_NOTE,
   BUILD_ONE_TROUBLESHOOTING,
 } from "@/content/clients/aku/digital-health-2026/build-one";
 
@@ -464,6 +467,40 @@ export default async function BuildOnePage({
           . Build 2 is there whenever you have time — including after today.
         </p>
       </div>
+
+      {/* Start over — clean slate */}
+      <details className="mt-8 scroll-mt-24 overflow-hidden rounded-[var(--radius-card)] border border-investigate/40 bg-investigate-soft/40">
+        <summary className="cursor-pointer list-none px-5 py-4 font-semibold text-ink marker:content-none">
+          <span className="inline-flex items-center gap-2">
+            <RotateCcw className="size-4 text-investigate" aria-hidden />
+            Start over — clean slate
+          </span>
+          <span className="mt-1 block text-sm font-normal text-ink-muted">
+            Wipe the project folder and restart Build 1 from an empty directory.
+            For testers between runs, or if a build got into a broken state.
+          </span>
+        </summary>
+        <div className="border-t border-investigate/20 px-5 py-4">
+          <ol className="list-decimal space-y-1.5 pl-5 text-sm text-ink-muted">
+            {CLEAN_SLATE_STEPS.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ol>
+          <CommandBlock
+            macos={CLEAN_SLATE_BLOCK.macos}
+            windows={CLEAN_SLATE_BLOCK.windows}
+            label="clean-slate reset command"
+            caption="Delete the Build 1 project folder and start over"
+          />
+          <p className="text-sm text-ink-subtle">{CLEAN_SLATE_NOTE}</p>
+          <p className="mt-3 text-sm">
+            <Link href={`${base}/participate#reset-heading`}>
+              Reset my workshop progress
+            </Link>{" "}
+            clears the saved checkboxes and live URL in this browser.
+          </p>
+        </div>
+      </details>
 
       <Troubleshooting entries={BUILD_ONE_TROUBLESHOOTING} />
 

@@ -212,6 +212,31 @@ export const HOME_FOLDER_NOTE =
   "We use your home folder on purpose. Documents, Desktop, OneDrive, and iCloud Drive can sync or relocate files while you work, which breaks terminal paths and Git. Your home folder does not.";
 
 /* ----------------------------------------------------------------------------
+   Start over — clean-slate reset. Deletes ONLY the Build 1 project folder so a
+   tester (or a participant who got into a broken state) can restart from Step 1.
+   Global tools — Git, Node, VS Code, Copilot — are untouched.
+---------------------------------------------------------------------------- */
+export const CLEAN_SLATE_BLOCK: CommandBlockContent = {
+  macos: `# Clean slate for Build 1. This permanently deletes the project folder.
+# It does NOT touch Git, Node, VS Code, Copilot, or anything else.
+rm -rf "$HOME/AKU-Build-Workshop/01-outbreak-signal"
+echo "Done. Start again from Step 1."`,
+  windows: `# Clean slate for Build 1. This permanently deletes the project folder.
+# It does NOT touch Git, Node, VS Code, Copilot, or anything else.
+Remove-Item -Recurse -Force (Join-Path $HOME "AKU-Build-Workshop\\01-outbreak-signal") -ErrorAction SilentlyContinue
+Write-Host "Done. Start again from Step 1."`,
+};
+
+export const CLEAN_SLATE_STEPS: string[] = [
+  "In VS Code, choose File then Close Folder so nothing is holding the folder open.",
+  "In the terminal running your local preview server, press Ctrl+C to stop it.",
+  "Run the block below, then go back to Step 1 — it recreates the folder from scratch.",
+];
+
+export const CLEAN_SLATE_NOTE =
+  "This removes only the 01-outbreak-signal project folder in your home directory. Your installed tools stay exactly as they are. Any site you already deployed to Vercel is separate and keeps running — delete it from your Vercel dashboard if you want a full reset. To also clear this portal's saved progress and live URL, use “Reset my workshop progress” on the participant overview page.";
+
+/* ----------------------------------------------------------------------------
    Step 5 — Copilot Agent mode
 ---------------------------------------------------------------------------- */
 export const COPILOT_AGENT_STEPS: string[] = [
