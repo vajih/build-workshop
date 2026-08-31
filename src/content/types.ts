@@ -27,6 +27,19 @@ export interface ChecklistItem {
   detail?: string;
   /** true when this is required for Build 1 */
   required: boolean;
+  /** optional step-by-step setup instructions, shown in an accordion */
+  setup?: ChecklistSetup;
+}
+
+export interface ChecklistSetup {
+  /** official download / documentation link */
+  docHref?: string;
+  /** visible text for `docHref` */
+  docLabel?: string;
+  /** numbered instructions, in order */
+  steps: string[];
+  /** one line on how to confirm it worked */
+  verify?: string;
 }
 
 export interface DiagnosticCommand {

@@ -69,8 +69,12 @@ export default async function BeforeWorkshopPage({
           <h2 id="install-heading" className="text-xl font-semibold text-ink">
             Install and set up
           </h2>
-          <p className="mt-1 text-sm text-ink-muted">
+          <p className="mt-1 text-sm font-bold text-investigate">
             All six are required for Build 1.
+          </p>
+          <p className="mt-1 text-sm text-ink-muted">
+            Open <span className="font-medium">Detailed setup steps</span> under
+            any item for the full walkthrough and a way to check it worked.
           </p>
           <div className="mt-3">
             <ChecklistGroup items={INSTALL_CHECKLIST} />

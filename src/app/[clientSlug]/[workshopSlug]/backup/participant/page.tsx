@@ -77,12 +77,35 @@ export default async function BackupParticipantPage({
             <li key={i.id}>{i.label}</li>
           ))}
         </ul>
-        <p className="mt-2 text-sm font-medium text-ink">Install</p>
-        <ul className="list-disc pl-5 text-sm text-ink-muted">
+        <p className="mt-2 text-sm font-medium text-ink">
+          Install — all six are required for Build 1
+        </p>
+        <ol className="list-decimal space-y-2 pl-5 text-sm text-ink-muted">
           {INSTALL_CHECKLIST.map((i) => (
-            <li key={i.id}>{i.label}</li>
+            <li key={i.id}>
+              <span className="font-medium text-ink">{i.label}</span>
+              {i.detail ? ` — ${i.detail}` : null}
+              {i.setup ? (
+                <>
+                  <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                    {i.setup.steps.map((s, n) => (
+                      <li key={n}>{s}</li>
+                    ))}
+                  </ul>
+                  {i.setup.verify ? (
+                    <p className="mt-1">
+                      <span className="font-medium text-ink">Check: </span>
+                      {i.setup.verify}
+                    </p>
+                  ) : null}
+                  {i.setup.docHref ? (
+                    <p className="text-ink-subtle">{i.setup.docHref}</p>
+                  ) : null}
+                </>
+              ) : null}
+            </li>
           ))}
-        </ul>
+        </ol>
         <p className="mt-2 text-sm font-medium text-ink">
           Check (same on macOS and Windows)
         </p>
