@@ -18,6 +18,7 @@ import {
   GALLERY_STEPS,
   SHARPEN_QUESTIONS,
   SHARPEN_RULE,
+  KEEP_THE_LOOP_GOING,
   MVP_REQUIREMENTS,
   HEALTH_DATA_GUIDANCE,
   PRESENTATION_STRUCTURE,
@@ -45,8 +46,8 @@ function List({ items }: { items: string[] }) {
 }
 
 const PHASES = [
-  { href: "#idea", label: "1 · Lock your idea" },
-  { href: "#gallery", label: "2 · Idea gallery" },
+  { href: "#idea", label: "1 · Write and post" },
+  { href: "#gallery", label: "2 · Comment round" },
   { href: "#sharpen", label: "3 · Sharpen" },
   { href: "#build", label: "4 · Build" },
 ];
@@ -98,10 +99,10 @@ export default async function TeamChallengePage({
       </nav>
 
       <div className="mt-8 space-y-10">
-        {/* PHASE 1 — lock your idea */}
+        {/* PHASE 1 — write and post */}
         <section id="idea" aria-labelledby="idea-heading" className="scroll-mt-24">
           <h2 id="idea-heading" className="text-xl font-semibold text-ink">
-            1 · Lock your idea
+            1 · Write and post your idea — about 8 minutes
           </h2>
           <List items={TEAM_FORMATION} />
           <p className="mt-4 text-ink-muted">{TEAM_BOARD_INTRO}</p>
@@ -111,18 +112,18 @@ export default async function TeamChallengePage({
           <IdeaCard />
         </section>
 
-        {/* PHASE 2 — idea gallery */}
+        {/* PHASE 2 — comment round */}
         <section
           id="gallery"
           aria-labelledby="gallery-heading"
           className="scroll-mt-24"
         >
           <h2 id="gallery-heading" className="text-xl font-semibold text-ink">
-            2 · Idea gallery — about 8 minutes
+            2 · Comment round — about 12 minutes
           </h2>
           <p className="mt-1 text-ink-muted">
-            Every idea goes up together. This is also your breather — stand up,
-            walk the board.
+            Every idea is in the thread. This is also your breather — stand up,
+            work the thread on your phone.
           </p>
           <ol className="mt-3 list-decimal space-y-2 pl-6 text-ink-muted">
             {GALLERY_STEPS.map((s) => (
@@ -138,10 +139,10 @@ export default async function TeamChallengePage({
           className="scroll-mt-24"
         >
           <h2 id="sharpen-heading" className="text-xl font-semibold text-ink">
-            3 · Sharpen — about 3 minutes
+            3 · Sharpen
           </h2>
           <p className="mt-1 text-ink-muted">
-            Based on what you heard, answer these, then update your Idea Card.
+            Based on the comments, answer these, then update your Idea Card.
           </p>
           <ol className="mt-3 list-decimal space-y-2 pl-6 text-ink-muted">
             {SHARPEN_QUESTIONS.map((q) => (
@@ -151,6 +152,7 @@ export default async function TeamChallengePage({
           <p className="mt-3 rounded-lg border border-primary/40 bg-primary-soft/50 px-3 py-2 text-sm font-medium text-ink">
             {SHARPEN_RULE}
           </p>
+          <p className="mt-2 text-sm text-ink-subtle">{KEEP_THE_LOOP_GOING}</p>
         </section>
 
         {/* PHASE 4 — build */}
@@ -246,10 +248,11 @@ export default async function TeamChallengePage({
             Share what you built
           </h2>
           <p className="mt-1 text-ink-muted">
-            The demo is done — now make it something you can point to next week.
-            Post your team&rsquo;s build on LinkedIn before you leave.
+            The demo is done — close the arc. Post your team&rsquo;s build on the
+            same LinkedIn thread as your idea, before you leave.
           </p>
           <List items={SHARE_YOUR_BUILD} />
+          <p className="mt-3 text-sm text-ink-subtle">{KEEP_THE_LOOP_GOING}</p>
 
           <div className="mt-4">
             <p className="text-sm font-semibold text-ink">

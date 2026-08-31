@@ -5,23 +5,35 @@ import { useWorkshop } from "@/lib/workshop-context";
 import { CopyButton } from "./CopyButton";
 import { CompletionCheckbox } from "./CompletionCheckbox";
 import { QRCode } from "./QRCode";
-import { IDEA_CARD_FIELDS } from "@/content/clients/aku/digital-health-2026/team-challenge";
+import {
+  IDEA_CARD_FIELDS,
+  WORKSHOP_HASHTAG,
+} from "@/content/clients/aku/digital-health-2026/team-challenge";
 
-function formatCard(card: Record<string, string>): string {
+/** The card, wrapped as a ready-to-post LinkedIn comment. */
+function formatForLinkedIn(card: Record<string, string>): string {
   const lines = IDEA_CARD_FIELDS.map(
     (f) => `${f.label}: ${(card[f.id] ?? "").trim() || "—"}`,
   );
-  return `Team idea\n${lines.join("\n")}`;
+  return [
+    "[Team idea — AKU Build Workshop]",
+    "",
+    ...lines,
+    "",
+    "We are building this in the next hour with AI. A workshop exercise on synthetic data — feedback welcome. What are we missing?",
+    "",
+    `Facilitated by Vajih Khan. ${WORKSHOP_HASHTAG}`,
+  ].join("\n");
 }
 
 /**
  * The Team Challenge Idea Card. Free-text fields that autosave to this device
- * (via the workshop store), a copy button that produces a paste-ready block for
- * the shared board, and a completion checkpoint once every field is filled.
+ * (via the workshop store), a copy button that produces a ready-to-post block
+ * for the LinkedIn idea thread, and a checkpoint once every field is filled.
  */
 export function IdeaCard() {
   const { ready, ideaCard, setIdeaCard, config } = useWorkshop();
-  const boardUrl = config.engagement.teamBoardUrl;
+  const threadUrl = config.engagement.teamBoardUrl;
 
   const filled =
     ready && IDEA_CARD_FIELDS.every((f) => (ideaCard[f.id] ?? "").trim());
@@ -35,11 +47,14 @@ export function IdeaCard() {
     <div className="my-4 rounded-[var(--radius-card)] border border-border-strong bg-surface p-4 sm:p-5">
       <div className="flex items-baseline justify-between gap-3">
         <p className="text-sm font-semibold text-ink">Your Idea Card</p>
-        <CopyButton value={formatCard(ideaCard)} label="idea card" />
+        <CopyButton
+          value={formatForLinkedIn(ideaCard)}
+          label="idea card, ready to post"
+        />
       </div>
       <p className="mt-0.5 text-xs text-ink-subtle">
         Saved on this device only — nothing is sent anywhere. Fill this on the
-        screen you are sharing.
+        screen you are sharing. Copy produces a ready-to-post block.
       </p>
 
       <div className="mt-4 space-y-4">
@@ -78,31 +93,31 @@ export function IdeaCard() {
         <div className="mt-4 rounded-lg border border-stable/40 bg-stable-soft/50 p-4">
           <p className="inline-flex items-center gap-2 text-sm font-semibold text-stable">
             <CheckCircle2 className="size-4" aria-hidden />
-            Card complete — copy it and paste it on the board
+            Card complete — copy it and post it as a comment on the thread
           </p>
-          {boardUrl ? (
+          {threadUrl ? (
             <div className="mt-3 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-              <QRCode value={boardUrl} label="Team idea board" size={128} />
+              <QRCode value={threadUrl} label="Team idea thread" size={128} />
               <a
-                href={boardUrl}
+                href={threadUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm font-medium text-primary hover:underline"
               >
-                Open the shared idea board
+                Open the idea thread
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </div>
           ) : (
             <p className="mt-2 text-sm text-ink-muted">
-              Your facilitator will share the board link at the start of this
-              section.
+              Your facilitator shares the idea-thread link at the start of this
+              section — post your card as a comment there.
             </p>
           )}
           <div className="mt-3">
             <CompletionCheckbox
               id="tc-idea-on-board"
-              label="Our card is on the shared board"
+              label="Our idea card is posted in the thread"
             />
           </div>
         </div>

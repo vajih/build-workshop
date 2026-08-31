@@ -251,8 +251,8 @@ export default async function BackupParticipantPage({
           Team Challenge — idea first
         </h2>
         <p className="mt-1 text-sm font-medium text-ink">
-          Idea Card (fill it, put it on the shared board — no prompting until it
-          is there)
+          Idea Card (fill it, post it as a comment on the LinkedIn thread — no
+          prompting until it is posted)
         </p>
         <ul className="mt-1 list-disc space-y-0.5 pl-5 text-sm text-ink-muted">
           {IDEA_CARD_FIELDS.map((f) => (
@@ -262,7 +262,7 @@ export default async function BackupParticipantPage({
           ))}
         </ul>
         <p className="mt-2 text-sm font-medium text-ink">
-          Idea gallery (~8 min)
+          Comment round (~12 min)
         </p>
         <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-sm text-ink-muted">
           {GALLERY_STEPS.map((s) => (

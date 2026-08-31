@@ -211,9 +211,10 @@ export interface WorkshopEngagement {
   department?: string;
   course?: string;
   /**
-   * Shared "Team idea board" URL (a Google Slides deck the facilitator opens
-   * for Section 6). When set, the Team Challenge page shows a link + QR;
-   * otherwise it tells participants the facilitator will share it.
+   * The Section 6 idea thread — the facilitator's LinkedIn anchor post that
+   * teams comment their Idea Card onto (or a Google Slides deck as a fallback).
+   * When set, the Team Challenge page shows a link + QR; otherwise it tells
+   * participants the facilitator will share it.
    */
   teamBoardUrl?: string;
 }

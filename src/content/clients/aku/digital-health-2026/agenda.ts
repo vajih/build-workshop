@@ -45,23 +45,23 @@ export const AGENDA: AgendaBlock[] = [
     minutes: 15,
     title: "Applied examples and open build time",
     description:
-      "A short walkthrough of another health-workflow prototype, plus time to finish Build 1 or work through the optional Build 2 extensions.",
+      "A short walkthrough of another health-workflow prototype, plus time to finish Build 1 or work through the optional Build 2 extensions. Form your Team Challenge teams of four to six toward the end.",
     href: "/participate/build-2",
   },
   {
     start: "1:30",
-    minutes: 10,
-    title: "Team Challenge — lock your idea",
+    minutes: 8,
+    title: "Team Challenge — write and post your idea",
     description:
-      "Form teams of four to six. Each team writes a one-page Idea Card (user, problem, the one thing, payoff, boundary) and posts it to the shared board. No prompting yet.",
+      "Each team writes a one-page Idea Card (user, problem, the one thing, payoff, boundary) and posts it as a comment on the workshop's LinkedIn thread. No prompting yet.",
     href: "/participate/team-challenge",
   },
   {
-    start: "1:40",
-    minutes: 10,
-    title: "Idea gallery and sharpen",
+    start: "1:38",
+    minutes: 12,
+    title: "Comment round and sharpen",
     description:
-      "The room reads every idea, each person leaves one note on another team's card, and every team gives a 20-second pitch. Teams then sharpen their idea against three questions and lock it. Doubles as the mid-session breather.",
+      "Everyone comments on two or three other teams' ideas in the thread, then a 20-second pitch per team. Teams sharpen their idea against three questions and lock it. Doubles as the mid-session breather; comments keep coming after today.",
     href: "/participate/team-challenge",
   },
   {

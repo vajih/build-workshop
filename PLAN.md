@@ -586,3 +586,21 @@ its team until the final demo. Now a four-phase flow makes *Define* social._
   `#sharpen` / `#build`) + phase chips; `backup/participant` gets a compact
   Team Challenge section.
 - **New `team-challenge.test.ts`**; 248 tests pass.
+
+## Follow-up (same day): the idea sharing is a live LinkedIn thread
+
+The shared "board" is now a **LinkedIn anchor post** the facilitator publishes
+just before Section 6 — teams comment their Idea Card onto it, so the class
+finds every idea in one thread, and the comments keep compounding after the
+room clears (the real payoff of "connect with me on LinkedIn" from the
+welcome). Google Slides is the fallback for anyone who won't post publicly.
+
+- `WORKSHOP_HASHTAG = "#AKUBuildWorkshop"`; `SHARE_IDEA_TEMPLATE` +
+  `KEEP_THE_LOOP_GOING`; `IdeaCard` "Copy" now emits a ready-to-post block.
+- `f-team-build` deep-dive "The LinkedIn idea thread" — the anchor post, the
+  ~1-week engagement commitment, consent/fallback (one post per team, personal
+  profile optional).
+- Agenda Section 6: 8 (write + post) / 12 (comment round + sharpen) / 40
+  (build); team formation moved to the tail of the 1:15 block. Total still 180.
+- Slides `team-challenge-2/-3/-clock` and `presentations-close-share` reworded
+  to the thread framing.

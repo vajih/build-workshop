@@ -1,7 +1,10 @@
 import type { RubricRow } from "@/content/types";
 
+/** Cohort hashtag — used on the idea and build posts so the class can find each other. */
+export const WORKSHOP_HASHTAG = "#AKUBuildWorkshop";
+
 export const CHALLENGE_OBJECTIVE =
-  "In your team, turn a real problem into a working prototype — with AI as your pair programmer. First you lock a one-page idea and put it on the shared board. The room reads every idea together and gives each team one note. You sharpen yours, then you have about 40 minutes to build and five minutes to present.";
+  "In your team, turn a real problem into a working prototype — with AI as your pair programmer. First you write a one-page idea and post it to the workshop's LinkedIn thread. Your classmates comment on it in real time; you sharpen your idea from what they say, then you have about 40 minutes to build and five minutes to present. The comments keep coming after today.";
 
 export const TEAM_FORMATION: string[] = [
   "Form teams of four to six people. Mix roles — clinicians, epidemiologists, data people, and first-time builders together.",
@@ -60,20 +63,40 @@ export const IDEA_CARD_FIELDS: {
 ];
 
 export const IDEA_CARD_RULE =
-  "No prompting until your card is on the board. Deciding what to build is the hard part — do that first, together.";
+  "No prompting until your card is posted in the thread. Deciding what to build is the hard part — do that first, in the open.";
 
 export const TEAM_BOARD_INTRO =
-  "Your facilitator opens a shared board with one slide per team at the start of this section. Fill your card below, copy it, and paste it onto your team’s slide. The card is also saved on this device — it becomes the skeleton of your five-minute presentation.";
+  "Your facilitator posts one anchor post on LinkedIn at the start of this section. Fill your card below, copy it, and post it as a comment on that post — so the whole room can find every idea in one place. You can also share it as your own post with " +
+  WORKSHOP_HASHTAG +
+  ". The card is saved on this device too — it becomes the skeleton of your five-minute presentation. Prefer not to post publicly? One person per team posts, or your team uses the slide-deck fallback and reads the card aloud in the round.";
 
 /* ----------------------------------------------------------------------------
-   Phase 2 — the idea gallery (doubles as the mid-session break).
+   Phase 2 — the idea gallery, run as a live LinkedIn comment round. Doubles as
+   the mid-session break: stand up, work the thread on your phone.
 ---------------------------------------------------------------------------- */
 export const GALLERY_STEPS: string[] = [
-  "Read every card on the board — take about four minutes.",
-  "Leave one note on one other team’s card: a question you would want answered, or one thing that is strong. A question, not “here is what I would build”.",
-  "Rapid round: each team gets twenty seconds to say their user and the one thing.",
-  "Listen for overlaps. If two teams are solving adjacent problems, say so — you might combine, or split cleanly.",
+  "Open the thread and read every team's idea — take about four minutes.",
+  "Comment on two or three other teams' cards: one question you would want answered, or one thing that is genuinely strong. A question, not “here is what I would build”.",
+  "Rapid round in the room: each team gets twenty seconds to say their user and the one thing. The facilitator names any overlaps.",
+  "Read the comments on your own card. Vajih and others keep replying after today — you will have more feedback by tonight.",
 ];
+
+/**
+ * A starting point for the idea post — the Idea Card with a short ask and the
+ * cohort hashtag. Participants replace every bracket. The IdeaCard component
+ * builds the real version from the filled card.
+ */
+export const SHARE_IDEA_TEMPLATE = `[Team idea — AKU Build Workshop]
+
+The user: [one named role]
+The problem: [what they do today instead]
+The one thing it does: [end to end, one sentence]
+The payoff: [minutes / errors / travel / missed signals]
+What it is NOT: [the boundary]
+
+We are building this in the next hour with AI. A workshop exercise on synthetic data — feedback welcome. What are we missing?
+
+Facilitated by Vajih Khan. ${WORKSHOP_HASHTAG}`;
 
 /* ----------------------------------------------------------------------------
    Phase 3 — sharpen, then lock.
@@ -85,7 +108,11 @@ export const SHARPEN_QUESTIONS: string[] = [
 ];
 
 export const SHARPEN_RULE =
-  "Update your card, then lock it. This version is what you build and what you present against.";
+  "Update your card, then lock it. This version is what you build and what you present against. Edit your post or add a reply so the thread shows the sharpened idea.";
+
+/** Shown in the sharpen and share sections — the loop continues after the room clears. */
+export const KEEP_THE_LOOP_GOING =
+  "The comments do not stop when the room empties. People keep replying to your idea and your build for days. Check the thread tonight and this week, reply to every comment, and keep sharpening. Vajih is in there.";
 
 export const MVP_REQUIREMENTS: string[] = [
   "It runs. You can demonstrate it live in the browser.",
@@ -158,11 +185,11 @@ export const RUBRIC_NOTE =
  * around the work.
  */
 export const SHARE_YOUR_BUILD: string[] = [
-  "Post about what your team built on LinkedIn before you leave the room — while it is fresh and the demo still works.",
+  "Post about what your team built on LinkedIn before you leave the room — as a follow-up on your idea post, or on the same thread, so the arc is visible.",
   "Say what it does in one line, name the user it was for, and add a screenshot or a short screen recording of the working demo.",
   "Name one thing AI did well and one thing you had to correct — that is the part people actually learn from.",
   "Keep the honest framing: an educational prototype built with synthetic data in about 40 minutes — not a diagnosis, a surveillance system, or a real deployment.",
-  "Tag the facilitator so your build stays on their radar, and connect so you can ask questions after today.",
+  "Tag Vajih Khan and use " + WORKSHOP_HASHTAG + ", and connect so you can ask questions after today.",
 ];
 
 /**
@@ -177,4 +204,4 @@ It is an educational prototype built with synthetic data — not a clinical, dia
 
 What surprised me: [one thing you learned about building with AI].
 
-Facilitated by Vajih Khan. #BuildWorkshop`;
+Facilitated by Vajih Khan. ${WORKSHOP_HASHTAG}`;

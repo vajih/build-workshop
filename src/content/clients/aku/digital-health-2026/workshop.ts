@@ -27,10 +27,11 @@ import {
  *   - `audience.description` — `confirmed: false` until the facilitator signs off.
  *     Do not claim every listed group will attend.
  *   - `engagement.date` / `location` / `department` / `course` — placeholders.
- *   - `engagement.teamBoardUrl` — create the Section 6 Google Slides idea board
- *     ("anyone with the link can edit") and paste the link here before the
- *     session. Left unset, the Team Challenge page tells participants the
- *     facilitator will share it.
+ *   - `engagement.teamBoardUrl` — the Section 6 idea thread. Post the LinkedIn
+ *     anchor post ("Teams, drop your idea card as a comment") shortly before the
+ *     session and paste its link here (or a Google Slides deck as a fallback).
+ *     Left unset, the Team Challenge page tells participants the facilitator
+ *     will share it.
  *   - `organization.publicRelationshipLabel` — keep "Prepared for" unless AKU
  *     confirms "Hosted by" / "Presented at".
  */
@@ -77,7 +78,7 @@ export const akuDigitalHealth2026: WorkshopConfig = {
     location: undefined, // e.g. "Aga Khan University, Karachi" — to be confirmed
     department: undefined,
     course: undefined,
-    teamBoardUrl: undefined, // paste the Section 6 Google Slides idea board link
+    teamBoardUrl: undefined, // paste the Section 6 LinkedIn idea-thread (anchor post) link
   },
 
   clientSlug: "aku",

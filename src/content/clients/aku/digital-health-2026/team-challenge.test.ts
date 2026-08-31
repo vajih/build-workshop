@@ -5,6 +5,9 @@ import {
   GALLERY_STEPS,
   SHARPEN_QUESTIONS,
   RUBRIC,
+  WORKSHOP_HASHTAG,
+  SHARE_IDEA_TEMPLATE,
+  SHARE_POST_TEMPLATE,
 } from "./team-challenge";
 import { PRESENTATION } from "./presentation";
 
@@ -26,18 +29,27 @@ describe("Team Challenge — idea-first flow", () => {
     expect(IDEA_CARD_FIELDS.filter((f) => f.long)).toHaveLength(1);
   });
 
-  it("the no-prompting-until-submitted rule is stated", () => {
+  it("the no-prompting-until-posted rule is stated", () => {
     expect(IDEA_CARD_RULE).toMatch(/no prompting/i);
-    expect(IDEA_CARD_RULE).toMatch(/board/i);
+    expect(IDEA_CARD_RULE).toMatch(/posted|thread/i);
   });
 
-  it("the gallery is feedback, not a ranking", () => {
+  it("the comment round is feedback in a thread, not a ranking", () => {
     expect(GALLERY_STEPS).toHaveLength(4);
     const joined = GALLERY_STEPS.join(" ");
-    expect(joined).toMatch(/one note/i);
+    expect(joined).toMatch(/thread/i);
+    expect(joined).toMatch(/comment on two or three/i);
     expect(joined).toMatch(/twenty seconds/i);
     expect(joined).not.toMatch(/\bdot(s)?\b/i);
     expect(joined).not.toMatch(/\bvote\b/i);
+  });
+
+  it("both LinkedIn templates carry the cohort hashtag and the boundary field", () => {
+    for (const t of [SHARE_IDEA_TEMPLATE, SHARE_POST_TEMPLATE]) {
+      expect(t).toContain(WORKSHOP_HASHTAG);
+    }
+    expect(SHARE_IDEA_TEMPLATE).toMatch(/what it is not/i);
+    expect(SHARE_IDEA_TEMPLATE).toMatch(/synthetic data/i);
   });
 
   it("sharpen asks three questions and the rubric is unchanged at six dimensions", () => {

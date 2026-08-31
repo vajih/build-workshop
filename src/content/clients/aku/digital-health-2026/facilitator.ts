@@ -126,55 +126,54 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
   },
   {
     id: "f-team-build",
-    title: "Team Challenge: idea, gallery, sharpen, build",
+    title: "Team Challenge: idea, comment round, sharpen, build",
     minutes: 60,
     objective:
-      "Every team has a locked, board-visible idea the room understands, then a running prototype of that one thing.",
+      "Every team has a posted, locked idea the room has commented on, then a running prototype of that one thing.",
     says:
-      "Deciding what to build is the hard part, so we do that first and out loud. Lock a one-page idea, put it on the board, and we read every idea together before anyone prompts. Then you have about forty minutes to build.",
+      "Deciding what to build is the hard part, so we do that first and in the open. Write a one-page idea, post it to the thread, and we all comment on each other's before anyone prompts. Then you have about forty minutes to build.",
     studentsDo:
-      "Fill the Idea Card and post it to the shared board, take part in the gallery (read every card, leave one note on another team's card, give a twenty-second pitch), sharpen against three questions and lock the card, then build for ~40 minutes and prepare a five-minute demo.",
+      "Fill the Idea Card and post it as a comment on the anchor post, comment on two or three other teams' cards, give a twenty-second pitch, sharpen against three questions and lock the card, then build for ~40 minutes and prepare a five-minute demo.",
     checkpoint:
-      "All cards on the board by minute 10 · every team through the gallery round · a running demo by minute 35 of the build.",
+      "All cards posted by minute 8 · every team through the comment round · a running demo by minute 35 of the build.",
     commonFailure:
-      "A team cannot agree on an idea, or scopes too big and has nothing running near the end of the build.",
+      "A team cannot agree on an idea, or scopes too big and has nothing running near the end of the build. Or classmates cannot find each other's posts.",
     recovery:
-      "Idea deadlock — you pick from their two front-runners, or hand them a spare from your prepared list. Scope — cut to the single most important function and get that working.",
+      "Idea deadlock — you pick from their two front-runners, or hand them a spare from your prepared list. Scope — cut to the single most important function. Discoverability — everyone comments on YOUR anchor post, not scattered posts, so they are all in one thread.",
     transition:
       "Two-minute warning, then presentations. Hold the five-minute limit firmly.",
     timing: [
-      { label: "Fill the Idea Card", range: "8 min" },
-      { label: "Facilitator gut-check", range: "2 min" },
-      { label: "Idea gallery", range: "8 min" },
-      { label: "Sharpen and lock", range: "2 min" },
+      { label: "Write + post the Idea Card", range: "8 min" },
+      { label: "Comment on the thread (+ your gut-check)", range: "8 min" },
+      { label: "Rapid round + sharpen + lock", range: "4 min" },
       { label: "Build", range: "40 min" },
     ],
     deepDive: [
       {
-        heading: "Set up the shared board (before the session)",
+        heading: "The LinkedIn idea thread (before and during)",
         body: [
-          "Create a Google Slides deck: a title slide, then one numbered slide per team with the five Idea Card headings as a layout (The user / The problem / The one thing / The payoff / What it is NOT).",
-          "Set sharing to “anyone with the link can edit”. Paste the link into workshop.ts (engagement.teamBoardUrl) so the participant page shows a QR, or open it live and read the short link aloud.",
-          "Fallback: if the venue blocks Google, print a grid — one A4 sheet per team with the five headings — and run the gallery on a wall.",
+          "Shortly before the section, post one short anchor post: “AKU Build Workshop — Team Challenge. Teams, drop your idea card as a comment 👇 #AKUBuildWorkshop”. Paste its link into workshop.ts (engagement.teamBoardUrl) so the participant page shows a QR, or open it live and read the short link.",
+          "Every team comments their card on THAT post, so the whole room finds every idea in one place. They can also share it as their own post with the hashtag for their own network.",
+          "Your commitment: reply to every team's idea comment during this section, and keep engaging with idea and build posts for about a week. This is the real payoff of “connect with me on LinkedIn” from the welcome — the sharpen loop continues after the room empties.",
+          "Consent and fallback: one person per team posts — nobody is required to post from their own profile. Anyone who would rather not: the team posts to a Google Slides deck instead (same five headings) and reads the card in the round.",
         ],
       },
       {
-        heading: "The facilitator gut-check (2 minutes)",
+        heading: "The facilitator gut-check (during the comment round)",
         body: [
-          "Scan the board the moment cards land. Flag out loud, per card:",
+          "Read the posted cards as they land. Reply on the thread, per card:",
           "Needs real patient data → reframe to synthetic or aggregate for today.",
           "Far too big → name the single function they should keep.",
           "Not actually a problem → ask “what does the user do today instead?”",
-          "Two near-identical cards → point it out before the gallery so they can combine or differentiate.",
+          "Two near-identical cards → point it out so they can combine or differentiate.",
         ],
       },
       {
-        heading: "Running the Idea Gallery",
+        heading: "Running the comment round",
         body: [
-          "About four minutes of silent reading, then a strict twenty-seconds-per-team round with a visible timer.",
-          "One note per person on one other team's card — a question they'd want answered or one genuine strength. Not “here's what I'd build”.",
-          "Name the overlaps yourself: “teams 2 and 5, you're adjacent — combine, or split cleanly.”",
-          "Keep it safe: “these notes are to help you aim, not a verdict. Every team builds.”",
+          "About four minutes reading the thread, then everyone comments on two or three other teams' cards — a question they'd want answered or one genuine strength. Not “here's what I'd build”.",
+          "Then a strict twenty-seconds-per-team round in the room with a visible timer; you name the overlaps: “teams 2 and 5, you're adjacent — combine, or split cleanly.”",
+          "Keep it safe: “these comments are to help you aim, not a verdict. Every team builds.”",
         ],
       },
       {
@@ -198,7 +197,7 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
     commonFailure: "The first team runs eight minutes and the last team is rushed.",
     recovery: "Use a visible timer. Cut at five minutes. Be consistent from team one.",
     transition:
-      "As each team finishes, ask them to post their build on LinkedIn and tag you while it is fresh. Then close with the reflection and next steps.",
+      "As each team finishes, ask them to post their build on the same LinkedIn thread as their idea and tag you while it is fresh. Then close with the reflection and next steps.",
   },
   {
     id: "f-reflection",
@@ -207,9 +206,9 @@ export const FACILITATOR_SEGMENTS: FacilitatorSegment[] = [
     objective: "Students leave knowing how to keep building and where the resources are.",
     says: BUILD1_DEBRIEF,
     studentsDo:
-      "Post their team build on LinkedIn, connect with the facilitator, and note the resources page and the build cycle to take home.",
+      "Post their team build on the idea thread, connect with the facilitator, and note the resources page and the build cycle to take home.",
     checkpoint:
-      "Students know where the Resources page is, what to try next, and have been prompted to share their build.",
+      "Students know where the Resources page is, what to try next, and that the thread keeps getting comments — the sharpen loop continues after today.",
     commonFailure: "The session overran and this is skipped.",
     recovery: "Protect the last five minutes. This is the part they remember.",
     transition: "Thank the room. End on time.",
