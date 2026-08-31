@@ -1,5 +1,16 @@
+"use client";
+
 import Image from "next/image";
-import { ArrowRightCircle, ExternalLink, MessageCircleQuestion } from "lucide-react";
+import {
+  ArrowRightCircle,
+  Coffee,
+  ExternalLink,
+  MessageCircleQuestion,
+  Play,
+  RotateCcw,
+  Zap,
+} from "lucide-react";
+import { useEffect, useState, type CSSProperties } from "react";
 import type { Slide } from "@/content/types";
 import { SlideFrame } from "./SlideFrame";
 
@@ -36,6 +47,18 @@ export function SlideRenderer({
     return <BlueprintProduct slide={slide} />;
   }
 
+  if (slide.layout === "click-video") {
+    return <ClickVideoSlide slide={slide} />;
+  }
+
+  if (slide.layout === "discussion-build") {
+    return <DiscussionBuildSlide slide={slide} />;
+  }
+
+  if (slide.layout === "break-timer") {
+    return <BreakTimerSlide slide={slide} />;
+  }
+
   switch (slide.type) {
     case "title":
       return (
@@ -50,19 +73,7 @@ export function SlideRenderer({
       );
 
     case "section":
-      return (
-        <SlideFrame>
-          {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
-          <h2 className="slide-title text-[clamp(2rem,7vw,5rem)]">
-            {slide.title}
-          </h2>
-          <span
-            aria-hidden
-            className="mt-3 block h-1.5 w-24 rounded-full bg-[var(--deck-accent)]"
-          />
-          {slide.note ? <p className="slide-lead mt-3">{slide.note}</p> : null}
-        </SlideFrame>
-      );
+      return <SectionSlide slide={slide} />;
 
     case "statement":
     case "closing":
@@ -392,6 +403,445 @@ export function SlideRenderer({
         </SlideFrame>
       );
   }
+}
+
+function SectionSlide({ slide }: { slide: Slide }) {
+  const takeaways = slide.items ?? [];
+  const [revealed, setRevealed] = useState(0);
+  const hasBuild = takeaways.length > 0;
+  const isComplete = revealed >= takeaways.length;
+
+  function revealNext() {
+    if (!hasBuild) return;
+    setRevealed((current) => Math.min(current + 1, takeaways.length));
+  }
+
+  return (
+    <SlideFrame>
+      <div
+        className={
+          hasBuild
+            ? "section-build-layout section-build-interactive"
+            : "flex flex-col gap-[clamp(0.75rem,2vh,1.75rem)]"
+        }
+      >
+        {hasBuild ? (
+          <button
+            type="button"
+            className="section-build-click-target"
+            onClick={revealNext}
+            onKeyDown={(event) => event.stopPropagation()}
+            disabled={isComplete}
+            aria-label={
+              isComplete
+                ? "All three takeaways revealed"
+                : `Reveal takeaway ${revealed + 1} of ${takeaways.length}`
+            }
+          />
+        ) : null}
+
+        <div className="section-build-heading">
+          {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+          <h2 className="slide-title text-[clamp(2rem,7vw,5rem)]">
+            {slide.title}
+          </h2>
+          <span
+            aria-hidden
+            className="mt-3 block h-1.5 w-24 rounded-full bg-[var(--deck-accent)]"
+          />
+          {slide.note ? <p className="slide-lead mt-3">{slide.note}</p> : null}
+        </div>
+
+        {hasBuild ? (
+          <aside className="section-build-panel" aria-label="Three key takeaways">
+            <div className="section-build-panel-header">
+              <p className="section-build-label">Three things just happened</p>
+              <p className="section-build-hint" aria-hidden>
+                {isComplete ? "Build complete" : "Click to reveal"}
+              </p>
+            </div>
+            <ul className="section-build-list">
+              {takeaways.map((takeaway, index) => {
+                const isVisible = index < revealed;
+                return (
+                  <li
+                    key={takeaway.label}
+                    className={`section-build-item ${isVisible ? "is-visible" : ""}`}
+                    aria-hidden={!isVisible}
+                  >
+                    <span className="section-build-index" aria-hidden>
+                      0{index + 1}
+                    </span>
+                    <span>
+                      <strong>{takeaway.label}</strong>{" "}
+                      {takeaway.detail ? <span>{takeaway.detail}</span> : null}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        ) : null}
+
+        <p className="sr-only" aria-live="polite">
+          {revealed > 0 && takeaways[revealed - 1]
+            ? `${takeaways[revealed - 1].label} ${takeaways[revealed - 1].detail ?? ""}`
+            : ""}
+        </p>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function ClickVideoSlide({ slide }: { slide: Slide }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const video = slide.video;
+
+  if (!video) {
+    return (
+      <SlideFrame>
+        <h2 className="slide-title">{slide.title}</h2>
+      </SlideFrame>
+    );
+  }
+
+  const watchUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+
+  return (
+    <div className="blueprint-slide click-video-layout">
+      <div className="click-video-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2 className="blueprint-display-title click-video-title">{slide.title}</h2>
+        {slide.lead ? <p className="blueprint-serif-lead">{slide.lead}</p> : null}
+        {slide.note ? <p className="blueprint-question">{slide.note}</p> : null}
+      </div>
+
+      <div className="click-video-player">
+        <div className="click-video-screen">
+          {isPlaying ? (
+            <iframe
+              className="size-full border-0"
+              src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
+              title={video.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          ) : (
+            <button
+              type="button"
+              className="click-video-trigger"
+              onClick={() => setIsPlaying(true)}
+              onKeyDown={(event) => event.stopPropagation()}
+              aria-label={`Play ${video.title}`}
+            >
+              {/* The external thumbnail is supplied by YouTube for this video;
+                  a native image avoids adding a one-off Next image host rule. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={video.thumbnail} alt="" className="click-video-poster" />
+              <span className="click-video-scrim" aria-hidden />
+              <span className="click-video-play" aria-hidden>
+                <Play className="size-[38%] fill-current" />
+              </span>
+              <span className="click-video-play-label">Click to play comparison</span>
+            </button>
+          )}
+        </div>
+        <div className="click-video-meta">
+          <span>{video.title} · {video.author}</span>
+          <a href={watchUrl} target="_blank" rel="noopener noreferrer">
+            Open on YouTube <ExternalLink className="size-[0.9em]" aria-hidden />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DiscussionBuildSlide({ slide }: { slide: Slide }) {
+  const takeaways = slide.items ?? [];
+  const totalReveals = takeaways.length + (slide.conclusion ? 1 : 0);
+  const [revealed, setRevealed] = useState(0);
+  const isComplete = revealed >= totalReveals;
+  const conclusionVisible = Boolean(
+    slide.conclusion && revealed > takeaways.length,
+  );
+
+  function revealNext() {
+    setRevealed((current) => Math.min(current + 1, totalReveals));
+  }
+
+  const latest =
+    revealed > takeaways.length
+      ? slide.conclusion
+      : revealed > 0
+        ? takeaways[revealed - 1]
+        : undefined;
+
+  return (
+    <div className="blueprint-slide discussion-build-layout">
+      <button
+        type="button"
+        className="discussion-build-click-target"
+        onClick={revealNext}
+        onKeyDown={(event) => event.stopPropagation()}
+        disabled={isComplete}
+        aria-label={
+          isComplete
+            ? "Discussion synthesis complete"
+            : revealed < takeaways.length
+              ? `Reveal learning ${revealed + 1} of ${takeaways.length}`
+              : "Reveal the conclusion"
+        }
+      />
+
+      <div className="discussion-build-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2 className="blueprint-display-title discussion-build-title">
+          {slide.title}
+        </h2>
+        {slide.question ? (
+          <p className="blueprint-serif-lead">{slide.question}</p>
+        ) : null}
+        {slide.note ? <p className="blueprint-question">{slide.note}</p> : null}
+      </div>
+
+      <aside className="discussion-build-panel" aria-label="Discussion synthesis">
+        <div className="discussion-build-panel-header">
+          <p>Five patterns</p>
+          <span aria-hidden>{isComplete ? "Build complete" : "Click to reveal"}</span>
+        </div>
+        <ol className="discussion-build-list">
+          {takeaways.map((takeaway, index) => {
+            const isVisible = index < revealed;
+            return (
+              <li
+                key={takeaway.label}
+                className={isVisible ? "is-visible" : ""}
+                aria-hidden={!isVisible}
+              >
+                <span className="discussion-build-index" aria-hidden>
+                  0{index + 1}
+                </span>
+                <span>
+                  <strong>{takeaway.label}</strong>{" "}
+                  {takeaway.detail ? <span>{takeaway.detail}</span> : null}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+        {slide.conclusion ? (
+          <div
+            className={`discussion-build-conclusion ${conclusionVisible ? "is-visible" : ""}`}
+            aria-hidden={!conclusionVisible}
+          >
+            <strong>{slide.conclusion.label}</strong>
+            {slide.conclusion.detail ? <span>{slide.conclusion.detail}</span> : null}
+          </div>
+        ) : null}
+      </aside>
+
+      <p className="sr-only" aria-live="polite">
+        {latest ? `${latest.label} ${latest.detail ?? ""}` : ""}
+      </p>
+    </div>
+  );
+}
+
+function BreakTimerSlide({ slide }: { slide: Slide }) {
+  const initialMinutes = slide.timerMinutes ?? 10;
+  const [minutesInput, setMinutesInput] = useState(String(initialMinutes));
+  const [totalSeconds, setTotalSeconds] = useState(initialMinutes * 60);
+  const [remainingSeconds, setRemainingSeconds] = useState(
+    initialMinutes * 60,
+  );
+  const [endsAt, setEndsAt] = useState<number | null>(null);
+  const [decision, setDecision] = useState<"break" | "continue" | null>(null);
+
+  useEffect(() => {
+    if (endsAt === null) return;
+
+    function tick() {
+      const next = Math.max(0, Math.ceil((endsAt! - Date.now()) / 1000));
+      setRemainingSeconds(next);
+      if (next === 0) setEndsAt(null);
+    }
+
+    tick();
+    const interval = window.setInterval(tick, 250);
+    return () => window.clearInterval(interval);
+  }, [endsAt]);
+
+  const isRunning = endsAt !== null;
+  const hasFinished = !isRunning && remainingSeconds === 0;
+  const progress = totalSeconds > 0 ? remainingSeconds / totalSeconds : 0;
+  const minutes = Math.floor(remainingSeconds / 60);
+  const seconds = remainingSeconds % 60;
+  const timerStyle = {
+    "--timer-progress": `${progress * 360}deg`,
+  } as CSSProperties;
+
+  function normalizedMinutes() {
+    const parsed = Number(minutesInput);
+    return Number.isFinite(parsed) ? Math.min(60, Math.max(1, parsed)) : 10;
+  }
+
+  function startTimer() {
+    const nextMinutes = normalizedMinutes();
+    const nextTotal = Math.round(nextMinutes * 60);
+    setDecision("break");
+    setMinutesInput(String(nextMinutes));
+    setTotalSeconds(nextTotal);
+    setRemainingSeconds(nextTotal);
+    setEndsAt(Date.now() + nextTotal * 1000);
+  }
+
+  function resetTimer() {
+    const nextMinutes = normalizedMinutes();
+    const nextTotal = Math.round(nextMinutes * 60);
+    setEndsAt(null);
+    setMinutesInput(String(nextMinutes));
+    setTotalSeconds(nextTotal);
+    setRemainingSeconds(nextTotal);
+  }
+
+  function updateMinutes(value: string) {
+    setMinutesInput(value);
+    const parsed = Number(value);
+    if (!isRunning && Number.isFinite(parsed) && parsed >= 1 && parsed <= 60) {
+      const nextTotal = Math.round(parsed * 60);
+      setTotalSeconds(nextTotal);
+      setRemainingSeconds(nextTotal);
+    }
+  }
+
+  function chooseContinue() {
+    setDecision("continue");
+    setEndsAt(null);
+  }
+
+  return (
+    <div className="blueprint-slide break-slide-layout">
+      <div className="break-slide-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2 className="blueprint-display-title break-slide-title">
+          {slide.title}
+        </h2>
+        {slide.lead ? <p className="blueprint-serif-lead">{slide.lead}</p> : null}
+        {slide.note ? <p className="break-slide-vote-note">{slide.note}</p> : null}
+
+        <div className="break-vote" aria-label="Optional break vote">
+          <button
+            type="button"
+            className={decision === "break" ? "is-selected" : ""}
+            onClick={() => setDecision("break")}
+            onKeyDown={(event) => event.stopPropagation()}
+            aria-pressed={decision === "break"}
+          >
+            <Coffee aria-hidden />
+            <span><strong>Take a breather</strong>Stretch · hydrate · reset</span>
+          </button>
+          <button
+            type="button"
+            className={decision === "continue" ? "is-selected" : ""}
+            onClick={chooseContinue}
+            onKeyDown={(event) => event.stopPropagation()}
+            aria-pressed={decision === "continue"}
+          >
+            <Zap aria-hidden />
+            <span><strong>Keep the flow</strong>One more chapter</span>
+          </button>
+        </div>
+
+        {slide.stoicMessage ? (
+          <blockquote className="break-stoic-message">
+            <span>A Stoic pause</span>
+            “{slide.stoicMessage}”
+          </blockquote>
+        ) : null}
+      </div>
+
+      <section
+        className={`break-timer-panel ${decision === "continue" ? "is-continuing" : ""}`}
+        aria-label="Customizable break timer"
+      >
+        {decision === "continue" ? (
+          <div className="break-continue-state">
+            <Zap aria-hidden />
+            <strong>Momentum wins.</strong>
+            <span>Advance when the room is ready.</span>
+          </div>
+        ) : (
+          <>
+            <div className="break-timer-header">
+              <span>{decision === "break" ? "Break selected" : "If break wins"}</span>
+              <span>{isRunning ? "Timer running" : hasFinished ? "Welcome back" : "Ready"}</span>
+            </div>
+
+            <div className="break-timer-ring" style={timerStyle}>
+              <div>
+                {hasFinished ? <Coffee className="break-timer-finished-icon" aria-hidden /> : null}
+                <strong aria-live="off">
+                  {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+                </strong>
+                <span>{hasFinished ? "Refreshed?" : isRunning ? "Breathe" : "Minutes"}</span>
+              </div>
+            </div>
+
+            <div className="break-timer-controls">
+              <label>
+                <span>Break length</span>
+                <span className="break-minutes-field">
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    step="1"
+                    inputMode="numeric"
+                    value={minutesInput}
+                    onChange={(event) => updateMinutes(event.target.value)}
+                    disabled={isRunning}
+                    aria-label="Break length in minutes"
+                  />
+                  min
+                </span>
+              </label>
+              <div>
+                <button
+                  type="button"
+                  className="break-start-button"
+                  onClick={startTimer}
+                  onKeyDown={(event) => event.stopPropagation()}
+                  disabled={isRunning}
+                >
+                  <Play aria-hidden />
+                  {hasFinished ? "Start again" : "Start break"}
+                </button>
+                <button
+                  type="button"
+                  className="break-reset-button"
+                  onClick={resetTimer}
+                  onKeyDown={(event) => event.stopPropagation()}
+                  aria-label="Reset break timer"
+                >
+                  <RotateCcw aria-hidden />
+                </button>
+              </div>
+            </div>
+
+            <p className="sr-only" aria-live="polite">
+              {hasFinished
+                ? "Break complete. Welcome back."
+                : decision === "break"
+                  ? "The class selected a break."
+                  : "Waiting for the class vote."}
+            </p>
+          </>
+        )}
+      </section>
+    </div>
+  );
 }
 
 function BlueprintHero({ slide }: { slide: Slide }) {

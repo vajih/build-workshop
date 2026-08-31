@@ -248,7 +248,11 @@ export function Deck({
         aria-roledescription="slide"
         aria-label={`Slide ${index + 1} of ${total}`}
       >
-        <SlideRenderer slide={slide} participantUrl={participantUrl} />
+        <SlideRenderer
+          key={slide.id}
+          slide={slide}
+          participantUrl={participantUrl}
+        />
 
         {slide.layout !== "frictionless-embed" ? (
           <>
@@ -292,7 +296,7 @@ export function Deck({
       </p>
 
       {/* Controls */}
-      <div className="deck-controls absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/15 bg-black/40 px-2 py-1.5 backdrop-blur">
+      <div className="deck-controls absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/15 bg-black/40 px-2 py-1.5 backdrop-blur">
         <DeckButton
           label="Previous slide"
           onClick={() => go(index - 1)}
@@ -355,7 +359,7 @@ export function Deck({
       {/* Exit to workbook */}
       <a
         href={`${base}/participate`}
-        className="deck-exit absolute top-4 left-4 rounded-md border border-white/15 bg-black/40 px-2.5 py-1.5 text-xs text-white/70 backdrop-blur hover:text-white"
+        className="deck-exit absolute top-4 left-4 z-20 rounded-md border border-white/15 bg-black/40 px-2.5 py-1.5 text-xs text-white/70 backdrop-blur hover:text-white"
       >
         Leave presentation
       </a>

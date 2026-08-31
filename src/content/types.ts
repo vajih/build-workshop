@@ -310,7 +310,10 @@ export interface Slide {
   layout?:
     | "blueprint-hero"
     | "blueprint-product"
-    | "frictionless-embed";
+    | "frictionless-embed"
+    | "click-video"
+    | "discussion-build"
+    | "break-timer";
   /** 1-based source slide number for the embedded Frictionless chapter. */
   embedSlide?: number;
   title?: string;
@@ -343,6 +346,19 @@ export interface Slide {
   callout?: { stat?: string; text: string };
   /** small source / citation line rendered at the foot of the slide */
   source?: string;
+  /** click-video: a presenter-controlled YouTube embed */
+  video?: {
+    youtubeId: string;
+    title: string;
+    author: string;
+    thumbnail: string;
+  };
+  /** discussion-build: final synthesis revealed after all list items */
+  conclusion?: SlideItem;
+  /** break-timer: editable default duration in minutes */
+  timerMinutes?: number;
+  /** break-timer: short original message informed by Stoic practice */
+  stoicMessage?: string;
   /** eyebrow / kicker text */
   kicker?: string;
   /** content still needs facilitator review before the workshop */

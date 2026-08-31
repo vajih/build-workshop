@@ -41,7 +41,7 @@ describe("presentation deck", () => {
     }
   });
 
-  it("inserts the adoption slide after Frictionless source slide 1", () => {
+  it("inserts the pit-stop sequence after the model-efficiency slide", () => {
     expect(FRICTIONLESS_CHAPTER_CONFIG.map((entry) => entry.sourceSlide)).toEqual(
       Array.from({ length: 13 }, (_, index) => index + 1),
     );
@@ -49,25 +49,68 @@ describe("presentation deck", () => {
     const enabledIds = FRICTIONLESS_CHAPTER_CONFIG.filter(
       (entry) => entry.include,
     ).map((entry) => entry.id);
-    const anchor = slideIndexById("what-changed-1");
-
+    const modelEfficiencyIndex = enabledIds.indexOf(
+      "frictionless-05-model-efficiency",
+    );
     const expectedIds = [
       ...enabledIds.slice(0, 1),
       "welcome-3-adoption",
-      ...enabledIds.slice(1),
+      ...enabledIds.slice(1, modelEfficiencyIndex + 1),
+      "what-changed-pit-stops",
+      "what-changed-pit-stops-discussion",
+      ...enabledIds.slice(modelEfficiencyIndex + 1, 7),
+      "what-changed-optional-break",
+      ...enabledIds.slice(7),
     ];
+    const anchor = slideIndexById("what-changed-1");
+    const actualIds = SLIDES.slice(
+      anchor + 1,
+      anchor + 1 + expectedIds.length,
+    ).map((slide) => slide.id);
 
+    expect(actualIds).toEqual(expectedIds);
     expect(
-      SLIDES.slice(anchor + 1, anchor + 1 + expectedIds.length).map(
-        (slide) => slide.id,
+      actualIds.slice(
+        actualIds.indexOf("frictionless-05-model-efficiency"),
+        actualIds.indexOf("frictionless-05-model-efficiency") + 4,
       ),
-    ).toEqual(expectedIds);
+    ).toEqual([
+      "frictionless-05-model-efficiency",
+      "what-changed-pit-stops",
+      "what-changed-pit-stops-discussion",
+      "frictionless-06-workbench",
+    ]);
   });
 
   it("slideIndexById finds slides and returns -1 for unknown", () => {
     expect(slideIndexById(SLIDES[0].id)).toBe(0);
     expect(slideIndexById(SLIDES[SLIDE_COUNT - 1].id)).toBe(SLIDE_COUNT - 1);
     expect(slideIndexById("no-such-slide")).toBe(-1);
+  });
+
+  it("keeps the pit-stop observation and discussion sequence presentation-ready", () => {
+    const video = SLIDES.find((slide) => slide.id === "what-changed-pit-stops");
+    const discussion = SLIDES.find(
+      (slide) => slide.id === "what-changed-pit-stops-discussion",
+    );
+
+    expect(video?.layout).toBe("click-video");
+    expect(video?.video?.youtubeId).toBe("RRy_73ivcms");
+    expect(discussion?.layout).toBe("discussion-build");
+    expect(discussion?.items).toHaveLength(5);
+    expect(discussion?.conclusion?.label).toBe(
+      "New tools accelerate innovation.",
+    );
+  });
+
+  it("places a configurable optional break after the one-window slide", () => {
+    const oneWindow = slideIndexById("frictionless-07-one-window");
+    const breakSlide = SLIDES[oneWindow + 1];
+
+    expect(breakSlide.id).toBe("what-changed-optional-break");
+    expect(breakSlide.layout).toBe("break-timer");
+    expect(breakSlide.timerMinutes).toBe(10);
+    expect(breakSlide.stoicMessage).toBeTruthy();
   });
 
   it("exercise-launch slides link to a real participant nav target", () => {
