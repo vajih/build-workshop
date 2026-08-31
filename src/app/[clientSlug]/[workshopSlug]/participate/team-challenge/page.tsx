@@ -20,6 +20,7 @@ import {
   SHARPEN_RULE,
   KEEP_THE_LOOP_GOING,
   MVP_REQUIREMENTS,
+  PROMPTING_TIPS,
   HEALTH_DATA_GUIDANCE,
   PRESENTATION_STRUCTURE,
   PRESENTATION_TIPS,
@@ -165,6 +166,26 @@ export default async function TeamChallengePage({
             What the prototype must have
           </h3>
           <List items={MVP_REQUIREMENTS} />
+
+          <h3 className="mt-6 text-lg font-semibold text-ink">
+            Five ways to prompt well
+          </h3>
+          <p className="mt-1 text-sm text-ink-muted">
+            Copilot builds what you describe — the prompt is the design.
+          </p>
+          <ol className="mt-3 space-y-2">
+            {PROMPTING_TIPS.map((t) => (
+              <li
+                key={t.label}
+                className="rounded-lg border border-border-strong bg-surface px-4 py-3"
+              >
+                <span className="font-semibold text-ink">{t.label}</span>
+                <span className="mt-0.5 block text-sm text-ink-muted">
+                  {t.detail}
+                </span>
+              </li>
+            ))}
+          </ol>
 
           <SafetyNotice tone="strong" title="Responsible use of health data">
             <ul>

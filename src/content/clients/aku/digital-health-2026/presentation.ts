@@ -7,7 +7,7 @@ import {
 } from "./build-one";
 import { BUILD1_DEBRIEF } from "./facilitator";
 import { DEMO_FLOW, AUDIENCE_QUESTIONS } from "./outbreak-ai";
-import { RUBRIC } from "./team-challenge";
+import { RUBRIC, PROMPTING_TIPS } from "./team-challenge";
 import { BUILD_CYCLE } from "@/content/shared/build-cycle";
 import { AI_EVOLUTION } from "@/content/shared/ai-evolution";
 import {
@@ -564,6 +564,15 @@ export const PRESENTATION: Presentation = {
           title: "Limitation language",
           lead: `"${DISCLAIMER}"`,
           body: [`"${SIGNAL_NOT_OUTBREAK}"`, `"${SYNTHETIC_DATA_LABEL}"`],
+        },
+        {
+          id: "responsible-ai-prompting",
+          type: "process",
+          section: "responsible-ai",
+          kicker: "For the Team Challenge",
+          title: "Five ways to prompt well",
+          items: PROMPTING_TIPS,
+          note: "Copilot builds what you describe.",
         },
       ],
     },

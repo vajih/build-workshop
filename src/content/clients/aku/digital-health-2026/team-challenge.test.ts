@@ -8,8 +8,9 @@ import {
   WORKSHOP_HASHTAG,
   SHARE_IDEA_TEMPLATE,
   SHARE_POST_TEMPLATE,
+  PROMPTING_TIPS,
 } from "./team-challenge";
-import { PRESENTATION } from "./presentation";
+import { PRESENTATION, slideIndexById } from "./presentation";
 
 describe("Team Challenge — idea-first flow", () => {
   it("the Idea Card has the five expected fields, each fully described", () => {
@@ -55,6 +56,17 @@ describe("Team Challenge — idea-first flow", () => {
   it("sharpen asks three questions and the rubric is unchanged at six dimensions", () => {
     expect(SHARPEN_QUESTIONS).toHaveLength(3);
     expect(RUBRIC).toHaveLength(6);
+  });
+
+  it("has five prompting tips, on a slide right after responsible-ai-6", () => {
+    expect(PROMPTING_TIPS).toHaveLength(5);
+    for (const t of PROMPTING_TIPS) {
+      expect(t.label.trim().length).toBeGreaterThan(0);
+      expect(t.detail.trim().length).toBeGreaterThan(0);
+    }
+    expect(slideIndexById("responsible-ai-prompting")).toBe(
+      slideIndexById("responsible-ai-6") + 1,
+    );
   });
 });
 

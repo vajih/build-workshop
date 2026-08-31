@@ -123,6 +123,33 @@ export const MVP_REQUIREMENTS: string[] = [
   "It carries a visible line stating it is an educational prototype, not a clinical tool.",
 ];
 
+/**
+ * Five prompting tips for the build sprint. Copilot builds what you describe,
+ * so the quality of the prompt is the quality of the build.
+ */
+export const PROMPTING_TIPS: { label: string; detail: string }[] = [
+  {
+    label: "Name the user and the one job",
+    detail: "Who it is for, and the single thing it does end to end.",
+  },
+  {
+    label: "State the stack and the “do not”",
+    detail: "Plain HTML, CSS, JS — say no framework, no backend.",
+  },
+  {
+    label: "Inputs, rule, output",
+    detail: "Exact fields, exact logic, what shows for each case.",
+  },
+  {
+    label: "One thing, then the next",
+    detail: "Core function working and tested before any polish.",
+  },
+  {
+    label: "Paste the error, don’t retype it",
+    detail: "The exact message — then read the fix before accepting.",
+  },
+];
+
 export const HEALTH_DATA_GUIDANCE: string[] = [
   "Use invented or aggregate data for the demonstration. No real patient information.",
   "Do not collect names, contact details, or identifiers unless the prototype genuinely needs them — and today it does not.",
