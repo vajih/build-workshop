@@ -323,7 +323,11 @@ export interface Slide {
     | "break-timer"
     | "mobile-showcase"
     | "khayal-architecture"
-    | "share-post";
+    | "share-post"
+    | "build-open"
+    | "dcp-opportunity"
+    | "desktop-showcase"
+    | "dcp-architecture";
   /** 1-based source slide number for the embedded Frictionless chapter. */
   embedSlide?: number;
   title?: string;
@@ -371,6 +375,13 @@ export interface Slide {
   stoicMessage?: string;
   /** mobile-showcase: phone screenshots or labeled placeholders */
   mobileScreens?: {
+    label: string;
+    detail: string;
+    src?: string;
+    alt?: string;
+  }[];
+  /** desktop-showcase: browser-sized product surfaces or illustrated stubs */
+  desktopScreens?: {
     label: string;
     detail: string;
     src?: string;

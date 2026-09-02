@@ -373,6 +373,88 @@ export const PRESENTATION: Presentation = {
             "WhatsApp and voice updates become validated context, a secure care record and one useful family summary.",
           note: "Caring for them, even when you can’t be there.",
         },
+        {
+          id: "what-changed-dcp-opportunity",
+          type: "concept",
+          section: "what-changed",
+          layout: "dcp-opportunity",
+          kicker: "The industry opportunity",
+          title: "The patient was ready. The practice never answered.",
+          lead:
+            "Across U.S. dentistry, the opportunity is often not more demand—it is capturing the demand already calling.",
+          body: [
+            "Calls arrive while teams are caring for patients.",
+            "Manual follow-up loses urgency and intent.",
+            "Disconnected systems hide the cost of every missed moment.",
+          ],
+          note:
+            "We saw an opening for AI: respond instantly, coordinate the next action and make growth measurable.",
+          images: [
+            {
+              src: "/images/presentation/dcp/industry-problem-solution.png",
+              alt: "Illustrated comparison between a chaotic manual dental front desk and a streamlined AI scheduling experience",
+              tag: "01 · Operational friction",
+              caption: "A busy front desk turns patient intent into queues, callbacks and missed moments.",
+              aspectRatio: "1695 / 928",
+            },
+            {
+              src: "/images/presentation/dcp/industry-revenue-recovery.png",
+              alt: "Illustrated Dental Connect Pro concept showing missed calls becoming AI-assisted bookings and recovered revenue",
+              tag: "02 · Growth opportunity",
+              caption: "AI can help practices answer sooner, book consistently and see what converts.",
+              aspectRatio: "2752 / 1536",
+            },
+          ],
+          source:
+            "Illustrative DCP concept visuals · figures shown are not independently verified",
+        },
+        {
+          id: "what-changed-dcp",
+          type: "concept",
+          section: "what-changed",
+          layout: "desktop-showcase",
+          kicker: "Patient growth platform",
+          title: "Meet Dental Connect Pro.",
+          lead:
+            "Answer every opportunity. Convert inquiries into appointments. Measure what drives growth.",
+          note: "Acquire patients → Activate practices → Grow with evidence",
+          externalCta: {
+            label: "Open DCP",
+            href: "https://dcp-dusky.vercel.app/demo5",
+          },
+          desktopScreens: [
+            {
+              label: "Patient acquisition",
+              detail: "Turn website demand into bookings",
+              src: "/images/presentation/dcp/patient-acquisition.png",
+              alt: "Dental Connect Pro public booking experience inviting patients to book a dental appointment",
+            },
+            {
+              label: "Sales operations",
+              detail: "Move practices from prospect to go-live",
+              src: "/images/presentation/dcp/sales-territories.png",
+              alt: "Dental Connect Pro protected sales portal sign-in describing clinic onboarding, integrations, pipeline, and commissions",
+            },
+            {
+              label: "Practice intelligence",
+              detail: "See calls, bookings and growth signals",
+              src: "/images/presentation/dcp/practice-portal.png",
+              alt: "Dental Connect Pro protected practice portal sign-in describing bookings, call volume, booking history, and billing",
+            },
+          ],
+        },
+        {
+          id: "what-changed-dcp-architecture",
+          type: "process",
+          section: "what-changed",
+          layout: "dcp-architecture",
+          kicker: "From inquiry to measurable growth",
+          title: "Dental Connect Pro — AI-Powered Patient Growth Architecture",
+          lead:
+            "Every patient inquiry becomes an immediate response, a coordinated action and a measurable growth signal.",
+          note:
+            "The AI front desk—and patient growth platform—built for modern dental practices.",
+        },
         ...FRICTIONLESS_CHAPTER_SLIDES.slice(10),
         {
           id: "what-changed-3",
@@ -385,10 +467,19 @@ export const PRESENTATION: Presentation = {
           id: "what-changed-open",
           type: "concept",
           section: "what-changed",
+          layout: "build-open",
           kicker: "A working habit",
           title: BUILD_IN_THE_OPEN.headline,
           body: BUILD_IN_THE_OPEN.points,
           note: "You will practise this today — the idea thread, then the build post.",
+          images: [
+            {
+              src: "/images/presentation/build-open/build-in-the-open.png",
+              alt: "A maker posts an early prototype sketch on an open workshop wall while collaborators add feedback and build connected ideas around it",
+              caption: "A rough idea, made visible, becomes a place for others to contribute.",
+              aspectRatio: "1122 / 1402",
+            },
+          ],
         },
         {
           id: "what-changed-4",

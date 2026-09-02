@@ -63,6 +63,9 @@ describe("presentation deck", () => {
       ...enabledIds.slice(7, 10),
       "what-changed-khayal",
       "what-changed-khayal-architecture",
+      "what-changed-dcp-opportunity",
+      "what-changed-dcp",
+      "what-changed-dcp-architecture",
       ...enabledIds.slice(10),
     ];
     const anchor = slideIndexById("what-changed-1");
@@ -93,8 +96,12 @@ describe("presentation deck", () => {
 
   it("carries the build-in-the-open thread from concept to close", () => {
     const openSlide = slideIndexById("what-changed-open");
+    const openSlideContent = SLIDES[openSlide];
     const lastSlide = SLIDES[SLIDE_COUNT - 1];
     expect(openSlide).toBeGreaterThan(-1);
+    expect(openSlideContent.layout).toBe("build-open");
+    expect(openSlideContent.images).toHaveLength(1);
+    expect(openSlideContent.body).toHaveLength(4);
     // the final slide invites a post about the workshop
     expect(lastSlide.id).toBe("presentations-close-7");
     expect(`${lastSlide.title} ${lastSlide.lead}`).toMatch(/#AKUBuildWorkshop/);
@@ -126,12 +133,15 @@ describe("presentation deck", () => {
     expect(breakSlide.stoicMessage).toBeTruthy();
   });
 
-  it("introduces Khayal and its architecture before the useful-experience slide", () => {
+  it("introduces the product examples before the useful-experience slide", () => {
     const usefulExperience = slideIndexById(
       "frictionless-11-useful-experience",
     );
-    const khayal = SLIDES[usefulExperience - 2];
-    const architecture = SLIDES[usefulExperience - 1];
+    const khayal = SLIDES[usefulExperience - 5];
+    const architecture = SLIDES[usefulExperience - 4];
+    const dcpOpportunity = SLIDES[usefulExperience - 3];
+    const dcp = SLIDES[usefulExperience - 2];
+    const dcpArchitecture = SLIDES[usefulExperience - 1];
 
     expect(khayal.id).toBe("what-changed-khayal");
     expect(khayal.layout).toBe("mobile-showcase");
@@ -139,6 +149,15 @@ describe("presentation deck", () => {
     expect(khayal.externalCta?.href).toBe("https://khayal-vert.vercel.app/");
     expect(architecture.id).toBe("what-changed-khayal-architecture");
     expect(architecture.layout).toBe("khayal-architecture");
+    expect(dcpOpportunity.id).toBe("what-changed-dcp-opportunity");
+    expect(dcpOpportunity.layout).toBe("dcp-opportunity");
+    expect(dcpOpportunity.images).toHaveLength(2);
+    expect(dcp.id).toBe("what-changed-dcp");
+    expect(dcp.layout).toBe("desktop-showcase");
+    expect(dcp.desktopScreens).toHaveLength(3);
+    expect(dcp.externalCta?.href).toBe("https://dcp-dusky.vercel.app/demo5");
+    expect(dcpArchitecture.id).toBe("what-changed-dcp-architecture");
+    expect(dcpArchitecture.layout).toBe("dcp-architecture");
   });
 
   it("exercise-launch slides link to a real participant nav target", () => {

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import {
+  BarChart3,
   ArrowRightCircle,
   ArrowRight,
   BrainCircuit,
@@ -10,10 +11,12 @@ import {
   Coffee,
   Database,
   ExternalLink,
+  Headset,
   Home,
   LayoutDashboard,
   MessageCircleQuestion,
   MessageSquareText,
+  PhoneIncoming,
   Play,
   RotateCcw,
   ShieldCheck,
@@ -78,6 +81,22 @@ export function SlideRenderer({
 
   if (slide.layout === "khayal-architecture") {
     return <KhayalArchitectureSlide slide={slide} />;
+  }
+
+  if (slide.layout === "build-open") {
+    return <BuildOpenSlide slide={slide} />;
+  }
+
+  if (slide.layout === "dcp-opportunity") {
+    return <DcpOpportunitySlide slide={slide} />;
+  }
+
+  if (slide.layout === "desktop-showcase") {
+    return <DesktopShowcaseSlide slide={slide} />;
+  }
+
+  if (slide.layout === "dcp-architecture") {
+    return <DcpArchitectureSlide slide={slide} />;
   }
 
   if (slide.layout === "share-post") {
@@ -978,6 +997,283 @@ function MobileShowcaseSlide({ slide }: { slide: Slide }) {
   );
 }
 
+const BUILD_OPEN_EMPHASIS = [
+  "Share the idea before it is polished",
+  "A rough prototype posted publicly",
+  "The work compounds",
+  "It builds a reputation for shipping",
+] as const;
+
+function BuildOpenSlide({ slide }: { slide: Slide }) {
+  const visual = slide.images?.[0];
+
+  return (
+    <div className="blueprint-slide build-open-layout">
+      <section className="build-open-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+
+        <ol className="build-open-points">
+          {(slide.body ?? []).map((point, index) => {
+            const emphasis = BUILD_OPEN_EMPHASIS[index];
+            const remainder = emphasis && point.startsWith(emphasis)
+              ? point.slice(emphasis.length)
+              : point;
+
+            return (
+              <li key={point}>
+                <span>0{index + 1}</span>
+                <p>
+                  {emphasis && point.startsWith(emphasis) ? <strong>{emphasis}</strong> : null}
+                  {remainder}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+
+        {slide.note ? (
+          <p className="build-open-practice">
+            <Sparkles aria-hidden />
+            {slide.note}
+          </p>
+        ) : null}
+      </section>
+
+      {visual ? (
+        <figure className="build-open-visual">
+          <div className="build-open-image-frame" style={{ position: "relative" }}>
+            <Image
+              src={visual.src}
+              alt={visual.alt}
+              fill
+              sizes="42vw"
+              className="build-open-image"
+              priority
+            />
+            <span aria-hidden className="build-open-image-index">01 / OPEN WORK</span>
+          </div>
+          {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
+        </figure>
+      ) : null}
+    </div>
+  );
+}
+
+function DcpOpportunitySlide({ slide }: { slide: Slide }) {
+  const images = slide.images ?? [];
+  const [activeImage, setActiveImage] = useState(0);
+  const current = images[activeImage];
+
+  function rotateImage() {
+    setActiveImage((index) => (index + 1) % images.length);
+  }
+
+  return (
+    <div className="blueprint-slide dcp-opportunity-layout">
+      <section className="dcp-opportunity-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+        {slide.lead ? <p className="dcp-opportunity-lead">{slide.lead}</p> : null}
+
+        <ul className="dcp-opportunity-signals">
+          {(slide.body ?? []).map((point, index) => (
+            <li key={point}>
+              <span>0{index + 1}</span>
+              <p>{point}</p>
+            </li>
+          ))}
+        </ul>
+
+        {slide.note ? (
+          <div className="dcp-opportunity-answer">
+            <span>THE OPENING</span>
+            <p>{slide.note}</p>
+            <strong>
+              That opportunity became Dental Connect Pro.
+              <ArrowRight aria-hidden />
+            </strong>
+          </div>
+        ) : null}
+      </section>
+
+      <section className="dcp-opportunity-evidence" aria-label="Dental industry opportunity concept views">
+        {current ? (
+          <button
+            type="button"
+            className="dcp-opportunity-visual"
+            style={{ position: "relative" }}
+            onClick={rotateImage}
+            onKeyDown={(event) => event.stopPropagation()}
+            aria-label={`Showing ${current.tag}. Click to show ${images[(activeImage + 1) % images.length]?.tag}.`}
+          >
+            <Image
+              key={current.src}
+              src={current.src}
+              alt={current.alt}
+              fill
+              sizes="58vw"
+              className="dcp-opportunity-image"
+              priority
+            />
+            <span className="dcp-opportunity-image-tag">{current.tag}</span>
+            <span className="dcp-opportunity-click-hint">
+              Click image to rotate
+              <RotateCcw aria-hidden />
+            </span>
+          </button>
+        ) : null}
+
+        <div className="dcp-opportunity-caption">
+          <p>{current?.caption}</p>
+          <div aria-label={`Image ${activeImage + 1} of ${images.length}`}>
+            {images.map((image, index) => (
+              <button
+                key={image.src}
+                type="button"
+                className={index === activeImage ? "is-active" : ""}
+                onClick={() => setActiveImage(index)}
+                onKeyDown={(event) => event.stopPropagation()}
+                aria-label={`Show ${image.tag}`}
+                aria-current={index === activeImage ? "true" : undefined}
+              />
+            ))}
+          </div>
+        </div>
+
+        {slide.source ? <p className="dcp-opportunity-source">{slide.source}</p> : null}
+      </section>
+
+      <p className="sr-only" aria-live="polite">
+        {current ? `${current.tag}: ${current.caption}` : ""}
+      </p>
+    </div>
+  );
+}
+
+function DesktopShowcaseSlide({ slide }: { slide: Slide }) {
+  const screens = slide.desktopScreens ?? [];
+  const [revealed, setRevealed] = useState(0);
+  const isComplete = revealed >= screens.length;
+
+  function revealNext() {
+    setRevealed((current) => Math.min(current + 1, screens.length));
+  }
+
+  return (
+    <div className="blueprint-slide desktop-showcase-layout">
+      <button
+        type="button"
+        className="desktop-showcase-click-target"
+        onClick={revealNext}
+        onKeyDown={(event) => event.stopPropagation()}
+        disabled={isComplete}
+        aria-label={
+          isComplete
+            ? "All three Dental Connect Pro screens revealed"
+            : `Reveal Dental Connect Pro screen ${revealed + 1} of ${screens.length}`
+        }
+      />
+
+      <header className="desktop-showcase-heading">
+        <div className="desktop-showcase-heading-copy">
+          {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+          <h2>{slide.title}</h2>
+          {slide.lead ? <p>{slide.lead}</p> : null}
+        </div>
+        <div className="desktop-showcase-meta">
+          {slide.note ? <p>{slide.note}</p> : null}
+          <div className="desktop-showcase-actions">
+            <span aria-hidden>
+              {isComplete ? "Screens revealed" : `Click to reveal · ${revealed}/${screens.length}`}
+            </span>
+            {slide.externalCta ? (
+              <a
+                href={slide.externalCta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {slide.externalCta.label}
+                <ExternalLink aria-hidden />
+              </a>
+            ) : null}
+          </div>
+        </div>
+      </header>
+
+      <ol className="desktop-showcase-screens" aria-label="Dental Connect Pro desktop surfaces">
+        {screens.map((screen, index) => (
+          <li key={screen.label}>
+            <figure>
+              <div className={`desktop-window desktop-window-${index + 1} ${index < revealed ? "is-revealed" : ""}`}>
+                <div className="desktop-window-chrome" aria-hidden>
+                  <span />
+                  <span />
+                  <span />
+                  <i>{index === 0 ? "dentalconnectpro.com" : index === 1 ? "sales.dcp.app" : "practice.dcp.app"}</i>
+                </div>
+                <div className="desktop-window-screen">
+                  {screen.src && index < revealed ? (
+                    <Image
+                      src={screen.src}
+                      alt={screen.alt ?? `${screen.label} in Dental Connect Pro`}
+                      fill
+                      sizes="31vw"
+                      className="desktop-real-screen object-cover object-top"
+                    />
+                  ) : (
+                    <div className="dcp-desktop-stub" aria-label={`${screen.label} screenshot placeholder`}>
+                      <aside aria-hidden>
+                        <strong>DCP</strong>
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                      </aside>
+                      <main>
+                        <header aria-hidden>
+                          <div>
+                            <small>Workspace 0{index + 1}</small>
+                            <strong>{screen.label}</strong>
+                          </div>
+                          <i />
+                        </header>
+                        <section aria-hidden>
+                          <span />
+                          <span />
+                          <span />
+                        </section>
+                        <article aria-hidden>
+                          <div />
+                          <div />
+                          <div />
+                          <div />
+                          <div />
+                        </article>
+                      </main>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <figcaption>
+                <span>0{index + 1}</span>
+                <strong>{screen.label}</strong>
+                <small>{screen.detail}</small>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ol>
+
+      <p className="sr-only" aria-live="polite">
+        {revealed > 0 && screens[revealed - 1]
+          ? `${screens[revealed - 1].label} screen revealed.`
+          : ""}
+      </p>
+    </div>
+  );
+}
+
 type KhayalArchitectureStageProps = {
   number: string;
   eyebrow: string;
@@ -1179,6 +1475,140 @@ function KhayalArchitectureSlide({ slide }: { slide: Slide }) {
         </div>
         <p>{slide.note}</p>
         <span className="khayal-architecture-runtime">Runtime: Vercel + Supabase</span>
+      </footer>
+    </div>
+  );
+}
+
+function DcpArchitectureSlide({ slide }: { slide: Slide }) {
+  return (
+    <div className="blueprint-slide khayal-architecture-layout dcp-architecture-layout">
+      <header className="khayal-architecture-heading">
+        <div>
+          {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+          <h2>{slide.title}</h2>
+        </div>
+        {slide.lead ? <p>{slide.lead}</p> : null}
+      </header>
+
+      <div className="khayal-architecture-flow" aria-label="Dental Connect Pro information flow">
+        <KhayalArchitectureStage
+          number="01"
+          eyebrow="Patient demand"
+          title="Every inquiry counts"
+          icon={PhoneIncoming}
+          items={["Calls, missed + after-hours", "Website + Google demand", "New and returning patients"]}
+          footer="A delayed response is a lost opportunity"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="02"
+          eyebrow="Immediate engagement"
+          title="DCP responds 24/7"
+          icon={Headset}
+          items={["Vapi voice + web booking", "Answers routine questions", "Books, changes or routes", "Captures missed opportunities"]}
+          footer="Immediate response · less front-desk load"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="03"
+          eyebrow="DCP intelligence"
+          title="Conversation to action"
+          icon={BrainCircuit}
+          pipeline={[
+            "Speech recognition",
+            "Intent + patient routing",
+            "Availability + booking workflow",
+            "Transcript + AI summary",
+            "Conversion analytics",
+          ]}
+          tags={[{ label: "Human escalation · clinical boundary", tone: "current" }]}
+          footer="Administrative support — never diagnosis"
+          tone="intelligence"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="04"
+          eyebrow="Practice operations"
+          title="Connected systems"
+          icon={Database}
+          items={["Supabase records + Auth/RLS", "Kolla → Eaglesoft / OpenDental", "Vapi calls + hourly reconciliation", "Stripe subscriptions + billing"]}
+          tags={[
+            { label: "Optional · eligibility verification", tone: "pilot" },
+            { label: "Integration-ready · more PMS", tone: "planned" },
+          ]}
+          footer="Practice-scoped data · auditable workflows"
+          tone="record"
+        />
+        <KhayalArchitectureConnector />
+        <KhayalArchitectureStage
+          number="05"
+          eyebrow="Practice experience"
+          title="Measure what converts"
+          icon={BarChart3}
+          items={["Live calls + bookings", "Missed + recovered demand", "Follow-up + feedback", "Conversion + ROI signals"]}
+          footer="More patients · appointments · revenue"
+        />
+      </div>
+
+      <section className="khayal-architecture-foundation" aria-label="Dental Connect Pro trust foundation">
+        <div className="khayal-architecture-foundation-label">
+          <ShieldCheck aria-hidden />
+          <span>Control foundation</span>
+        </div>
+        <ul>
+          <li>Patient privacy</li>
+          <li>Practice isolation</li>
+          <li>Role-based access</li>
+          <li>Human escalation</li>
+          <li>Audit + provenance</li>
+          <li>Clinical boundaries</li>
+        </ul>
+      </section>
+
+      <section className="khayal-architecture-build" aria-label="Dental Connect Pro build and deployment stack">
+        <div className="khayal-architecture-build-label">
+          <Code2 aria-hidden />
+          <span>Build + delivery</span>
+        </div>
+        <div className="khayal-architecture-build-flow">
+          <span>
+            <Sparkles aria-hidden />
+            <strong>React + Vite</strong>
+            <small>Practice dashboards</small>
+          </span>
+          <ArrowRight aria-hidden />
+          <span>
+            <Code2 aria-hidden />
+            <strong>Node + Express</strong>
+            <small>Workflow APIs</small>
+          </span>
+          <ArrowRight aria-hidden />
+          <span>
+            <Cloud aria-hidden />
+            <strong>Vercel</strong>
+            <small>Deployment</small>
+          </span>
+          <ArrowRight aria-hidden />
+          <span>
+            <Database aria-hidden />
+            <strong>Supabase + Stripe</strong>
+            <small>Data + subscriptions</small>
+          </span>
+        </div>
+      </section>
+
+      <footer className="khayal-architecture-footer">
+        <div className="khayal-architecture-journey">
+          <PhoneIncoming aria-hidden />
+          <span>Patient inquiry</span>
+          <ArrowRight aria-hidden />
+          <strong>DCP</strong>
+          <ArrowRight aria-hidden />
+          <span>Practice growth</span>
+        </div>
+        <p>{slide.note}</p>
+        <span className="khayal-architecture-runtime">Runtime: Vapi + Kolla + Vercel</span>
       </footer>
     </div>
   );
