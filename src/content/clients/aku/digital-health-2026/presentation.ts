@@ -924,7 +924,10 @@ export const PRESENTATION: Presentation = {
   ],
 };
 
-/** Flat, ordered list of every slide — used by the deck for navigation. */
+/** Flat, ordered list of every slide, including ones hidden from
+ * Presentation Mode — this is the full source, e.g. for Backup Mode and
+ * content tests. Presentation Mode filters `hidden` slides out itself
+ * (see present/[[...slide]]/page.tsx). */
 export const SLIDES = PRESENTATION.sections.flatMap((s) => s.slides);
 
 export const SLIDE_COUNT = SLIDES.length;
@@ -933,13 +936,19 @@ export function slideIndexById(id: string): number {
   return SLIDES.findIndex((s) => s.id === id);
 }
 
-export const PRESENTATION_SECTIONS = PRESENTATION.sections.map((s, i) => ({
-  id: s.id,
-  title: s.title,
-  index: i,
-  firstSlideId: s.slides[0]?.id,
-  slideCount: s.slides.length,
-}));
+/** Sections as they appear in Presentation Mode — hidden slides excluded
+ * from firstSlideId/slideCount so facilitator links never land on a slide
+ * that isn't routed. See `Slide.hidden`. */
+export const PRESENTATION_SECTIONS = PRESENTATION.sections.map((s, i) => {
+  const visibleSlides = s.slides.filter((slide) => !slide.hidden);
+  return {
+    id: s.id,
+    title: s.title,
+    index: i,
+    firstSlideId: visibleSlides[0]?.id,
+    slideCount: visibleSlides.length,
+  };
+});
 
 /** Slides still needing facilitator review before delivery. */
 export const DRAFT_SLIDES = SLIDES.filter((s) => s.draft).map((s) => s.id);

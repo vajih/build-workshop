@@ -403,6 +403,10 @@ export interface Slide {
   kicker?: string;
   /** content still needs facilitator review before the workshop */
   draft?: boolean;
+  /** skipped in Presentation Mode (no route, no next/prev stop) for this
+   * delivery, without deleting the content. Still visible in Backup Mode
+   * as reference. Flip back to re-show it in this or a later workshop. */
+  hidden?: boolean;
 }
 
 export interface PresentationSection {

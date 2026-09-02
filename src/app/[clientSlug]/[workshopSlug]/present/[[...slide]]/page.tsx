@@ -19,6 +19,7 @@ export function generateStaticParams() {
     params.push({ clientSlug, workshopSlug, slide: [] });
     for (const section of bundle.presentation.sections) {
       for (const s of section.slides) {
+        if (s.hidden) continue;
         params.push({ clientSlug, workshopSlug, slide: [s.id] });
       }
     }
@@ -36,14 +37,21 @@ export default async function PresentPage({
   const { config, presentation } = bundle;
   const base = workshopBase(config);
 
-  const slides = presentation.sections.flatMap((s) => s.slides);
-  const sections = presentation.sections.map((s, i) => ({
-    id: s.id,
-    title: s.title,
-    index: i,
-    firstSlideId: s.slides[0]?.id,
-    slideCount: s.slides.length,
-  }));
+  // `hidden` slides are skipped in Presentation Mode for this delivery but
+  // stay in the source and in Backup Mode — see the `Slide.hidden` doc.
+  const slides = presentation.sections.flatMap((s) =>
+    s.slides.filter((slide) => !slide.hidden),
+  );
+  const sections = presentation.sections.map((s, i) => {
+    const visibleSlides = s.slides.filter((slide) => !slide.hidden);
+    return {
+      id: s.id,
+      title: s.title,
+      index: i,
+      firstSlideId: visibleSlides[0]?.id,
+      slideCount: visibleSlides.length,
+    };
+  });
 
   const requestedId = slideSegments?.[0];
   if (requestedId && !slides.some((s) => s.id === requestedId)) {
