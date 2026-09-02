@@ -43,6 +43,10 @@
     opacity:0; visibility:hidden; transition:opacity .22s ease;
   }
   .slide.on{opacity:1; visibility:visible}
+  /* first paint only: skip the opacity transition so a slow initial layout
+     (large embedded fonts/images) never shows as a half-faded frame with a
+     stray edge where the page background peeks through */
+  html.no-anim .slide{transition:none!important}
   .t{position:absolute; white-space:pre; line-height:1;}
   .sans{font-family:"Inter",-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink)}
   .cond{font-family:"Oswald","Helvetica Neue Condensed","Arial Narrow",sans-serif;color:var(--ink);font-weight:700}
@@ -678,6 +682,7 @@ const stage=document.getElementById('stage');
 const params=new URLSearchParams(location.search);
 const embedded=params.get('embed')==='1';
 if(embedded) document.documentElement.classList.add('embedded');
+document.documentElement.classList.add('no-anim');
 let i=0;
 function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
@@ -688,7 +693,14 @@ function show(n){
 }
 window.show=show;
 function fit(){
-  const s=Math.min(window.innerWidth/1376,window.innerHeight/768)*(embedded?1:0.98);
+  // Embedded (our iframe use): cover-fit so the stage always fills the
+  // frame edge to edge — contain-fit left a ~3px sliver of the page's dark
+  // background visible along one edge whenever the frame's aspect ratio
+  // didn't exactly match the deck's 1376:768, which read as a stray border.
+  // Standalone viewing keeps contain-fit, framed with margin on the dark page.
+  const s=embedded
+    ?Math.max(window.innerWidth/1376,window.innerHeight/768)
+    :Math.min(window.innerWidth/1376,window.innerHeight/768)*0.98;
   stage.style.transform='scale('+s+')';
 }
 addEventListener('resize',fit);
@@ -732,7 +744,26 @@ addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0]
     else show(i+(dx<0?1:-1));
   }x0=null;},{passive:true});
 fit();
-show(parseInt((location.hash||'#1').slice(1),10)-1||0);
+const initialIndex=parseInt((location.hash||'#1').slice(1),10)-1||0;
+const revealInitial=()=>{
+  show(initialIndex);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    document.documentElement.classList.remove('no-anim');
+  }));
+};
+// each slide's whole visual is one background-image data URI; on a fresh
+// load it can still be mid-decode at first paint even though the bytes are
+// already inline, which is what produced the stray dark edge. Decoding it
+// explicitly before the reveal avoids painting a not-yet-ready frame.
+const initialBg=getComputedStyle(slides[initialIndex]).backgroundImage;
+const initialSrc=/url\("?([^")]+)"?\)/.exec(initialBg)?.[1];
+if(initialSrc){
+  const preload=new Image();
+  preload.src=initialSrc;
+  preload.decode?preload.decode().catch(()=>{}).then(revealInitial):revealInitial();
+}else{
+  revealInitial();
+}
 </script>
 <style>
   html.embedded #bar,

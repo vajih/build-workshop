@@ -933,16 +933,25 @@ export const PRESENTATION: Presentation = {
   sections: applyDeckOrder(RAW_SECTIONS, deckOrder),
 };
 
-/** Flat, ordered list of every slide, including ones hidden from
- * Presentation Mode — this is the full source, e.g. for Backup Mode and
- * content tests. Presentation Mode filters `hidden` slides out itself
- * (see present/[[...slide]]/page.tsx). */
+/** Flat, ordered list of every slide as delivered right now — reflects
+ * deck-order.json (Deck Editor reordering/hiding). Backup Mode and the app
+ * use this. Content-structure tests should use RAW_SLIDES instead, so a
+ * facilitator reordering slides for a delivery never breaks them. */
 export const SLIDES = PRESENTATION.sections.flatMap((s) => s.slides);
 
 export const SLIDE_COUNT = SLIDES.length;
 
 export function slideIndexById(id: string): number {
   return SLIDES.findIndex((s) => s.id === id);
+}
+
+/** Flat, ordered list of every slide exactly as authored, ignoring
+ * deck-order.json — the stable basis for structural content tests (splice
+ * order, adjacency) that must not depend on a facilitator's live reorder. */
+export const RAW_SLIDES = RAW_SECTIONS.flatMap((s) => s.slides);
+
+export function rawSlideIndexById(id: string): number {
+  return RAW_SLIDES.findIndex((s) => s.id === id);
 }
 
 /** Sections as they appear in Presentation Mode — hidden slides excluded

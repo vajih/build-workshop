@@ -4,6 +4,8 @@ import {
   SLIDES,
   SLIDE_COUNT,
   slideIndexById,
+  RAW_SLIDES,
+  rawSlideIndexById,
   PRESENTATION_SECTIONS,
   DRAFT_SLIDES,
 } from "./presentation";
@@ -30,13 +32,13 @@ describe("presentation deck", () => {
   });
 
   it("every slide id is unique", () => {
-    const ids = SLIDES.map((s) => s.id);
+    const ids = RAW_SLIDES.map((s) => s.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
   it("every slide belongs to a real section", () => {
     const sectionIds = new Set(PRESENTATION.sections.map((s) => s.id));
-    for (const slide of SLIDES) {
+    for (const slide of RAW_SLIDES) {
       expect(sectionIds.has(slide.section)).toBe(true);
     }
   });
@@ -68,8 +70,8 @@ describe("presentation deck", () => {
       "what-changed-dcp-architecture",
       ...enabledIds.slice(10),
     ];
-    const anchor = slideIndexById("what-changed-1");
-    const actualIds = SLIDES.slice(
+    const anchor = rawSlideIndexById("what-changed-1");
+    const actualIds = RAW_SLIDES.slice(
       anchor + 1,
       anchor + 1 + expectedIds.length,
     ).map((slide) => slide.id);
@@ -95,9 +97,9 @@ describe("presentation deck", () => {
   });
 
   it("carries the build-in-the-open thread from concept to close", () => {
-    const openSlide = slideIndexById("what-changed-open");
-    const openSlideContent = SLIDES[openSlide];
-    const lastSlide = SLIDES[SLIDE_COUNT - 1];
+    const openSlide = rawSlideIndexById("what-changed-open");
+    const openSlideContent = RAW_SLIDES[openSlide];
+    const lastSlide = RAW_SLIDES[RAW_SLIDES.length - 1];
     expect(openSlide).toBeGreaterThan(-1);
     expect(openSlideContent.layout).toBe("build-open");
     expect(openSlideContent.images).toHaveLength(1);
@@ -124,8 +126,8 @@ describe("presentation deck", () => {
   });
 
   it("places a configurable optional break after the one-window slide", () => {
-    const oneWindow = slideIndexById("frictionless-07-one-window");
-    const breakSlide = SLIDES[oneWindow + 1];
+    const oneWindow = rawSlideIndexById("frictionless-07-one-window");
+    const breakSlide = RAW_SLIDES[oneWindow + 1];
 
     expect(breakSlide.id).toBe("what-changed-optional-break");
     expect(breakSlide.layout).toBe("break-timer");
@@ -134,14 +136,14 @@ describe("presentation deck", () => {
   });
 
   it("introduces the product examples before the useful-experience slide", () => {
-    const usefulExperience = slideIndexById(
+    const usefulExperience = rawSlideIndexById(
       "frictionless-11-useful-experience",
     );
-    const khayal = SLIDES[usefulExperience - 5];
-    const architecture = SLIDES[usefulExperience - 4];
-    const dcpOpportunity = SLIDES[usefulExperience - 3];
-    const dcp = SLIDES[usefulExperience - 2];
-    const dcpArchitecture = SLIDES[usefulExperience - 1];
+    const khayal = RAW_SLIDES[usefulExperience - 5];
+    const architecture = RAW_SLIDES[usefulExperience - 4];
+    const dcpOpportunity = RAW_SLIDES[usefulExperience - 3];
+    const dcp = RAW_SLIDES[usefulExperience - 2];
+    const dcpArchitecture = RAW_SLIDES[usefulExperience - 1];
 
     expect(khayal.id).toBe("what-changed-khayal");
     expect(khayal.layout).toBe("mobile-showcase");

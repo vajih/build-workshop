@@ -1,4 +1,107 @@
 {
-  "hidden": ["frictionless-11-useful-experience"],
-  "order": {}
+  "hidden": [
+    "welcome-5",
+    "welcome-6",
+    "welcome-7",
+    "welcome-10",
+    "welcome-11",
+    "welcome-12",
+    "frictionless-01-build-something",
+    "frictionless-11-useful-experience",
+    "outbreak-ai-3",
+    "outbreak-ai-4",
+    "outbreak-ai-5",
+    "outbreak-ai-6"
+  ],
+  "order": {
+    "welcome": [
+      "welcome-1",
+      "welcome-2",
+      "welcome-3",
+      "welcome-4",
+      "welcome-5",
+      "welcome-6",
+      "welcome-7",
+      "welcome-10",
+      "welcome-11",
+      "welcome-11b-build-2",
+      "welcome-12"
+    ],
+    "what-changed": [
+      "what-changed-1",
+      "frictionless-01-build-something",
+      "welcome-3-adoption",
+      "frictionless-02-introduction",
+      "what-changed-ai-primer",
+      "frictionless-05-model-efficiency",
+      "what-changed-2",
+      "what-changed-pit-stops",
+      "what-changed-pit-stops-discussion",
+      "frictionless-06-workbench",
+      "frictionless-07-one-window",
+      "what-changed-optional-break",
+      "frictionless-08-start-before-ready",
+      "frictionless-09-barista-ai",
+      "frictionless-10-edge-hardware",
+      "what-changed-khayal",
+      "what-changed-khayal-architecture",
+      "what-changed-dcp-opportunity",
+      "what-changed-dcp",
+      "what-changed-dcp-architecture",
+      "frictionless-11-useful-experience",
+      "frictionless-12-code-can-act",
+      "frictionless-13-what-will-you-build",
+      "what-changed-3",
+      "what-changed-open",
+      "what-changed-4",
+      "what-changed-5",
+      "what-changed-6"
+    ],
+    "ai-and-building": [
+      "ai-and-building-1",
+      "ai-and-building-2",
+      "ai-and-building-3",
+      "ai-and-building-4",
+      "ai-and-building-5",
+      "ai-and-building-6"
+    ],
+    "responsible-ai": [
+      "responsible-ai-1",
+      "responsible-ai-2",
+      "responsible-ai-3",
+      "responsible-ai-4",
+      "responsible-ai-5",
+      "responsible-ai-6",
+      "responsible-ai-prompting"
+    ],
+    "outbreak-ai": [
+      "outbreak-ai-1",
+      "outbreak-ai-2",
+      "outbreak-ai-3",
+      "outbreak-ai-4",
+      "outbreak-ai-5",
+      "outbreak-ai-6"
+    ],
+    "team-challenge": [
+      "team-challenge-1",
+      "team-challenge-2",
+      "team-challenge-3",
+      "team-challenge-sharpen",
+      "team-challenge-clock",
+      "team-challenge-4",
+      "team-challenge-5",
+      "team-challenge-6",
+      "team-challenge-7"
+    ],
+    "presentations-close": [
+      "presentations-close-1",
+      "presentations-close-2",
+      "presentations-close-3",
+      "presentations-close-4",
+      "presentations-close-share",
+      "presentations-close-5",
+      "presentations-close-6",
+      "presentations-close-7"
+    ]
+  }
 }
