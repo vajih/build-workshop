@@ -103,6 +103,10 @@ export function SlideRenderer({
     return <SharePostSlide slide={slide} />;
   }
 
+  if (slide.layout === "qr-join") {
+    return <QrJoinSlide slide={slide} participantUrl={participantUrl} />;
+  }
+
   switch (slide.type) {
     case "title":
       return (
@@ -1834,6 +1838,69 @@ function SharePostSlide({ slide }: { slide: Slide }) {
           </text>
         </svg>
       </div>
+    </div>
+  );
+}
+
+function QrJoinSlide({
+  slide,
+  participantUrl,
+}: {
+  slide: Slide;
+  participantUrl?: string;
+}) {
+  const { joinLink } = slide;
+  return (
+    <div className="blueprint-slide qr-join-slide">
+      <div className="qr-join-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        {slide.title ? <h2 className="slide-title">{slide.title}</h2> : null}
+        {slide.lead ? (
+          <p className="slide-lead max-w-[48ch]">{slide.lead}</p>
+        ) : null}
+        {slide.note ? <p className="slide-note mt-1">{slide.note}</p> : null}
+        {participantUrl && slide.participantCta ? (
+          <a
+            href={participantUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mt-3 grid w-full max-w-xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-5 rounded-[1.4rem] border-2 border-[var(--deck-accent)] bg-[var(--deck-accent)] px-[clamp(1.25rem,2.4vw,2rem)] py-[clamp(1.1rem,2.2vw,1.75rem)] text-left text-white shadow-[0_1.25rem_3rem_rgba(0,0,0,0.22)] transition duration-300 hover:-translate-y-1 hover:brightness-110 focus-visible:-translate-y-1"
+          >
+            <span className="flex size-[clamp(3rem,5.5vw,4.5rem)] items-center justify-center rounded-full border border-white/30 bg-white/15">
+              <ArrowRightCircle
+                className="size-[clamp(1.65rem,3vw,2.5rem)]"
+                aria-hidden
+              />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[clamp(0.68rem,1.1vw,0.9rem)] font-semibold tracking-[0.14em] text-white/75 uppercase">
+                {slide.participantCta.eyebrow}
+              </span>
+              <strong className="mt-1 block text-[clamp(1.25rem,2.5vw,2rem)] leading-tight font-bold text-white">
+                {slide.participantCta.label}
+              </strong>
+              <span className="mt-1.5 block max-w-[56ch] text-[clamp(0.8rem,1.35vw,1.05rem)] leading-snug text-white/85">
+                {slide.participantCta.detail}
+              </span>
+            </span>
+            <ExternalLink
+              className="size-[clamp(1.25rem,2vw,1.75rem)] transition-transform duration-300 group-hover:translate-x-1"
+              aria-hidden
+            />
+          </a>
+        ) : null}
+      </div>
+
+      {joinLink ? (
+        <div className="qr-join-graphic">
+          <img
+            src={joinLink.qrSrc}
+            alt={joinLink.qrAlt}
+            className="qr-join-code"
+          />
+          <p className="qr-join-url">{joinLink.url}</p>
+        </div>
+      ) : null}
     </div>
   );
 }

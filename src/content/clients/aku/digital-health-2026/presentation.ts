@@ -103,6 +103,7 @@ export const PRESENTATION: Presentation = {
           id: "welcome-4",
           type: "statement",
           section: "welcome",
+          layout: "qr-join",
           title: "Your first build starts now",
           lead: "No slides to sit through first. You will have a working application before we discuss how it works.",
           participantHref: "/participate/build-1",
@@ -112,7 +113,11 @@ export const PRESENTATION: Presentation = {
             detail:
               "Open the participant workspace. Start with an empty folder; leave with something that works.",
           },
-          note: "On your laptop, type: aku-build-workshop-portal.vercel.app/build-1",
+          joinLink: {
+            url: "tinyurl.com/2m35ca4b",
+            qrSrc: "/images/presentation/build-1-qr.svg",
+            qrAlt: "QR code linking to the Build 1 participant workspace",
+          },
         },
         {
           id: "welcome-5",
@@ -121,7 +126,7 @@ export const PRESENTATION: Presentation = {
           kicker: "Open this on your laptop",
           title: "Scan to open the participant workbook",
           lead: "Every command and prompt is there to copy. Follow the steps in order.",
-          note: "The QR code and short link are shown on this slide in Presentation Mode.",
+          note: "The QR code and short link were shown on the previous slide.",
         },
         {
           id: "welcome-6",

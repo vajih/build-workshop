@@ -2882,6 +2882,47 @@
   .blueprint-post-avatar {
     fill: var(--deck-accent);
   }
+
+  /* ---- qr-join: large scannable code + typeable URL, side by side ---- */
+  .qr-join-slide {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+  }
+  .qr-join-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.6rem, 1.5vw, 1.25rem);
+  }
+  .qr-join-graphic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+  .qr-join-code {
+    width: clamp(14rem, 22vw, 20rem);
+    height: clamp(14rem, 22vw, 20rem);
+    border-radius: 1rem;
+    background: #fff;
+    padding: clamp(0.75rem, 1.5vw, 1.25rem);
+    box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.18);
+  }
+  .qr-join-url {
+    max-width: 22ch;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--deck-ink);
+    word-break: break-word;
+  }
   .blueprint-post-glyph {
     fill: var(--deck-paper);
   }

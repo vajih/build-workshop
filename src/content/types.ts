@@ -327,7 +327,8 @@ export interface Slide {
     | "build-open"
     | "dcp-opportunity"
     | "desktop-showcase"
-    | "dcp-architecture";
+    | "dcp-architecture"
+    | "qr-join";
   /** 1-based source slide number for the embedded Frictionless chapter. */
   embedSlide?: number;
   title?: string;
@@ -366,6 +367,12 @@ export interface Slide {
     title: string;
     author: string;
     thumbnail: string;
+  };
+  /** qr-join layout: a scannable code and human-typeable URL, both shown large */
+  joinLink?: {
+    url: string;
+    qrSrc: string;
+    qrAlt: string;
   };
   /** discussion-build: final synthesis revealed after all list items */
   conclusion?: SlideItem;
