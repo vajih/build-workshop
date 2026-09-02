@@ -68,6 +68,8 @@ describe("presentation deck", () => {
       "what-changed-dcp-opportunity",
       "what-changed-dcp",
       "what-changed-dcp-architecture",
+      "outbreak-ai-1",
+      "what-changed-optional-break-2",
       ...enabledIds.slice(10),
     ];
     const anchor = rawSlideIndexById("what-changed-1");
@@ -135,15 +137,17 @@ describe("presentation deck", () => {
     expect(breakSlide.stoicMessage).toBeTruthy();
   });
 
-  it("introduces the product examples before the useful-experience slide", () => {
+  it("runs the three product demos back to back before the useful-experience slide", () => {
     const usefulExperience = rawSlideIndexById(
       "frictionless-11-useful-experience",
     );
-    const khayal = RAW_SLIDES[usefulExperience - 5];
-    const architecture = RAW_SLIDES[usefulExperience - 4];
-    const dcpOpportunity = RAW_SLIDES[usefulExperience - 3];
-    const dcp = RAW_SLIDES[usefulExperience - 2];
-    const dcpArchitecture = RAW_SLIDES[usefulExperience - 1];
+    const khayal = RAW_SLIDES[usefulExperience - 7];
+    const architecture = RAW_SLIDES[usefulExperience - 6];
+    const dcpOpportunity = RAW_SLIDES[usefulExperience - 5];
+    const dcp = RAW_SLIDES[usefulExperience - 4];
+    const dcpArchitecture = RAW_SLIDES[usefulExperience - 3];
+    const outbreak = RAW_SLIDES[usefulExperience - 2];
+    const secondBreak = RAW_SLIDES[usefulExperience - 1];
 
     expect(khayal.id).toBe("what-changed-khayal");
     expect(khayal.layout).toBe("mobile-showcase");
@@ -160,6 +164,13 @@ describe("presentation deck", () => {
     expect(dcp.externalCta?.href).toBe("https://dcp-dusky.vercel.app/demo5");
     expect(dcpArchitecture.id).toBe("what-changed-dcp-architecture");
     expect(dcpArchitecture.layout).toBe("dcp-architecture");
+    // Outbreak-AI is folded in as the third demo, in the what-changed section
+    expect(outbreak.id).toBe("outbreak-ai-1");
+    expect(outbreak.section).toBe("what-changed");
+    expect(outbreak.layout).toBe("outbreak-ai");
+    // a second optional break follows the showcase
+    expect(secondBreak.id).toBe("what-changed-optional-break-2");
+    expect(secondBreak.layout).toBe("break-timer");
   });
 
   it("exercise-launch slides link to a real participant nav target", () => {

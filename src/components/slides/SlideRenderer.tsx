@@ -99,6 +99,31 @@ export function SlideRenderer({
     return <DcpArchitectureSlide slide={slide} />;
   }
 
+  if (slide.layout === "human-responsibility") {
+    return (
+      <EditorialConceptSlide
+        slide={slide}
+        imageLabel="Human review / final sign-off"
+      />
+    );
+  }
+
+  if (slide.layout === "pair-programmer") {
+    return <EditorialConceptSlide slide={slide} imageLabel="AI types / You direct" />;
+  }
+
+  if (slide.layout === "build-cycle-visual") {
+    return <EditorialProcessSlide slide={slide} />;
+  }
+
+  if (slide.layout === "editorial-list") {
+    return <EditorialListSlide slide={slide} />;
+  }
+
+  if (slide.layout === "outbreak-ai") {
+    return <OutbreakAiSlide />;
+  }
+
   if (slide.layout === "share-post") {
     return <SharePostSlide slide={slide} />;
   }
@@ -1060,6 +1085,284 @@ function BuildOpenSlide({ slide }: { slide: Slide }) {
           {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
         </figure>
       ) : null}
+    </div>
+  );
+}
+
+function EditorialConceptSlide({
+  slide,
+  imageLabel,
+}: {
+  slide: Slide;
+  imageLabel: string;
+}) {
+  const visual = slide.images?.[0];
+
+  return (
+    <div className="blueprint-slide editorial-concept-layout">
+      <section className="editorial-concept-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+
+        <ol className="editorial-concept-points">
+          {(slide.body ?? []).map((point, index) => (
+            <li key={point}>
+              <span aria-hidden>0{index + 1}</span>
+              <p>{point}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {visual ? (
+        <figure className="editorial-concept-visual">
+          <div className="editorial-concept-image-frame">
+            <Image
+              src={visual.src}
+              alt={visual.alt}
+              fill
+              sizes="42vw"
+              className="editorial-concept-image"
+              priority
+            />
+            <span aria-hidden className="editorial-concept-image-label">
+              {imageLabel}
+            </span>
+          </div>
+          {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
+        </figure>
+      ) : null}
+    </div>
+  );
+}
+
+function EditorialProcessSlide({ slide }: { slide: Slide }) {
+  const visual = slide.images?.[0];
+
+  return (
+    <div className="blueprint-slide editorial-process-layout">
+      <section className="editorial-process-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+
+        <ol className="editorial-process-steps">
+          {(slide.items ?? []).map((item, index) => (
+            <li key={item.label}>
+              <span aria-hidden>0{index + 1}</span>
+              <p>
+                <strong>{item.label}</strong>
+                {item.detail ? <small>{item.detail}</small> : null}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {visual ? (
+        <figure className="editorial-concept-visual">
+          <div
+            className="editorial-concept-image-frame editorial-process-image-frame"
+            style={{ aspectRatio: visual.aspectRatio ?? "1003 / 1568" }}
+          >
+            <Image
+              src={visual.src}
+              alt={visual.alt}
+              fill
+              sizes="38vw"
+              className="editorial-concept-image"
+              priority
+            />
+            <span aria-hidden className="editorial-concept-image-label">
+              Continuous loop / Human led
+            </span>
+          </div>
+          {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
+        </figure>
+      ) : null}
+    </div>
+  );
+}
+
+function EditorialListSlide({ slide }: { slide: Slide }) {
+  const visual = slide.images?.[0];
+
+  return (
+    <div className="blueprint-slide editorial-list-layout">
+      <section className="editorial-list-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+
+        <ol className="editorial-list-items">
+          {(slide.items ?? []).map((item, index) => (
+            <li key={item.label}>
+              <span aria-hidden>0{index + 1}</span>
+              <p>
+                <strong>{item.label}</strong>
+                {item.detail ? <small>{item.detail}</small> : null}
+              </p>
+            </li>
+          ))}
+        </ol>
+
+        {slide.note ? <p className="editorial-list-note">{slide.note}</p> : null}
+      </section>
+
+      {visual ? (
+        <figure className="editorial-concept-visual">
+          <div className="editorial-concept-image-frame editorial-list-image-frame">
+            <Image
+              src={visual.src}
+              alt={visual.alt}
+              fill
+              sizes="42vw"
+              className="editorial-concept-image"
+              priority
+            />
+            {visual.tag ? (
+              <span aria-hidden className="editorial-concept-image-label">
+                {visual.tag}
+              </span>
+            ) : null}
+          </div>
+          {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
+        </figure>
+      ) : null}
+    </div>
+  );
+}
+
+function OutbreakAiSlide() {
+  return (
+    <div className="blueprint-slide outbreak-ai-layout">
+      <header className="oai-header">
+        <p className="oai-eyebrow">
+          AKU Build Workshop · On-device demo · Node KHI-07 (simulated)
+        </p>
+        <h2>Outbreak-AI</h2>
+        <p className="oai-lede">
+          A disease-surveillance assistant that runs a language model{" "}
+          <b>entirely on one ESP32-S3</b> microcontroller — no cloud, no network,
+          nothing stored. The chip computes the alert; the model only explains
+          it.
+        </p>
+      </header>
+
+      <div className="oai-grid">
+        <section className="oai-col">
+          <h3>What it is</h3>
+          <ul className="oai-what">
+            <li>
+              Deterministic integer-C logic turns a positivity reading and a
+              clinical signal into a{" "}
+              <span className="oai-chips">
+                <span className="oai-chip g">GREEN</span>
+                <span className="oai-chip y">YELLOW</span>
+                <span className="oai-chip r">RED</span>
+              </span>{" "}
+              alert. The model never decides the alert.
+            </li>
+            <li>
+              An ~8.5M-parameter Tiny-LLM — Gemma-style Per-Layer Embeddings
+              mapped onto the chip&rsquo;s SRAM/flash hierarchy — explains the
+              evidence, the uncertainty, and the next investigation steps.
+            </li>
+            <li>
+              A router, verifier and fallbacks wrap every answer: a wrong colour,
+              an invented number, or any &ldquo;confirmed outbreak&rdquo; claim is
+              caught and replaced before it is shown.
+            </li>
+          </ul>
+          <dl className="oai-thresholds">
+            <div>
+              <dt className="g">GREEN</dt>
+              <dd>below 2.5%, no clinical signal</dd>
+            </div>
+            <div>
+              <dt className="y">YELLOW</dt>
+              <dd>2.5&ndash;5.0%, or clinical below 5.0%</dd>
+            </div>
+            <div>
+              <dt className="r">RED</dt>
+              <dd>5.0% or above — investigate, never &ldquo;confirmed&rdquo;</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className="oai-col">
+          <h3>What we&rsquo;ve achieved</h3>
+          <ul className="oai-ticks">
+            <li>
+              <b>Runs fully offline</b> on a single ESP32-S3 — the 4-bit model is
+              4.36 MB and leaves 72% of the flash partition free.
+            </li>
+            <li>
+              <b>Verified answer quality 1.00</b> semantic (raw model 0.70);
+              every safety gate passes.
+            </li>
+            <li>
+              <b>Flash-ready firmware</b> — 258/258 host-parity checks, 27/27
+              firmware tests, 22/22 INT4 golden vectors, 19/19 build gates, 16/16
+              deploy preflight.
+            </li>
+            <li>
+              <b>Compact</b> — 1.14 MB application, 55 KB static RAM.
+            </li>
+            <li>
+              Built on the Per-Layer-Embedding architecture already proven by
+              Barista-AI and Machine-AI on the same chip.
+            </li>
+          </ul>
+          <p className="oai-note">
+            Not yet on a physical board — Phase 12 stopped at preflight because
+            no ESP32-S3 was connected.
+          </p>
+        </section>
+      </div>
+
+      <footer className="oai-demo">
+        <div className="oai-creds">
+          <p className="oai-creds-h">Join the demo</p>
+          <dl>
+            <div>
+              <dt>Wi-Fi</dt>
+              <dd>Outbreak-AI</dd>
+            </div>
+            <div>
+              <dt>Password</dt>
+              <dd>investigate</dd>
+            </div>
+            <div>
+              <dt>Open</dt>
+              <dd>192.168.4.1</dd>
+            </div>
+          </dl>
+        </div>
+        <ol className="oai-steps">
+          <li>
+            Power the board over USB — it starts its own offline Wi-Fi access
+            point.
+          </li>
+          <li>Join the network above from a phone or laptop.</li>
+          <li>
+            Open the page and pick a scenario preset — or turn the potentiometer
+            and press the button, if wired.
+          </li>
+          <li>
+            Ask <i>&ldquo;Why did the alert occur?&rdquo;</i> or{" "}
+            <i>&ldquo;Is this enough evidence to call an outbreak?&rdquo;</i>
+          </li>
+          <li>
+            Every answer is labelled <b>Tiny LLM</b> or <b>Verified response</b>.
+          </li>
+        </ol>
+      </footer>
+
+      <p className="oai-disclaimer">
+        Educational simulation for the AKU Build Workshop. Node KHI-07 is
+        fictional; every positivity, baseline and clinical value is simulated and
+        de-identified. Outbreak-AI is not a clinical or public-health decision
+        system.
+      </p>
     </div>
   );
 }

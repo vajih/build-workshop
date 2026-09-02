@@ -328,6 +328,11 @@ export interface Slide {
     | "dcp-opportunity"
     | "desktop-showcase"
     | "dcp-architecture"
+    | "build-cycle-visual"
+    | "editorial-list"
+    | "human-responsibility"
+    | "pair-programmer"
+    | "outbreak-ai"
     | "qr-join";
   /** 1-based source slide number for the embedded Frictionless chapter. */
   embedSlide?: number;
