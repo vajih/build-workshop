@@ -112,6 +112,7 @@ export const PRESENTATION: Presentation = {
             detail:
               "Open the participant workspace. Start with an empty folder; leave with something that works.",
           },
+          note: "On your laptop, type: aku-build-workshop-portal.vercel.app/build-1",
         },
         {
           id: "welcome-5",
