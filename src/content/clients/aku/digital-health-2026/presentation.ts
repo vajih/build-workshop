@@ -1,4 +1,6 @@
-import type { Presentation } from "@/content/types";
+import type { Presentation, PresentationSection } from "@/content/types";
+import { applyDeckOrder } from "@/lib/deck-order";
+import deckOrder from "./deck-order.json";
 import {
   DISCLAIMER,
   SYNTHETIC_DATA_LABEL,
@@ -38,8 +40,12 @@ import { FRICTIONLESS_CHAPTER_SLIDES } from "./frictionless-chapter";
  */
 const MARK = `${CONFIG.organization.shortName} ${CONFIG.program.name}`;
 const RELATIONSHIP = `${CONFIG.organization.publicRelationshipLabel} ${CONFIG.organization.name}`;
-export const PRESENTATION: Presentation = {
-  sections: [
+/**
+ * Authored order and content. Reordering or hiding for a specific delivery
+ * happens in `deck-order.json` (edit it directly, or use the Deck Editor at
+ * Facilitate Mode → Reorder & hide slides) — not by moving slides here.
+ */
+const RAW_SECTIONS: PresentationSection[] = [
     /* ================================================================ */
     {
       id: "welcome",
@@ -921,7 +927,10 @@ export const PRESENTATION: Presentation = {
         },
       ],
     },
-  ],
+];
+
+export const PRESENTATION: Presentation = {
+  sections: applyDeckOrder(RAW_SECTIONS, deckOrder),
 };
 
 /** Flat, ordered list of every slide, including ones hidden from

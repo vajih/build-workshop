@@ -4,9 +4,9 @@ import type { Slide } from "@/content/types";
  * The original Frictionless Building deck is embedded as a self-contained
  * chapter. Set `include` to false to drop a source slide from the deck
  * entirely (every mode, permanently) without renumbering routes or editing
- * the original HTML asset. Set `hidden` to true to skip it in Presentation
- * Mode for this delivery while keeping it in Backup Mode and in this config
- * — flip it back for this or a later workshop.
+ * the original HTML asset. To skip a slide for just this delivery while
+ * keeping it available, use `deck-order.json` (or the Deck Editor) instead —
+ * it works by slide id, the same as for any other slide in the deck.
  */
 export const FRICTIONLESS_CHAPTER_CONFIG = [
   {
@@ -74,7 +74,6 @@ export const FRICTIONLESS_CHAPTER_CONFIG = [
     id: "frictionless-11-useful-experience",
     title: "The Useful Experience Is the Product",
     include: true,
-    hidden: true,
   },
   {
     sourceSlide: 12,
@@ -98,5 +97,4 @@ export const FRICTIONLESS_CHAPTER_SLIDES: Slide[] =
     layout: "frictionless-embed",
     embedSlide: entry.sourceSlide,
     title: entry.title,
-    hidden: "hidden" in entry ? entry.hidden : undefined,
   }));

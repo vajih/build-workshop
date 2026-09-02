@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckSquare, LifeBuoy } from "lucide-react";
+import { ArrowRight, CheckSquare, LifeBuoy, ListOrdered } from "lucide-react";
 import { PageIntro } from "@/components/PageIntro";
 import { SessionClock } from "@/components/facilitator/SessionClock";
 import { getBundle, type WorkshopRouteParams } from "@/lib/workshop-route";
@@ -188,6 +188,28 @@ export default async function FacilitateDashboardPage({
             );
           })}
         </ol>
+      </section>
+
+      <section className="mt-8" aria-labelledby="deck-editor-heading">
+        <h2
+          id="deck-editor-heading"
+          className="inline-flex items-center gap-2 text-xl font-semibold text-ink"
+        >
+          <ListOrdered className="size-5 text-accent" aria-hidden />
+          Deck Editor
+        </h2>
+        <p className="mt-2 text-sm text-ink-muted">
+          Reorder slides within a section or hide ones you want to skip this
+          delivery, without deleting anything — content stays in the source
+          files, only order and visibility change.
+        </p>
+        <Link
+          href={`${base}/facilitate/deck-editor`}
+          className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+        >
+          Open the Deck Editor
+          <ArrowRight className="size-4" aria-hidden />
+        </Link>
       </section>
 
       <section className="mt-8" aria-labelledby="cycle-heading">
