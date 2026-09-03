@@ -185,6 +185,29 @@ describe("presentation deck", () => {
     }
   });
 
+  it("launches the team challenge with an actionable idea-first visual", () => {
+    const ideaLaunch = SLIDES.find((s) => s.id === "team-challenge-2");
+
+    expect(ideaLaunch?.layout).toBe("idea-launch");
+    expect(ideaLaunch?.participantHref).toBe("/participate/team-challenge#idea");
+    expect(ideaLaunch?.participantCta?.label).toBe("Open the Idea Card");
+    expect(ideaLaunch?.images?.[0]?.src).toBe(
+      "/images/presentation/team-challenge/idea-start.png",
+    );
+  });
+
+  it("brings every team forward for a timed live demo", () => {
+    const demoLaunch = SLIDES.find((s) => s.id === "team-challenge-7");
+
+    expect(demoLaunch?.layout).toBe("editorial-list");
+    expect(demoLaunch?.title).toBe("Bring your build to the front");
+    expect(demoLaunch?.items).toHaveLength(4);
+    expect(demoLaunch?.note).toContain("Score 1–5");
+    expect(demoLaunch?.images?.[0]?.src).toBe(
+      "/images/presentation/team-challenge/team-live-demo.png",
+    );
+  });
+
   it("the close section invites participants to share their build", () => {
     const share = SLIDES.find((s) => s.id === "presentations-close-share");
     expect(share?.section).toBe("presentations-close");
@@ -192,6 +215,24 @@ describe("presentation deck", () => {
     // it must land before the closing "Thank you" slide
     expect(slideIndexById("presentations-close-share")).toBeLessThan(
       slideIndexById("presentations-close-7"),
+    );
+  });
+
+  it("closes with an interactive record of participant achievements", () => {
+    const accomplishments = SLIDES.find(
+      (s) => s.id === "presentations-close-4",
+    );
+
+    expect(accomplishments?.layout).toBe("achievement-checklist");
+    expect(accomplishments?.items).toHaveLength(10);
+    expect(accomplishments?.items?.map((item) => item.label)).toEqual(
+      expect.arrayContaining([
+        "Developed an AI builder mindset",
+        "Used AI as a practical tool",
+        "Used the Idea-to-Prototype Workbench",
+        "Designed responsible healthcare AI",
+        "Turned possibility into action",
+      ]),
     );
   });
 

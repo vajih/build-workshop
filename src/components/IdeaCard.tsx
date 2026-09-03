@@ -22,7 +22,7 @@ function formatForLinkedIn(card: Record<string, string>): string {
     "",
     "We are building this in the next hour with AI. A workshop exercise on synthetic data — feedback welcome. What are we missing?",
     "",
-    `Facilitated by Vajih Khan. ${WORKSHOP_HASHTAG}`,
+    `Facilitated by @Vajih Khan ${WORKSHOP_HASHTAG}`,
   ].join("\n");
 }
 

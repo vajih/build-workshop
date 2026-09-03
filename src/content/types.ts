@@ -332,6 +332,8 @@ export interface Slide {
     | "editorial-list"
     | "human-responsibility"
     | "pair-programmer"
+    | "idea-launch"
+    | "achievement-checklist"
     | "outbreak-ai"
     | "qr-join";
   /** 1-based source slide number for the embedded Frictionless chapter. */

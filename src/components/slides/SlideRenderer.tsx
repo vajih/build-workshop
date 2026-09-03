@@ -120,6 +120,14 @@ export function SlideRenderer({
     return <EditorialListSlide slide={slide} />;
   }
 
+  if (slide.layout === "idea-launch") {
+    return <IdeaLaunchSlide slide={slide} participantUrl={participantUrl} />;
+  }
+
+  if (slide.layout === "achievement-checklist") {
+    return <AchievementChecklistSlide slide={slide} />;
+  }
+
   if (slide.layout === "outbreak-ai") {
     return <OutbreakAiSlide />;
   }
@@ -1227,6 +1235,158 @@ function EditorialListSlide({ slide }: { slide: Slide }) {
           {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
         </figure>
       ) : null}
+    </div>
+  );
+}
+
+function IdeaLaunchSlide({
+  slide,
+  participantUrl,
+}: {
+  slide: Slide;
+  participantUrl?: string;
+}) {
+  const visual = slide.images?.[0];
+
+  return (
+    <div className="blueprint-slide idea-launch-layout">
+      <section className="idea-launch-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+        {slide.lead ? <p className="idea-launch-lead">{slide.lead}</p> : null}
+
+        <ol className="idea-launch-steps">
+          {(slide.body ?? []).map((step, index) => (
+            <li key={step}>
+              <span aria-hidden>0{index + 1}</span>
+              <p>{step}</p>
+            </li>
+          ))}
+        </ol>
+
+        {participantUrl && slide.participantCta ? (
+          <a
+            href={participantUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="idea-launch-cta"
+          >
+            <span>
+              <small>{slide.participantCta.eyebrow}</small>
+              <strong>{slide.participantCta.label}</strong>
+              <em>{slide.participantCta.detail}</em>
+            </span>
+            <ArrowRightCircle aria-hidden />
+          </a>
+        ) : null}
+
+        {slide.note ? <p className="idea-launch-note">{slide.note}</p> : null}
+      </section>
+
+      {visual ? (
+        <figure className="idea-launch-visual">
+          <div
+            className="idea-launch-image-frame"
+            style={{ aspectRatio: visual.aspectRatio ?? "1023 / 1537" }}
+          >
+            <Image
+              src={visual.src}
+              alt={visual.alt}
+              fill
+              sizes="38vw"
+              className="idea-launch-image"
+              priority
+            />
+            {visual.tag ? (
+              <span aria-hidden className="idea-launch-image-label">
+                {visual.tag}
+              </span>
+            ) : null}
+          </div>
+          {visual.caption ? <figcaption>{visual.caption}</figcaption> : null}
+        </figure>
+      ) : null}
+    </div>
+  );
+}
+
+const ACHIEVEMENT_EMOJIS = ["🧠", "🛠️", "💡", "🎯", "✍️", "🔁", "🧭", "🛡️", "🤝", "🚀"];
+
+function AchievementChecklistSlide({ slide }: { slide: Slide }) {
+  const achievements = slide.items ?? [];
+  const [checked, setChecked] = useState(() =>
+    achievements.map(() => false),
+  );
+  const completed = checked.filter(Boolean).length;
+  const allComplete = achievements.length > 0 && completed === achievements.length;
+
+  function toggleAchievement(index: number) {
+    setChecked((current) =>
+      current.map((value, itemIndex) =>
+        itemIndex === index ? !value : value,
+      ),
+    );
+  }
+
+  return (
+    <div className="blueprint-slide achievement-layout">
+      <section className="achievement-copy">
+        {slide.kicker ? <p className="slide-kicker">{slide.kicker}</p> : null}
+        <h2>{slide.title}</h2>
+        {slide.lead ? <p className="achievement-lead">{slide.lead}</p> : null}
+        {slide.note ? <p className="achievement-note">{slide.note}</p> : null}
+
+        <div
+          className={`achievement-celebration${allComplete ? " is-complete" : ""}`}
+          aria-live="polite"
+        >
+          <span aria-hidden>{allComplete ? "🏆" : "✨"}</span>
+          <p>
+            <strong>
+              {allComplete ? "You did all of this." : `${completed} of ${achievements.length}`}
+            </strong>
+            <small>
+              {allComplete
+                ? "You have a new way to turn ideas into action."
+                : "Recognize each capability you built."}
+            </small>
+          </p>
+        </div>
+      </section>
+
+      <section className="achievement-checklist-panel" aria-label="Participant achievements">
+        <header>
+          <span>Your Build Workshop wins</span>
+          <strong>{completed} / {achievements.length}</strong>
+        </header>
+        <ul className="achievement-checklist">
+          {achievements.map((achievement, index) => {
+            const isChecked = checked[index] ?? false;
+            return (
+              <li key={achievement.label} className={isChecked ? "is-checked" : undefined}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => toggleAchievement(index)}
+                    aria-label={`Mark ${achievement.label} as accomplished`}
+                  />
+                  <span className="achievement-checkbox" aria-hidden>
+                    {isChecked ? "✓" : ""}
+                  </span>
+                  <span className="achievement-item-copy">
+                    <strong>{achievement.label}</strong>
+                    {achievement.detail ? <small>{achievement.detail}</small> : null}
+                  </span>
+                  <span className="achievement-emoji" aria-hidden>
+                    {isChecked ? ACHIEVEMENT_EMOJIS[index] ?? "🎉" : ""}
+                  </span>
+                </label>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </div>
   );
 }

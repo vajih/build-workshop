@@ -96,7 +96,7 @@ What it is NOT: [the boundary]
 
 We are building this in the next hour with AI. A workshop exercise on synthetic data — feedback welcome. What are we missing?
 
-Facilitated by Vajih Khan. ${WORKSHOP_HASHTAG}`;
+Facilitated by @Vajih Khan ${WORKSHOP_HASHTAG}`;
 
 /* ----------------------------------------------------------------------------
    Phase 3 — sharpen, then lock.
@@ -231,4 +231,4 @@ It is an educational prototype built with synthetic data — not a clinical, dia
 
 What surprised me: [one thing you learned about building with AI].
 
-Facilitated by Vajih Khan. ${WORKSHOP_HASHTAG}`;
+Facilitated by @Vajih Khan ${WORKSHOP_HASHTAG}`;

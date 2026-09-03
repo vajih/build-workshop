@@ -797,16 +797,31 @@ const RAW_SECTIONS: PresentationSection[] = [
           id: "team-challenge-2",
           type: "exercise-launch",
           section: "team-challenge",
-          kicker: "Post your idea · 8 minutes",
-          title: "Put your idea in the thread before you build",
-          lead: "One page: the user, the problem, the one thing, the payoff, what it is not.",
+          layout: "idea-launch",
+          kicker: "Start your idea · 8 minutes",
+          title: "Start with one rough idea",
+          lead: "Not the perfect idea. One useful thing for one real person.",
           body: [
-            "Fill the Idea Card in the workbook",
-            "Post it as a comment on the workshop's LinkedIn thread",
-            "No prompting until it is posted",
+            "Choose one user and one problem",
+            "Write the one thing, payoff, and boundary",
+            "Post the card — then start prompting",
           ],
-          note: "This is building in the open — share it before it is polished.",
+          note: "Rough is ready. Shared is real.",
           participantHref: "/participate/team-challenge#idea",
+          participantCta: {
+            eyebrow: "Your first move",
+            label: "Open the Idea Card",
+            detail: "Get a rough version onto the page now.",
+          },
+          images: [
+            {
+              src: "/images/presentation/team-challenge/idea-start.png",
+              alt: "A workshop participant turns an uncertain thought into a simple five-part idea card and pushes it forward toward a build path",
+              tag: "Rough is ready",
+              caption: "Momentum begins when the idea leaves your head and lands on the page.",
+              aspectRatio: "1023 / 1537",
+            },
+          ],
         },
         {
           id: "team-challenge-3",
@@ -906,9 +921,37 @@ const RAW_SECTIONS: PresentationSection[] = [
           id: "team-challenge-7",
           type: "process",
           section: "team-challenge",
-          kicker: "Scoring",
-          title: "How teams are scored (1–5 each)",
-          items: RUBRIC.map((r) => ({ label: r.dimension, detail: r.description })),
+          layout: "editorial-list",
+          kicker: "One team at a time · five minutes",
+          title: "Bring your build to the front",
+          items: [
+            {
+              label: "Come up together",
+              detail: "Bring the whole team to the front when your name is called.",
+            },
+            {
+              label: "Open the build",
+              detail: "Have the live app loaded before the clock starts.",
+            },
+            {
+              label: "Split the roles",
+              detail: "One person frames the problem; one person drives the demo.",
+            },
+            {
+              label: "Show, then hand back",
+              detail: "Finish with the boundary at five minutes, then the room scores.",
+            },
+          ],
+          note: `Score 1–5: ${RUBRIC.map((r) => r.dimension).join(" · ")}.`,
+          images: [
+            {
+              src: "/images/presentation/team-challenge/team-live-demo.png",
+              alt: "Four teammates present a live prototype together, with one person operating the laptop and another pointing to the projected app while the room watches",
+              tag: "Five minutes · live",
+              caption: "Come up as a team: one tells the story, one drives the demo.",
+              aspectRatio: "1023 / 1537",
+            },
+          ],
         },
       ],
     },
@@ -951,8 +994,53 @@ const RAW_SECTIONS: PresentationSection[] = [
           id: "presentations-close-4",
           type: "statement",
           section: "presentations-close",
-          title: "What you accomplished today",
-          lead: BUILD1_DEBRIEF,
+          layout: "achievement-checklist",
+          kicker: "Your workshop wins",
+          title: "Look at what you can do now",
+          lead: "You did more than complete a challenge. You developed a new way to move from possibility to practice.",
+          note: "Check off each capability you built today.",
+          items: [
+            {
+              label: "Developed an AI builder mindset",
+              detail: "Moved from consuming AI outputs to directing useful work.",
+            },
+            {
+              label: "Used AI as a practical tool",
+              detail: "Partnered with AI to create, refine, and troubleshoot.",
+            },
+            {
+              label: "Used the Idea-to-Prototype Workbench",
+              detail: "Moved from a problem and user to a working experience.",
+            },
+            {
+              label: "Practised problem-first design",
+              detail: "Defined who it serves, what hurts, and what better looks like.",
+            },
+            {
+              label: "Prompted with intent",
+              detail: "Gave AI context, constraints, sequence, and success criteria.",
+            },
+            {
+              label: "Ran the full build cycle",
+              detail: "Defined, prompted, supervised, tested, committed, and published.",
+            },
+            {
+              label: "Applied human judgment",
+              detail: "Questioned outputs, corrected mistakes, and stayed accountable.",
+            },
+            {
+              label: "Designed responsible healthcare AI",
+              detail: "Protected privacy, used synthetic data, and stated limitations.",
+            },
+            {
+              label: "Built in the open",
+              detail: "Shared early, invited feedback, and learned with others.",
+            },
+            {
+              label: "Turned possibility into action",
+              detail: "Left with a repeatable method to prototype what comes next.",
+            },
+          ],
         },
         {
           id: "presentations-close-share",
