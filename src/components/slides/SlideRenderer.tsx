@@ -1395,16 +1395,44 @@ function OutbreakAiSlide() {
   return (
     <div className="blueprint-slide outbreak-ai-layout">
       <header className="oai-header">
-        <p className="oai-eyebrow">
-          AKU Build Workshop · On-device demo · Node KHI-07 (simulated)
-        </p>
-        <h2>Outbreak-AI</h2>
-        <p className="oai-lede">
-          A disease-surveillance assistant that runs a language model{" "}
-          <b>entirely on one ESP32-S3</b> microcontroller — no cloud, no network,
-          nothing stored. The chip computes the alert; the model only explains
-          it.
-        </p>
+        <figure className="oai-board-intro">
+          <div className="oai-board-image">
+            <Image
+              src="/images/presentation/outbreak-ai/esp32-s3-board.png"
+              alt="An ESP32-S3 development board with a USB-C connector, radio module, antenna, and two rows of header pins"
+              width={900}
+              height={600}
+              sizes="(max-width: 1100px) 160px, 240px"
+              priority
+            />
+          </div>
+          <figcaption>
+            <strong>This is an ESP32-S3</strong>
+            <span>A tiny computer on one board</span>
+          </figcaption>
+        </figure>
+
+        <div className="oai-header-copy">
+          <p className="oai-eyebrow">
+            AKU Build Workshop · On-device demo · Node KHI-07 (simulated)
+          </p>
+          <h2>Outbreak-AI</h2>
+          <p className="oai-lede">
+            A disease-surveillance assistant that runs a language model{" "}
+            <b>entirely on one ESP32-S3</b> microcontroller — no cloud, no network,
+            nothing stored. The chip computes the alert; the model only explains
+            it.
+          </p>
+          <a
+            className="oai-project-link"
+            href="https://tinyurl.com/435p3cwv"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>Open the Outbreak-AI project</span>
+            <strong>tinyurl.com/435p3cwv ↗</strong>
+          </a>
+        </div>
       </header>
 
       <div className="oai-grid">

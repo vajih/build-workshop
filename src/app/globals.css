@@ -2226,7 +2226,56 @@
   }
   .oai-header {
     display: grid;
+    grid-template-columns: minmax(11.5rem, 0.26fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.1rem, 2.6vw, 2.4rem);
+  }
+  .oai-board-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.28rem;
+    margin: 0;
+    padding: clamp(0.42rem, 0.7vw, 0.65rem);
+    border: 1px solid var(--oai-hair);
+    background: rgba(255, 252, 244, 0.66);
+    box-shadow: 0.38rem 0.38rem 0 rgba(111, 137, 152, 0.2);
+  }
+  .oai-board-image {
+    display: grid;
+    place-items: center;
+    min-height: clamp(5.4rem, 8vw, 7.2rem);
+  }
+  .oai-board-image img {
+    width: 100%;
+    height: clamp(5.4rem, 8vw, 7.2rem);
+    object-fit: contain;
+    filter: drop-shadow(0 0.38rem 0.42rem rgba(24, 47, 57, 0.2));
+  }
+  .oai-board-intro figcaption {
+    display: grid;
+    gap: 0.05rem;
+    padding-top: 0.3rem;
+    border-top: 1px solid var(--oai-hair);
+  }
+  .oai-board-intro figcaption strong,
+  .oai-board-intro figcaption span {
+    font-family: var(--deck-display-font);
+    text-transform: uppercase;
+  }
+  .oai-board-intro figcaption strong {
+    font-size: clamp(0.58rem, 0.82vw, 0.73rem);
+    letter-spacing: 0.07em;
+    color: var(--deck-accent-bright);
+  }
+  .oai-board-intro figcaption span {
+    font-size: clamp(0.48rem, 0.68vw, 0.6rem);
+    letter-spacing: 0.05em;
+    color: var(--deck-muted);
+  }
+  .oai-header-copy {
+    display: grid;
     gap: clamp(0.35rem, 0.7vw, 0.6rem);
+    min-width: 0;
   }
   .oai-eyebrow {
     font-family: var(--deck-display-font);
@@ -2254,6 +2303,42 @@
   .oai-lede b {
     font-weight: 600;
     color: var(--deck-accent-bright);
+  }
+  .oai-project-link {
+    display: flex;
+    width: fit-content;
+    align-items: baseline;
+    gap: clamp(0.65rem, 1.2vw, 1.05rem);
+    margin-top: 0.18rem;
+    padding: clamp(0.42rem, 0.62vw, 0.56rem) clamp(0.7rem, 1.05vw, 0.95rem);
+    font-family: var(--deck-display-font);
+    text-decoration: none;
+    color: #fffaf5;
+    background: var(--deck-accent);
+    border: 1px solid var(--deck-accent);
+    box-shadow: 0.28rem 0.28rem 0 rgba(111, 137, 152, 0.24);
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  }
+  .oai-project-link span {
+    font-size: clamp(0.55rem, 0.76vw, 0.68rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.82;
+  }
+  .oai-project-link strong {
+    font-size: clamp(0.72rem, 1vw, 0.9rem);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+  .oai-project-link:hover,
+  .oai-project-link:focus-visible {
+    transform: translate(-1px, -1px);
+    background: var(--deck-accent-bright);
+    box-shadow: 0.38rem 0.38rem 0 rgba(111, 137, 152, 0.28);
+  }
+  .oai-project-link:focus-visible {
+    outline: 3px solid rgba(200, 98, 56, 0.3);
+    outline-offset: 3px;
   }
   .oai-grid {
     display: grid;
@@ -2487,6 +2572,10 @@
     color: var(--deck-source);
   }
   @media (max-width: 1100px) {
+    .oai-header {
+      grid-template-columns: minmax(9rem, 0.22fr) minmax(0, 1fr);
+      gap: 1rem;
+    }
     .oai-grid,
     .oai-demo {
       grid-template-columns: 1fr;
