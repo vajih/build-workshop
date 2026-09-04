@@ -22,11 +22,17 @@ export const STORAGE_NAMES = {
   lastStep: "last-step",
   dismissed: "dismissed",
   presenterSlide: "presenter-last-slide",
+  feedbackSubmission: "feedback-submission",
 } as const;
 
 export type StorageName = (typeof STORAGE_NAMES)[keyof typeof STORAGE_NAMES];
 
-/** Names cleared by "Reset my workshop progress" (everything except `os`). */
+/**
+ * Names cleared by "Reset my workshop progress".
+ *
+ * The OS choice, feedback submission receipt, and meta record deliberately stay
+ * in place. Resetting lesson progress must not reopen an already-submitted form.
+ */
 const RESETTABLE: StorageName[] = [
   STORAGE_NAMES.progress,
   STORAGE_NAMES.liveUrl,
@@ -52,7 +58,7 @@ export interface WorkshopStore {
   read<T>(name: StorageName, fallback: T): T;
   write(name: StorageName, value: unknown): void;
   remove(name: StorageName): void;
-  /** Clear all resettable keys (keeps OS choice and the meta record). */
+  /** Clear workshop progress, but keep OS choice, feedback receipt, and meta. */
   reset(): void;
   /** Run once on mount: migrate legacy/older data, stamp the current version. */
   init(): void;

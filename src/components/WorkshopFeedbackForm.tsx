@@ -1,7 +1,18 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { CheckCircle2, Clock3, MessageSquareText, ShieldCheck } from "lucide-react";
+import {
+  useCallback,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+} from "react";
+import {
+  CheckCircle2,
+  Clock3,
+  LoaderCircle,
+  MessageSquareText,
+  ShieldCheck,
+} from "lucide-react";
 import {
   FEEDBACK_NPS_VALUES,
   FEEDBACK_RATING_VALUES,
@@ -9,6 +20,11 @@ import {
   WORKSHOP_NPS_QUESTION,
   WORKSHOP_OPEN_FEEDBACK_QUESTION,
 } from "@/content/clients/aku/digital-health-2026/feedback";
+import {
+  createWorkshopStore,
+  nsKey,
+  STORAGE_NAMES,
+} from "@/lib/workshop-storage";
 
 type SubmitState =
   | { kind: "idle"; message: "" }
@@ -17,10 +33,78 @@ type SubmitState =
 
 const FEEDBACK_ENDPOINT = process.env.NEXT_PUBLIC_WORKSHOP_FEEDBACK_ENDPOINT?.trim();
 
-export function WorkshopFeedbackForm({ workshopName }: { workshopName: string }) {
+interface FeedbackSubmissionReceipt {
+  version: 1;
+  submittedAt: string;
+}
+
+const RECEIPT_PENDING = "__feedback_receipt_pending__";
+const RECEIPT_EMPTY = "__feedback_receipt_empty__";
+
+function subscribeToStorage(onStoreChange: () => void) {
+  window.addEventListener("storage", onStoreChange);
+  return () => window.removeEventListener("storage", onStoreChange);
+}
+
+function isFeedbackSubmissionReceipt(
+  value: unknown,
+): value is FeedbackSubmissionReceipt {
+  if (!value || typeof value !== "object") return false;
+  const receipt = value as Partial<FeedbackSubmissionReceipt>;
+  return (
+    receipt.version === 1 &&
+    typeof receipt.submittedAt === "string" &&
+    !Number.isNaN(Date.parse(receipt.submittedAt))
+  );
+}
+
+export function WorkshopFeedbackForm({
+  workshopName,
+  clientSlug,
+  workshopSlug,
+  storageVersion,
+}: {
+  workshopName: string;
+  clientSlug: string;
+  workshopSlug: string;
+  storageVersion: number;
+}) {
   const [answered, setAnswered] = useState(0);
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: "idle", message: "" });
   const reviewMode = !FEEDBACK_ENDPOINT;
+  const [currentSubmissionReceipt, setCurrentSubmissionReceipt] =
+    useState<FeedbackSubmissionReceipt | null>(null);
+  const receiptKey = nsKey(clientSlug, workshopSlug, STORAGE_NAMES.feedbackSubmission);
+  const getReceiptSnapshot = useCallback(() => {
+    if (reviewMode) return RECEIPT_EMPTY;
+    try {
+      return window.localStorage.getItem(receiptKey) ?? RECEIPT_EMPTY;
+    } catch {
+      return RECEIPT_EMPTY;
+    }
+  }, [receiptKey, reviewMode]);
+  const getServerReceiptSnapshot = useCallback(
+    () => (reviewMode ? RECEIPT_EMPTY : RECEIPT_PENDING),
+    [reviewMode],
+  );
+  const storedReceiptRaw = useSyncExternalStore(
+    subscribeToStorage,
+    getReceiptSnapshot,
+    getServerReceiptSnapshot,
+  );
+  let storedSubmissionReceipt: FeedbackSubmissionReceipt | null = null;
+  if (storedReceiptRaw !== RECEIPT_PENDING && storedReceiptRaw !== RECEIPT_EMPTY) {
+    try {
+      const parsedReceipt: unknown = JSON.parse(storedReceiptRaw);
+      if (isFeedbackSubmissionReceipt(parsedReceipt)) {
+        storedSubmissionReceipt = parsedReceipt;
+      }
+    } catch {
+      // Ignore malformed or manually edited browser storage.
+    }
+  }
+  const receiptChecked = storedReceiptRaw !== RECEIPT_PENDING;
+  const submissionReceipt = currentSubmissionReceipt ?? storedSubmissionReceipt;
   const ratingNames = [...WORKSHOP_FEEDBACK_QUESTIONS.map((question) => question.id), "nps"];
 
   function updateProgress(event: FormEvent<HTMLFormElement>) {
@@ -32,6 +116,7 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
     event.preventDefault();
     const form = event.currentTarget;
 
+    if (submissionReceipt) return;
     if (!form.reportValidity()) return;
 
     if (reviewMode) {
@@ -47,7 +132,8 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
 
     try {
       const formData = new FormData(form);
-      formData.set("submitted_at", new Date().toISOString());
+      const submittedAt = new Date().toISOString();
+      formData.set("submitted_at", submittedAt);
       const response = await fetch(FEEDBACK_ENDPOINT, {
         method: "POST",
         body: formData,
@@ -56,8 +142,11 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
 
       if (!response.ok) throw new Error(`Feedback request failed with ${response.status}`);
 
-      form.reset();
-      setAnswered(0);
+      const receipt: FeedbackSubmissionReceipt = { version: 1, submittedAt };
+      const store = createWorkshopStore(clientSlug, workshopSlug, storageVersion);
+      store.init();
+      store.write(STORAGE_NAMES.feedbackSubmission, receipt);
+      setCurrentSubmissionReceipt(receipt);
       setSubmitState({
         kind: "success",
         message: "Thank you — your feedback has been submitted.",
@@ -72,11 +161,40 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
 
   return (
     <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
-      <form
-        className="space-y-8 rounded-[var(--radius-card)] border border-border-strong bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7"
-        onChange={updateProgress}
-        onSubmit={submitFeedback}
-      >
+      {!receiptChecked ? (
+        <section
+          className="flex min-h-64 items-center justify-center rounded-[var(--radius-card)] border border-border-strong bg-surface p-7 shadow-[var(--shadow-card)]"
+          aria-live="polite"
+        >
+          <div className="text-center">
+            <LoaderCircle className="mx-auto size-8 animate-spin text-primary" aria-hidden />
+            <p className="mt-3 font-semibold text-ink">Checking submission status…</p>
+          </div>
+        </section>
+      ) : submissionReceipt ? (
+        <section className="rounded-[var(--radius-card)] border border-primary/30 bg-primary-soft p-7 shadow-[var(--shadow-card)] sm:p-10">
+          <CheckCircle2 className="size-12 text-primary" aria-hidden />
+          <p className="mt-5 text-sm font-semibold tracking-wide text-primary uppercase">
+            Response received
+          </p>
+          <h2 className="mt-1 text-2xl font-semibold text-ink">Feedback already submitted</h2>
+          <p className="mt-3 max-w-xl text-ink-muted">
+            Thank you for helping improve the workshop. To protect the results,
+            this browser cannot submit another response for this workshop.
+          </p>
+          <p className="mt-5 text-sm text-ink-subtle">
+            Submitted {new Intl.DateTimeFormat("en", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            }).format(new Date(submissionReceipt.submittedAt))}
+          </p>
+        </section>
+      ) : (
+        <form
+          className="space-y-8 rounded-[var(--radius-card)] border border-border-strong bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7"
+          onChange={updateProgress}
+          onSubmit={submitFeedback}
+        >
         <input type="hidden" name="workshop" value={workshopName} />
         <input type="hidden" name="form_name" value="Post-workshop feedback" />
         <input
@@ -205,7 +323,8 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
             </p>
           ) : null}
         </div>
-      </form>
+        </form>
+      )}
 
       <aside className="space-y-4 lg:sticky lg:top-24">
         {reviewMode ? (
@@ -215,6 +334,9 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
             <p className="mt-2 text-sm text-ink-muted">
               Explore the full form and preview its completion message. No response is recorded until the questions are approved and a collection endpoint is connected.
             </p>
+            <p className="mt-3 text-xs font-medium text-watch">
+              The one-response lock activates when submissions go live.
+            </p>
           </div>
         ) : null}
 
@@ -222,15 +344,25 @@ export function WorkshopFeedbackForm({ workshopName }: { workshopName: string })
           <ul className="space-y-4 text-sm text-ink-muted">
             <li className="flex gap-3">
               <Clock3 className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden />
-              <span><strong className="block text-ink">About two minutes</strong>Six ratings and one optional comment.</span>
+              <span>
+                <strong className="block text-ink">About two minutes</strong>
+                Six ratings and one optional comment.
+              </span>
             </li>
             <li className="flex gap-3">
               <ShieldCheck className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden />
-              <span><strong className="block text-ink">No name or email requested</strong>Please do not include patient or identifiable information.</span>
+              <span>
+                <strong className="block text-ink">One response per browser</strong>
+                After a successful submission, this browser is locked from
+                responding again.
+              </span>
             </li>
             <li className="flex gap-3">
               <MessageSquareText className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden />
-              <span><strong className="block text-ink">Useful by design</strong>Every question supports a concrete workshop decision.</span>
+              <span>
+                <strong className="block text-ink">No name or email requested</strong>
+                Please do not include patient or identifiable information.
+              </span>
             </li>
           </ul>
         </div>

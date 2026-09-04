@@ -45,7 +45,12 @@ export default async function FeedbackPage({
         </p>
       </PageIntro>
 
-      <WorkshopFeedbackForm workshopName={config.engagement.name} />
+      <WorkshopFeedbackForm
+        workshopName={config.engagement.name}
+        clientSlug={config.clientSlug}
+        workshopSlug={config.slug}
+        storageVersion={config.storageVersion}
+      />
 
       <ParticipantStepNav base={base} current="/participate/feedback" />
     </div>

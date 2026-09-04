@@ -85,14 +85,22 @@ describe("createWorkshopStore", () => {
     expect(store.read(STORAGE_NAMES.progress, {})).toEqual({ new: true });
   });
 
-  it("reset() clears progress but keeps the OS choice", () => {
+  it("reset() clears progress but keeps the OS choice and feedback receipt", () => {
     const store = createWorkshopStore("aku", "dh-2026", 1);
     store.write(STORAGE_NAMES.os, "windows");
     store.write(STORAGE_NAMES.progress, { a: true });
     store.write(STORAGE_NAMES.dismissed, ["x"]);
+    store.write(STORAGE_NAMES.feedbackSubmission, {
+      version: 1,
+      submittedAt: "2026-09-04T09:30:00.000Z",
+    });
     store.reset();
     expect(store.read(STORAGE_NAMES.progress, null)).toBeNull();
     expect(store.read(STORAGE_NAMES.dismissed, null)).toBeNull();
     expect(store.read(STORAGE_NAMES.os, "macos")).toBe("windows");
+    expect(store.read(STORAGE_NAMES.feedbackSubmission, null)).toEqual({
+      version: 1,
+      submittedAt: "2026-09-04T09:30:00.000Z",
+    });
   });
 });
