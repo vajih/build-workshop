@@ -112,6 +112,15 @@ export const MODULES: WorkshopModule[] = [
     presentationSectionId: "presentations-close",
     facilitatorId: "f-presentations",
   },
+  {
+    id: "feedback",
+    title: "Post-workshop feedback",
+    summary:
+      "A two-minute pulse: five workshop ratings, Net Promoter Score, and one optional comment.",
+    kind: "resource",
+    minutes: 2,
+    participantHref: "/participate/feedback",
+  },
 ];
 
 export function moduleById(id: string): WorkshopModule | undefined {

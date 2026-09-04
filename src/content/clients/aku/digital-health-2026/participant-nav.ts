@@ -14,6 +14,7 @@ export const PARTICIPANT_NAV: NavItem[] = [
   { label: "Outbreak-AI", href: "/participate/outbreak-ai" },
   { label: "Team Challenge", href: "/participate/team-challenge" },
   { label: "Resources", href: "/participate/resources" },
+  { label: "Feedback", href: "/participate/feedback" },
 ];
 
 /** Order used for previous / next step navigation within Participant Mode. */

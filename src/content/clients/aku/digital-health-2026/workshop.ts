@@ -96,12 +96,14 @@ export const akuDigitalHealth2026: WorkshopConfig = {
     "outbreak-ai",
     "team-challenge",
     "presentations-close",
+    "feedback",
   ],
   safety: {
     disclaimer: DISCLAIMER,
     statement: HEALTH_SAFETY_STATEMENT,
   },
   links: [
+    { label: "Post-workshop feedback", href: "/participate/feedback" },
     { label: "Workshop resources", href: "/participate/resources" },
     { label: "Backup: all commands and prompts", href: "/backup" },
   ],

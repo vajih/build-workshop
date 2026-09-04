@@ -1066,6 +1066,7 @@ const RAW_SECTIONS: PresentationSection[] = [
             { label: "Keep the repo", detail: "Your Build 1 project is yours." },
             { label: "Post about today", detail: "Your build, what surprised you, what's next — #AKUBuildWorkshop, tag Vajih Khan." },
             { label: "Use the resources page", detail: "Official docs for every tool." },
+            { label: "Share quick feedback", detail: "Two minutes to help improve the next workshop." },
             { label: "Repeat the cycle", detail: "Define, prompt, supervise, test, commit, publish — in the open." },
           ],
         },
