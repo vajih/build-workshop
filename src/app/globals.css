@@ -190,6 +190,15 @@
     width: min(100vw, calc(100dvh * 16 / 9));
     height: min(100dvh, calc(100vw * 9 / 16));
   }
+  /* The Frictionless chapter is a self-contained full-bleed deck that
+     cover-fits its own 1376:768 stage inside the iframe. Let it fill the
+     whole viewport so there are no letterbox bars on non-16:9 screens
+     (e.g. 16:10 laptops); the iframe crops a few px off the long edge
+     rather than showing a border. */
+  .deck-root[data-embedded-slide="true"] .slide-stage {
+    width: 100vw;
+    height: 100dvh;
+  }
   .slide-surface {
     background:
       radial-gradient(
